@@ -11,6 +11,7 @@ import com.example.natour2.controller.ControllerLoginSignin;
 
 public class HomeActivity2 extends AppCompatActivity {
 
+    //ciao peppe
     private MeowBottomNavigation bottomNavigation;
 
     private final ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
