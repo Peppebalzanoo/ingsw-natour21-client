@@ -23,7 +23,7 @@ public class SearchFragment extends Fragment {
 
     /* ****************************************************************************************** */
     private FloatingActionButton buttonFiltersFloating;
-    private Button button1;
+    private Button buttonApply;
     private BottomSheetDialog dialog;
     /* ****************************************************************************************** */
 
@@ -81,7 +81,7 @@ public class SearchFragment extends Fragment {
         dialog.setContentView(R.layout.bottom_dialog);
         dialog.setCanceledOnTouchOutside(false);
 
-        button1 = dialog.findViewById(R.id.buttonPressMe);
+        buttonApply = dialog.findViewById(R.id.buttonApply);
 
         buttonFiltersFloating.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +90,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        buttonApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
