@@ -7,8 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 
 import com.example.natour2.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,7 +21,11 @@ import com.example.natour2.R;
  */
 public class SearchFragment extends Fragment {
 
-
+    /* ****************************************************************************************** */
+    private FloatingActionButton buttonFiltersFloating;
+    private Button button1;
+    private BottomSheetDialog dialog;
+    /* ****************************************************************************************** */
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -66,10 +74,32 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
+        /* ****************************************************************************************** */
+        buttonFiltersFloating = view.findViewById(R.id.buttonFiltersFloating);
 
+        dialog = new BottomSheetDialog(getContext());
+        dialog.setContentView(R.layout.bottom_dialog);
+        dialog.setCanceledOnTouchOutside(false);
 
+        button1 = dialog.findViewById(R.id.buttonPressMe);
 
+        buttonFiltersFloating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.show();
+            }
+        });
 
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+        /* ****************************************************************************************** */
         return view;
     }
 

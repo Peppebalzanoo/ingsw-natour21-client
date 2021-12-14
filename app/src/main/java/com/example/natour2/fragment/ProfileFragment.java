@@ -58,9 +58,9 @@ public class ProfileFragment extends Fragment {
     private List<Itinerario> itinerarioList;
 
     /* ****************************************************************************************** */
-    private CircleImageView image = null;
-    private Bitmap bitmapApp = null;
-    private byte arrayBytesOfImageProfile[] = null;
+    private CircleImageView image;
+    private Bitmap bitmapApp;
+    private byte arrayBytesOfImageProfile[];
     /* ****************************************************************************************** */
 
     private final ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
