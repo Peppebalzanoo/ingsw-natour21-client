@@ -1,10 +1,12 @@
 package com.example.natour2.fragment;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.ContentValues.TAG;
 
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,10 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.natour2.R;
@@ -52,7 +54,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class ProfileFragment extends Fragment {
 
-
     private RecyclerView recyclerView;
     private ItinerarioAdapter itinerarioAdapter;
     private List<Itinerario> itinerarioList;
@@ -61,6 +62,7 @@ public class ProfileFragment extends Fragment {
     private CircleImageView image;
     private Bitmap bitmapApp;
     private byte arrayBytesOfImageProfile[];
+    private static final int REQUEST_GALLERY = 1000;
     /* ****************************************************************************************** */
 
     private final ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
@@ -169,7 +171,7 @@ public class ProfileFragment extends Fragment {
 
     public void selectImageFromGallery(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, RESULT_OK);
+        startActivityForResult(intent, REQUEST_GALLERY);
     }
 
     @Override
@@ -203,13 +205,13 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
+        if(resultCode == RESULT_OK && requestCode == REQUEST_GALLERY) {
             try {
                 Uri selectedImageUri = data.getData();
                 image.setImageURI(selectedImageUri);
                 bitmapApp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), selectedImageUri);
                 arrayBytesOfImageProfile = convertBitmapToArrayOfByte(bitmapApp);
-                createDirectoryAndSaveFile(convertByteToBitmap(arrayBytesOfImageProfile), "NaTour21_IMG");
+                createDirectoryAndSaveFile(convertByteToBitmap(arrayBytesOfImageProfile),  "NaTour21_IMG");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -217,6 +219,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void createDirectoryAndSaveFile(Bitmap imageToSave, String fileName){
+        deleteImageIfAlredyExists();
         OutputStream outStream = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             try {
@@ -245,6 +248,11 @@ public class ProfileFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void deleteImageIfAlredyExists() {
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/NaTour21_IMG.jpeg";
+        new File(path).delete();
     }
 
     public Bitmap convertByteToBitmap(byte array[]){
