@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
 import com.example.natour2.controller.ControllerLoginSignin;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,9 +17,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.getSupportActionBar().hide();
 
-        ControllerLoginSignin ctrl = new ControllerLoginSignin();
+        try {
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.configure(getApplicationContext());
 
-        ctrl.showLoginFragment(getSupportFragmentManager());
+        } catch (AmplifyException error) {
+            System.out.println(error.toString());
+            error.printStackTrace();
+        }
+
+        ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
+        ctrl.setFragmentManager(getSupportFragmentManager());
+        ctrl.showLoginFragment();
     }
 
 

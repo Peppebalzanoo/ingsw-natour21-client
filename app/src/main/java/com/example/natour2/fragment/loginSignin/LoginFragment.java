@@ -1,9 +1,7 @@
 package com.example.natour2.fragment.loginSignin;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +28,7 @@ public class LoginFragment extends Fragment {
     // ############################################################# End View Components
 
 
-    private final ControllerLoginSignin ctrl = new ControllerLoginSignin();
+    private final ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
 
 
 
@@ -45,9 +43,7 @@ public class LoginFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public LoginFragment() {
-        // Required empty public constructor
-    }
+    public LoginFragment() { }
 
     /**
      * Use this factory method to create a new instance of
@@ -75,13 +71,13 @@ public class LoginFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
+        ctrl.setActivity(getActivity());
+        ctrl.setContext(getActivity().getApplicationContext());
+        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
 
@@ -99,21 +95,19 @@ public class LoginFragment extends Fragment {
         etUsername = view.findViewById(R.id.etUsername);
         etPassword = view.findViewById(R.id.etPassword);
 
+
         btnSignUp.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //startActivity(new Intent(Login.this, Signup.class));
-                ctrl.showSignupFragment(getActivity().getSupportFragmentManager());
+                ctrl.showSignupFragment();
             }
         });
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Hai premuto Login");
-                ctrl.login(etUsername.getText().toString().replace(" ", ""), etPassword.getText().toString(), getActivity().getApplicationContext());
-                //Cognito authentication = new Cognito(getApplicationContext());
-                //authentication.userLogin(etUsername.getText().toString().replace(" ", ""), etPassword.getText().toString());
+                ctrl.login(etUsername.getText().toString().replace(" ", ""), etPassword.getText().toString());
             }
         });
 
