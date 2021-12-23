@@ -23,6 +23,7 @@ public class AuthAmplify {
     }
 
 
+
     public void confirmSignUp(String email, String code){
 
         ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
@@ -41,7 +42,8 @@ public class AuthAmplify {
         Amplify.Auth.signIn(
                 email,
                 password,
-                result -> { ctrl.printToast("Accesso effettuato!");
+                result -> { System.out.println("*****************************************************************************+" + result.toString());
+                    ctrl.printToast("Accesso effettuato!");
                             ctrl.showHomeActivity(); },
                 error -> { ctrl.printToast("Accesso Fallito!"); }
         );

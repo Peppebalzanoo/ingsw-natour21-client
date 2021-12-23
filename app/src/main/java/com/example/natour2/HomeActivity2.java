@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 
+import com.amplifyframework.auth.AuthUser;
+import com.amplifyframework.core.Amplify;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.natour2.controller.ControllerHomeAcrtivity;
 import com.example.natour2.controller.ControllerLoginSignin;
