@@ -8,11 +8,9 @@ import android.widget.Toast;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.amplifyframework.AmplifyException;
-import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
-import com.amplifyframework.core.Amplify;
-import com.example.natour2.HomeActivity2;
+import com.example.natour2.HomeActivity;
 import com.example.natour2.amplify.AuthAmplify;
+import com.example.natour2.fragment.ChatFragment;
 import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.R;
 import com.example.natour2.fragment.loginSignin.SignupFragment;
@@ -79,9 +77,15 @@ public class ControllerLoginSignin {
 
 
     public void showHomeActivity(){
-        Intent i = new Intent(context, HomeActivity2.class);
+        Intent i = new Intent(context, HomeActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
+    }
+
+    public void showHomeActivity(Context c){
+        Intent i = new Intent(c, HomeActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        c.startActivity(i);
     }
 
 
@@ -107,6 +111,7 @@ public class ControllerLoginSignin {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 
 
     public void setActivity(Activity activity){

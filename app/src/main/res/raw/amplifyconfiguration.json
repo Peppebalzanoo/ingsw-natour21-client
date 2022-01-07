@@ -1,19 +1,6 @@
 {
     "UserAgent": "aws-amplify-cli/2.0",
     "Version": "1.0",
-    "api": {
-        "plugins": {
-            "awsAPIPlugin": {
-                "NaTour21": {
-                    "endpointType": "GraphQL",
-                    "endpoint": "https://cdqcdxe2cjaffjtmrlbfiel6c4.appsync-api.eu-west-3.amazonaws.com/graphql",
-                    "region": "eu-west-3",
-                    "authorizationType": "API_KEY",
-                    "apiKey": "da2-rno6uqrpmvbgfpas2mgddjxi6e"
-                }
-            }
-        }
-    },
     "auth": {
         "plugins": {
             "awsCognitoAuthPlugin": {
@@ -25,15 +12,15 @@
                 "CredentialsProvider": {
                     "CognitoIdentity": {
                         "Default": {
-                            "PoolId": "eu-west-3:60f4e21e-9172-4f58-b413-b52ea8345cc7",
+                            "PoolId": "eu-west-3:339a8ed4-b3ca-4f7d-b767-3a52a51c4bdd",
                             "Region": "eu-west-3"
                         }
                     }
                 },
                 "CognitoUserPool": {
                     "Default": {
-                        "PoolId": "eu-west-3_fkZ6pc8KW",
-                        "AppClientId": "1je8ajgdc7sku6h27l0i30jbse",
+                        "PoolId": "eu-west-3_y4ZeZlGLM",
+                        "AppClientId": "47jikskal9frc4r3uij8uv8k7m",
                         "Region": "eu-west-3"
                     }
                 },
@@ -45,17 +32,11 @@
                             "EMAIL"
                         ],
                         "signupAttributes": [
-                            "EMAIL",
-                            "NICKNAME"
+                            "EMAIL"
                         ],
                         "passwordProtectionSettings": {
                             "passwordPolicyMinLength": 8,
-                            "passwordPolicyCharacters": [
-                                "REQUIRES_LOWERCASE",
-                                "REQUIRES_NUMBERS",
-                                "REQUIRES_SYMBOLS",
-                                "REQUIRES_UPPERCASE"
-                            ]
+                            "passwordPolicyCharacters": []
                         },
                         "mfaConfiguration": "OFF",
                         "mfaTypes": [

@@ -1,17 +1,14 @@
 package com.example.natour2;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 
-import com.amplifyframework.auth.AuthUser;
-import com.amplifyframework.core.Amplify;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.natour2.controller.ControllerHomeAcrtivity;
-import com.example.natour2.controller.ControllerLoginSignin;
+import com.google.android.gms.maps.MapView;
 
-public class HomeActivity2 extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     //ciao peppe
     private MeowBottomNavigation bottomNavigation;
@@ -21,7 +18,7 @@ public class HomeActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home2);
+        setContentView(R.layout.activity_home);
         this.getSupportActionBar().hide();
 
         //Assign variable
@@ -73,7 +70,7 @@ public class HomeActivity2 extends AppCompatActivity {
                 break;
             }
             case 3: {
-
+                ctrl.showUserFragment(getSupportFragmentManager());
                 break;
             }
             case 4: {

@@ -1,12 +1,10 @@
 package com.example.natour2.fragment;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.ContentValues.TAG;
 
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -19,6 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,12 +28,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
 import com.example.natour2.controller.ControllerHomeAcrtivity;
+import com.example.natour2.controller.ControllerLoginSignin;
+import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.model.Itinerario;
+import com.example.natour2.utilities.Constants;
+import com.example.natour2.utilities.PreferanceManager;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -42,6 +51,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,10 +73,11 @@ public class ProfileFragment extends Fragment {
     private Bitmap bitmapApp;
     private byte arrayBytesOfImageProfile[];
     private static final int REQUEST_GALLERY = 1000;
+    private Button buttonLogOut;
     /* ****************************************************************************************** */
 
     private final ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
-
+    private final ControllerLoginSignin ctrl2 = ControllerLoginSignin.getInstance();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -106,6 +117,17 @@ public class ProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        /* ************************************************************************************** */
+        preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
+        /* ************************************************************************************** */
+        /*FirebaseMessaging.getInstance().deleteToken().addOnSuccessListener(tok -> {
+            Log.d("TAG", "TOKEN #################################################################### ELIMINATO");
+        }).addOnFailureListener(e -> {
+            //handle e
+        }).addOnCanceledListener(() -> {
+            //handle cancel
+        }).addOnCompleteListener(tok -> Log.v("TAG", "This is the token : " + tok.getResult()));*/
+
     }
 
     @Override
@@ -142,6 +164,14 @@ public class ProfileFragment extends Fragment {
                 }else {
                     CheckPermission(permission1, permission2);
                 }
+            }
+        });
+        /* ****************************************************************************************/
+        buttonLogOut = view.findViewById(R.id.buttonLogOut);
+        buttonLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
             }
         });
         /* ****************************************************************************************/
@@ -265,7 +295,36 @@ public class ProfileFragment extends Fragment {
         bit.compress(Bitmap.CompressFormat.JPEG, 100, byteOutStream);
         return byteOutStream.toByteArray();
     }
-    /* ****************************************************************************************** */
 
+    /* ****************************************************************************************** */
+    private PreferanceManager preferanceManager;
+
+    private void showToast(String message){
+        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void signOut(){
+        showToast("Logout ...");
+        /*FirebaseFirestore database = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
+                .document(preferanceManager.getString(Constants.KEY_USER_ID));
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
+        documentReference.update(updates)
+                .addOnSuccessListener(unused -> {
+                    preferanceManager.clear();
+                    //DOVREMMO TORNARE AL FRAGMENT DI LOGIN()
+                    //ctrl2.showLoginFragment();
+
+                    //CODICE PER LE ACTIVITY
+                    //startActivity(new Intent(getActivity().getApplicationContext(), LoginFragment));
+                    //getActivity().finish();
+                })
+                .addOnFailureListener(e -> showToast("Unable to signout"));
+
+         */
+    }
+    /* ****************************************************************************************** */
 
 }

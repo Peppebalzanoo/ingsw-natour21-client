@@ -4,18 +4,25 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour2.R;
+import com.example.natour2.fragment.ChatFragment;
 import com.example.natour2.fragment.HomeFragment;
 import com.example.natour2.fragment.NotificationFragment;
 import com.example.natour2.fragment.ProfileFragment;
 import com.example.natour2.fragment.SearchFragment;
+import com.example.natour2.fragment.SelectUsersFragment;
+import com.example.natour2.fragment.UserFragment;
 import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.fragment.loginSignin.SignupFragment;
 import com.example.natour2.fragment.loginSignin.VerifyCodeFragment;
+import com.example.natour2.model.ChatMessage;
+import com.example.natour2.model.User;
+
+import java.util.ArrayList;
 
 public class ControllerHomeAcrtivity {
+    //public static User utente;
 
     public ControllerHomeAcrtivity(){
-
     }
 
     public void showHomeFragment(FragmentManager fragmentManager){
@@ -47,5 +54,42 @@ public class ControllerHomeAcrtivity {
         transaction.commit();
     }
 
+    public void showUserFragment(FragmentManager fragmentManager){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame_layout_home, new UserFragment()); // give your fragment container id in first parameter
+        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+        transaction.commit();
+    }
+
+
+    public void showSelectUserFragment(FragmentManager fragmentManager){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame_layout_home, new SelectUsersFragment()); // give your fragment container id in first parameter
+        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+        transaction.commit();
+    }
+
+    public void showChatFragment(FragmentManager fragmentManager){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame_layout_home, new ChatFragment()); // give your fragment container id in first parameter
+        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+        transaction.commit();
+    }
+
+    public void showChatFragment(FragmentManager fragmentManager, ChatFragment c){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame_layout_home, c); // give your fragment container id in first parameter
+        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+        transaction.commit();
+    }
+
+
+    //Mi serve per passare uno user da SelectUserFragment a ChatFragment
+    //Ovviamente è una soluzione momentanea
+    public ChatFragment setUser(User u){
+        ChatFragment c = new ChatFragment();
+        c.pippo(u);
+        return c;
+    }
 
 }
