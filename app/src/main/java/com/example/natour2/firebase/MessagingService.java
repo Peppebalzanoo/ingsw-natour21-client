@@ -1,5 +1,6 @@
 package com.example.natour2.firebase;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -43,7 +44,7 @@ public class MessagingService extends FirebaseMessagingService {
         user.token = remoteMessage.getData().get(Constants.KEY_FCM_TOKEN);
 
         int notificationId = new Random().nextInt();
-        String channelId = "chat_message";
+        String channelId = "naTour21_channelId";
 
 
         Intent intent = new Intent(this, HomeActivity.class);
@@ -51,17 +52,29 @@ public class MessagingService extends FirebaseMessagingService {
         intent.putExtra(Constants.KEY_USER, user);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
+        Notification notification = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(user.name)
+                .setContentText(remoteMessage.getData().get(Constants.KEY_MESSAGE))
+                .setGroup("FIRST_GROUP_ID")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .build();
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId);
+        /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId);
         builder.setSmallIcon(R.drawable.ic_notification);
         builder.setContentTitle(user.name);
         builder.setContentText(remoteMessage.getData().get(Constants.KEY_MESSAGE));
         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(
                 remoteMessage.getData().get(Constants.KEY_MESSAGE)
         ));
+        builder.setGroup("FIRST_GROUP_ID");
+        builder.setGroupSummary(true);
+
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setContentIntent(pendingIntent);
-        builder.setAutoCancel(true);
+        builder.setAutoCancel(true);*/
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence channelName = "Chat Message";
@@ -74,9 +87,23 @@ public class MessagingService extends FirebaseMessagingService {
         }
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        notificationManagerCompat.notify(notificationId, builder.build());
-
+        //notificationManagerCompat.notify(notificationId, builder.build());
+        notificationManagerCompat.notify(notificationId, notification);
+        summaryNotification();
     }
+
+    private void summaryNotification(){
+        String channelId = "naTour21_channelId";
+        Notification notification = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setGroup("FIRST_GROUP_ID")
+                .setGroupSummary(true)
+                .build();
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(0, notification);
+    }
+
 
 
 }
