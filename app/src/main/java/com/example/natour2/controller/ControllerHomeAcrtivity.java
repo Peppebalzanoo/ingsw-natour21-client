@@ -1,9 +1,16 @@
 package com.example.natour2.controller;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.os.Build;
+import android.os.Bundle;
+
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour2.R;
+import com.example.natour2.fragment.BaseFragment;
 import com.example.natour2.fragment.ChatFragment;
 import com.example.natour2.fragment.HomeFragment;
 import com.example.natour2.fragment.NotificationFragment;
@@ -18,6 +25,7 @@ import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ControllerHomeAcrtivity {
     //public static User utente;

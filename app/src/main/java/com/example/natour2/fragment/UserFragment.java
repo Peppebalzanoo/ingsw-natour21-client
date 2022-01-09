@@ -39,7 +39,7 @@ import java.util.List;
  * Use the {@link UserFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserFragment extends Fragment implements ConversionListener {
+public class UserFragment extends BaseFragment implements ConversionListener {
 
     private PreferanceManager preferanceManager;
     private RecyclerView recyclerViewConversation;
@@ -178,6 +178,7 @@ public class UserFragment extends Fragment implements ConversionListener {
 
     @Override
     public void onConversionClicked(User user) {
+        Log.i("FRAGMENT_MANAGER", "######################################################## 1");
         ChatFragment c = ctrl.setUser(user);
         ctrl.showChatFragment(getFragmentManager(), c);
     }

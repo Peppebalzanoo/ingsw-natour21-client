@@ -35,7 +35,7 @@ import java.util.List;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
     private PreferanceManager preferanceManager;
 
@@ -87,9 +87,9 @@ public class HomeFragment extends Fragment {
         }
 
         /* ************************************************************************************** */
-        //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
+        preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         //loadUserDetails();
-        //getToken();
+        getToken();
 
     }
 
@@ -161,6 +161,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateToken(String token){
+        preferanceManager.putString(Constants.KEY_FCM_TOKEN, token);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(preferanceManager.getString(Constants.KEY_USER_ID));
         documentReference.update(Constants.KEY_FCM_TOKEN, token)

@@ -1,22 +1,16 @@
 package com.example.natour2.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.UserAdapter;
@@ -36,7 +30,7 @@ import java.util.List;
  * Use the {@link SelectUsersFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SelectUsersFragment extends Fragment implements UserListener {
+public class SelectUsersFragment extends BaseFragment implements UserListener {
 
     private ProgressBar progressBar;
     private PreferanceManager preferanceManager;
@@ -105,7 +99,13 @@ public class SelectUsersFragment extends Fragment implements UserListener {
         textErrorMessage = view.findViewById(R.id.textErrorMessage);
 
         imageBackSelectUser = view.findViewById(R.id.imageBackSelectUser);
-        imageBackSelectUser.setOnClickListener(v -> getActivity().onBackPressed());
+        imageBackSelectUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //v -> getActivity().onBackPressed()
+                ctrl.showUserFragment(getFragmentManager());
+            }
+        });
 
     }
 
@@ -117,9 +117,6 @@ public class SelectUsersFragment extends Fragment implements UserListener {
                 .addOnCompleteListener(task -> {
                     loading(false);
                     String currentUserId = preferanceManager.getString(Constants.KEY_USER_ID);
-
-                    Log.i("KEY_USER_ID", "#################################"+currentUserId);
-
                     if (task.isSuccessful() && task.getResult() != null) {
                         List<User> users = new ArrayList<>();
                         for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
@@ -132,7 +129,6 @@ public class SelectUsersFragment extends Fragment implements UserListener {
                             user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                             user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
                             user.id = queryDocumentSnapshot.getId();
-                            Log.i("KEY_USER_ID", "#################################"+user.id);
                             users.add(user);
                         }
                         if (users.size() > 0) {
@@ -168,7 +164,6 @@ public class SelectUsersFragment extends Fragment implements UserListener {
 
     @Override
     public void onUserClicked(User user) {
-        Log.i("USER", "************************"+user.name);
         ctrl.setUser(user);
         ctrl.showChatFragment(getFragmentManager());
 

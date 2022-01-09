@@ -12,28 +12,40 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.natour2.HomeActivity;
+import com.example.natour2.MainActivity;
 import com.example.natour2.R;
 import com.example.natour2.adapter.ChatAdapter;
 import com.example.natour2.controller.ControllerHomeAcrtivity;
 import com.example.natour2.firebase.MessagingService;
 import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.User;
+import com.example.natour2.network.ApiClient;
+import com.example.natour2.network.ApiService;
 import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.common.base.MoreObjects;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,19 +55,26 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.concurrent.Executor;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ChatFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChatFragment extends Fragment {
+public class ChatFragment extends BaseFragment{
 
     private User receiverUser;
     private TextView textNameChat;
     private AppCompatImageView imageBackChat;
     private RecyclerView chatRecyclerView;
     private EditText inputMessage;
+    private TextView textAvaibility;
     private FrameLayout layoutSend;
     private ProgressBar progressBar;
 
@@ -64,7 +83,9 @@ public class ChatFragment extends Fragment {
     private PreferanceManager preferanceManager;
     private FirebaseFirestore database;
     private String conversionId = null;
+    private Boolean isReceiverAvailable = false;
 
+    private static User user = null;
     private ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
 
     // TODO: Rename parameter arguments, choose names that match
@@ -122,6 +143,7 @@ public class ChatFragment extends Fragment {
     private void initViewComponent(View view) {
         layoutSend = view.findViewById(R.id.layoutSend);
         textNameChat = view.findViewById(R.id.textNameChat);
+        textAvaibility = view.findViewById(R.id.textAvailability);
         chatRecyclerView = view.findViewById(R.id.chatRecyclerView);
         inputMessage = view.findViewById(R.id.inputMessage);
         progressBar = view.findViewById(R.id.progessBarChatFragment);
@@ -129,7 +151,8 @@ public class ChatFragment extends Fragment {
         imageBackChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                //getActivity().onBackPressed();
+                ctrl.showUserFragment(getFragmentManager());
             }
         });
 
@@ -137,8 +160,12 @@ public class ChatFragment extends Fragment {
 
     }
 
+    public void pippo(User u){
+        user = u;
+    }
+
     private void loadReceiverDetails() {
-        receiverUser = user; ; //********************************************************************************
+        receiverUser = user;
         textNameChat.setText(receiverUser.name);
     }
 
@@ -178,8 +205,109 @@ public class ChatFragment extends Fragment {
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             addConversion(conversion);
         }
+        //if(!isReceiverAvailable){
+            try{
+                JSONArray tokens = new JSONArray();
+                tokens.put(receiverUser.token);
+
+                JSONObject data = new JSONObject();
+                data.put(Constants.KEY_USER_ID, preferanceManager.getString(Constants.KEY_USER_ID));
+                data.put(Constants.KEY_NAME, preferanceManager.getString(Constants.KEY_NAME));
+                data.put(Constants.KEY_FCM_TOKEN, preferanceManager.getString(Constants.KEY_FCM_TOKEN));
+                data.put(Constants.KEY_MESSAGE, inputMessage.getText().toString());
+
+                JSONObject body = new JSONObject();
+                body.put(Constants.REMOTE_MSG_DATA, data);
+                body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
+
+                sendNotificaiton(body.toString());
+
+            }catch(Exception e){
+                showToast(e.getMessage());
+            }
+        //}
         inputMessage.setText(null);
     }
+
+    private void showToast(String message){
+        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void sendNotificaiton(String messageBody){
+        ApiClient.getInstance().create(ApiService.class).sendMessage(
+                Constants.getInstanceRemoteMsgHeaders(),
+                messageBody
+        ).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                if(response.isSuccessful()){
+                    try{
+                        if(response.body() != null){
+                            JSONObject responseJson = new JSONObject(response.body());
+                            JSONArray results = responseJson.getJSONArray("results");
+                            if(responseJson.getInt("failure") == 1){
+                                JSONObject error = (JSONObject) results.get(0);
+                                showToast(error.getString("error"));
+                                return;
+                            }
+                        }
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                    showToast("Notification sent successfully");
+                }
+                else{
+                    showToast("Error: "+ response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                showToast(t.getMessage());
+            }
+        });
+    }
+
+
+    private void listenAvailabilityOfReceiver(){
+        /*database.collection(Constants.KEY_COLLECTION_USERS)
+                .document(receiverUser.id)
+                .addSnapshotListener(
+                        getActivity(),
+                        (value, error) ->
+                            {
+                                Log.i("FRAGMENT_MANAGER", "######################################################## 3");
+                                if(error != null) {
+                                    return;
+                                }
+                                if(value != null){
+                                    if(value.getLong(Constants.KEY_AVAILABILITY) != null){
+                                        int availability = Objects.requireNonNull(value.getLong(Constants.KEY_AVAILABILITY).intValue());
+                                        isReceiverAvailable = availability == 1;
+                                    }
+                                }
+                                if(isReceiverAvailable){
+                                    textAvaibility.setVisibility(View.VISIBLE);
+                                }
+                                else{
+                                    textAvaibility.setVisibility(View.GONE);
+                                }
+                            }
+                );*/
+        database.collection(Constants.KEY_COLLECTION_USERS)
+                .document(receiverUser.id)
+                .addSnapshotListener((value, error) -> {
+                    if(error != null) {
+                        return;
+                    }
+                    if(value != null){
+                        receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
+                    }
+                });
+    }
+
+
+
 
 
     private void listenMessage() {
@@ -225,6 +353,7 @@ public class ChatFragment extends Fragment {
             checkForConversion();
         }
     };
+
 
     private String getReadableDateTime(Date date) {
         return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
@@ -281,9 +410,9 @@ public class ChatFragment extends Fragment {
         }
     };
 
-    private static User user = null;
-    public void pippo(User u){
-        user = u;
+    @Override
+    public void onResume() {
+        super.onResume();
+        listenAvailabilityOfReceiver();
     }
-
 }

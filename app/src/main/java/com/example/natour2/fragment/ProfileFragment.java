@@ -62,7 +62,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
     private ItinerarioAdapter itinerarioAdapter;
