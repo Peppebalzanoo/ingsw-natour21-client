@@ -50,58 +50,17 @@ public class LoginFragment extends Fragment {
 
     //----------------------------------------
     private FragmentLoginBinding binding;
-
-    //Aws Cognito
-    //email:
-    //pass: Pippo90!
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private PreferanceManager preferanceManager;
 
     public LoginFragment() { }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
-        LoginFragment fragment = new LoginFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         //*****************************************************************************************
-        //binding = FragmentLoginBinding.inflate(getLayoutInflater());
-        //getActivity().setContentView(binding.getRoot());
 
         preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
 
-        /*if(preferanceManager.getBoolean(Constants.KEY_IS_SIGNED_IN)){
-            Intent intent = new Intent(getActivity().getApplicationContext(), HomeActivity.class);
-            startActivity(intent);
-            getActivity().finish();
-        }*/
         //*****************************************************************************************
 
 
@@ -140,11 +99,11 @@ public class LoginFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //ctrl.login(etUsername.getText().toString().replace(" ", ""), etPassword.getText().toString());
+               ctrl.login(etUsername.getText().toString().replace(" ", ""), etPassword.getText().toString());
                //***********************************************************************************
-                if(isValidSignInDetails()){
+                /*if(isValidSignInDetails()){
                     signIn();
-                }
+                }*/
             }
         });
 
@@ -159,7 +118,8 @@ public class LoginFragment extends Fragment {
     }
 
     /* ****************************************************************************************** */
-    private PreferanceManager preferanceManager;
+   /*
+
 
     private void showToast(String message){
         Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
@@ -204,7 +164,7 @@ public class LoginFragment extends Fragment {
                     }
                 });
     }
-
+*/
     private void loading(Boolean isLoading){
         if(isLoading){
             btnLogin.setVisibility(View.INVISIBLE);
@@ -214,21 +174,5 @@ public class LoginFragment extends Fragment {
             progressBar.setVisibility(View.INVISIBLE);
             btnLogin.setVisibility(View.VISIBLE);
         }
-    }
-
-    private Boolean isValidSignInDetails(){
-        /*if(etUsername.getText().toString().trim().isEmpty()){
-            showToast("Enter email");
-            return false;
-        }else if(!Patterns.EMAIL_ADDRESS.matcher(etUsername.getText().toString()).matches()){
-            showToast("Enter valid email");
-            return false;
-        }else if(etPassword.getText().toString().trim().isEmpty()){
-            showToast("Enter password");
-            return false;
-        }else{
-            return true;
-        }*/
-        return true;
     }
 }

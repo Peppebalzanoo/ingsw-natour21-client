@@ -20,20 +20,19 @@ public class BaseFragment extends Fragment {
         PreferanceManager preferanceManager =  new PreferanceManager(getActivity().getApplicationContext());;
         FirebaseFirestore database = FirebaseFirestore.getInstance();;
         super.onCreate(savedInstanceState);
-        documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
-                                        .document(preferanceManager.getString(Constants.KEY_USER_ID));
+        //documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(preferanceManager.getString(Constants.KEY_USER_ID));
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        documentReference.update(Constants.KEY_AVAILABILITY, 0);
+       //documentReference.update(Constants.KEY_AVAILABILITY, 0);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        documentReference.update(Constants.KEY_AVAILABILITY, 1);
+        //documentReference.update(Constants.KEY_AVAILABILITY, 1);
     }
 
 }

@@ -110,6 +110,7 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
     }
 
     private void getUsers() {
+        /*
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection(Constants.KEY_COLLECTION_USERS)
@@ -140,6 +141,20 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
                         }
                     }
                 });
+
+         */
+        List<User> users = new ArrayList<>();
+        User user1 = new User();
+        User user2 = new User();
+        user1.name = "pippo";
+        user1.email = "pippo@gmail.com";
+        user2.name = "pluto";
+        user2.email = "pluto@gmail.com";
+        users.add(user1);
+        users.add(user2);
+        UserAdapter userAdapter = new UserAdapter(users, this);
+        userRecyclerView.setAdapter(userAdapter);
+        userRecyclerView.setVisibility(View.VISIBLE);
     }
 
 
@@ -167,11 +182,6 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
         ctrl.setUser(user);
         ctrl.showChatFragment(getFragmentManager());
 
-
-        //Intent intent = new Intent(getActivity().getApplicationContext(), ChatFragment.class);
-        //intent.putExtra(Constants.KEY_USER, user);
-        //startActivity(intent);
-        //getActivity().finish();
     }
 
 }

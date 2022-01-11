@@ -13,7 +13,15 @@ public class ChatMessage {
     public String conversionImage;
 
 
+    public ChatMessage(){
 
+    }
+    public ChatMessage(String senderId, String receiverId, String message, String conversionName){
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.message = message;
+        this.conversionName = conversionName;
+    }
 
 
 }

@@ -43,56 +43,19 @@ public class SignupFragment extends Fragment {
     private ProgressBar progressBar;
     // ############################################################# End View Components
 
-
     private final ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
-
-
-    //----------------------------------------
-    private FragmentSignupBinding binding;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private PreferanceManager preferanceManager;
 
     public SignupFragment() { }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SignupFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SignupFragment newInstance(String param1, String param2) {
-        SignupFragment fragment = new SignupFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
         //******************************************************************************************
-        //binding = FragmentSignupBinding.inflate(getLayoutInflater());
+
         preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
-        //getActivity().setContentView(binding.getRoot());
+
         //******************************************************************************************
 
         ctrl.setActivity(getActivity());
@@ -124,19 +87,19 @@ public class SignupFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                /*if(passwordSignUp.getText().toString().equals(repeatPassSignUp.getText().toString())){
+                if(passwordSignUp.getText().toString().equals(repeatPassSignUp.getText().toString())){
                     ctrl.signup(usernameSignUp.getText().toString().replace(" ", ""),
                             emailSignUp.getText().toString().replace(" ", ""),
                             passwordSignUp.getText().toString());
                 } else {
                     Toast.makeText(getActivity(), "Errore! Le password non coencidono",
                             Toast.LENGTH_LONG).show();
-                }*/
+                }
 
                 /* ****************************************************************************** */
-                if(isValidSignUpDetails()) {
+                /*if(isValidSignUpDetails()) {
                     signUp();
-                }
+                }*/
                 //**********************************************************************************
 
             }
@@ -153,7 +116,7 @@ public class SignupFragment extends Fragment {
     }
 
     /* ****************************************************************************************** */
-    private PreferanceManager preferanceManager;
+    /*
 
     private void showToast(String message){
         Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
@@ -209,7 +172,7 @@ public class SignupFragment extends Fragment {
             return true;
         }
     }
-
+*/
     private void loading(Boolean isLoading){
         if(isLoading){
             btnRegister.setVisibility(View.INVISIBLE);

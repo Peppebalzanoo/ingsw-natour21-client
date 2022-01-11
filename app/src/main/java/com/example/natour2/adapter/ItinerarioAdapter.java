@@ -1,6 +1,8 @@
 package com.example.natour2.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.model.Itinerario;
+import com.example.natour2.utilities.MapViewCustom;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
 
@@ -20,10 +29,14 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
 
     public Context mContext;
     public List<Itinerario> mItinerario;
+    public Bundle savedInstanceState;
+    public RecyclerView recyclerView;
 
-    public ItinerarioAdapter(Context context, List<Itinerario> mItinerario){
+    public ItinerarioAdapter(Context context, List<Itinerario> mItinerario, Bundle savedInstanceState, RecyclerView recyclerView){
         this.mContext = context;
         this.mItinerario = mItinerario;
+        this.savedInstanceState = savedInstanceState;
+        this.recyclerView = recyclerView;
     }
 
     @NonNull
@@ -50,6 +63,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
         public ImageView profileImage;
         public TextView username, name, durata, diff, descrizione, segnala, contatta;
         public Button dettaglio;
+        public MapViewCustom mapView;
 
 
         public ViewHolder(@NonNull View itemView){
@@ -64,6 +78,56 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
             segnala = itemView.findViewById(R.id.segnala);
             contatta = itemView.findViewById(R.id.contatta);
             // dettaglio = itemView.findViewById(R.id.dettaglio);
+            mapView = itemView.findViewById(R.id.mapView);
+            mapView.setParent(recyclerView);
+            mapView.onCreate(savedInstanceState);
+            mapView.getMapAsync(new OnMapReadyCallback() {
+
+                @Override
+                public void onMapReady(@NonNull GoogleMap googleMap) {
+
+
+                    /*
+                    LatLng sydney = new LatLng(-34, 151);
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(sydney);
+                    markerOptions.title(sydney.latitude + " : " + sydney.longitude);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                     */
+                    MarkerOptions place1 = new MarkerOptions().position(new LatLng(27.658143, 85.3199503)).title("Location 1");
+                    MarkerOptions place2 = new MarkerOptions().position(new LatLng(27.667491, 85.3208583)).title("Location 2");
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(27.658143, 85.3199503)));
+                    drawPrimaryLinePath(googleMap,new LatLng(27.658143, 85.3199503), new LatLng(27.667491, 85.3208583) );
+                    googleMap.addMarker(place1);
+                    googleMap.addMarker(place2);
+                    mapView.onResume();
+                    mapView.onEnterAmbient(null);
+                }
+            });
+
+            // dettaglio = itemView.findViewById(R.id.dettaglio);
+        }
+
+
+        private void drawPrimaryLinePath(GoogleMap map, LatLng start, LatLng end )
+        {
+            if ( map == null )
+            {
+                return;
+            }
+
+            PolylineOptions options = new PolylineOptions();
+
+            options.color( Color.parseColor( "#CC0000FF" ) );
+            options.width( 5 );
+            options.visible( true );
+
+
+            options.add( start );
+            options.add( end );
+
+            map.addPolyline( options );
+
         }
     }
 
