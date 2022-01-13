@@ -17,8 +17,8 @@ public class BaseFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        PreferanceManager preferanceManager =  new PreferanceManager(getActivity().getApplicationContext());;
-        FirebaseFirestore database = FirebaseFirestore.getInstance();;
+        //PreferanceManager preferanceManager =  new PreferanceManager(getActivity().getApplicationContext());;
+        //FirebaseFirestore database = FirebaseFirestore.getInstance();
         super.onCreate(savedInstanceState);
         //documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(preferanceManager.getString(Constants.KEY_USER_ID));
     }

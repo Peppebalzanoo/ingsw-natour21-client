@@ -1,31 +1,19 @@
 package com.example.natour2.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
-import com.example.natour2.adapter.RecentConversationsAdapter;
 import com.example.natour2.controller.ControllerHomeAcrtivity;
-import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.Itinerario;
-import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +42,10 @@ public class HomeFragment extends BaseFragment {
         //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         //loadUserDetails();
 
+
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

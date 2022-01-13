@@ -30,10 +30,12 @@ public class MessagingService extends FirebaseMessagingService {
 
     private ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
 
-    @Override
+    /*@Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
     }
+
+
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
@@ -61,7 +63,7 @@ public class MessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .build();
-
+        */
         /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId);
         builder.setSmallIcon(R.drawable.ic_notification);
         builder.setContentTitle(user.name);
@@ -75,7 +77,7 @@ public class MessagingService extends FirebaseMessagingService {
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
         builder.setContentIntent(pendingIntent);
         builder.setAutoCancel(true);*/
-
+        /*
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence channelName = "Chat Message";
             String channelDescription = "This notification channel is used for chat message notifications";
@@ -102,7 +104,7 @@ public class MessagingService extends FirebaseMessagingService {
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(0, notification);
-    }
+    }*/
 
 
 

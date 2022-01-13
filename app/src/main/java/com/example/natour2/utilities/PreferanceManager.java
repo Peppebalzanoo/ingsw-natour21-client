@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PreferanceManager {
-    private final SharedPreferences sharedPreferences;
+    //private final SharedPreferences sharedPreferences;
 
-    public PreferanceManager(Context context){
+    /*public PreferanceManager(Context context){
         sharedPreferences = context.getSharedPreferences(Constants.KEY_PREFERENCE_NAME, Context.MODE_PRIVATE);
     }
 
@@ -35,4 +35,5 @@ public class PreferanceManager {
         editor.clear();
         editor.apply();
     }
+     */
 }

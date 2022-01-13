@@ -1,10 +1,6 @@
 package com.example.natour2.fragment.loginSignin;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,45 +8,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.natour2.HomeActivity;
-import com.example.natour2.MainActivity;
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerLoginSignin;
 import com.example.natour2.databinding.FragmentLoginBinding;
-import com.example.natour2.firebase.MessagingService;
-import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.messaging.FirebaseMessaging;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class LoginFragment extends Fragment {
 
-    // ############################################################# View Components
-    private Button btnSignUp;     // For creating account
-    private TextView txtForgetPass;     // For retrieving password
-    private Button btnLogin;            // Button for Login
-    private EditText etUsername;        // Username
-    private EditText etPassword;        // Password
+    private Button btnSignUp;
+    private TextView txtForgetPass;
+    private Button btnLogin;
+    private EditText etUsername;
+    private EditText etPassword;
     private ProgressBar progressBar;
-    // ############################################################# End View Components
-
 
     private final ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
 
     //----------------------------------------
-    private FragmentLoginBinding binding;
-    private PreferanceManager preferanceManager;
+    //private FragmentLoginBinding binding;
+    //private PreferanceManager preferanceManager;
 
     public LoginFragment() { }
 
@@ -59,7 +39,7 @@ public class LoginFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //*****************************************************************************************
 
-        preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
+        //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
 
         //*****************************************************************************************
 
@@ -165,7 +145,7 @@ public class LoginFragment extends Fragment {
                 });
     }
 */
-    private void loading(Boolean isLoading){
+    /*private void loading(Boolean isLoading){
         if(isLoading){
             btnLogin.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
@@ -174,5 +154,5 @@ public class LoginFragment extends Fragment {
             progressBar.setVisibility(View.INVISIBLE);
             btnLogin.setVisibility(View.VISIBLE);
         }
-    }
+    }*/
 }

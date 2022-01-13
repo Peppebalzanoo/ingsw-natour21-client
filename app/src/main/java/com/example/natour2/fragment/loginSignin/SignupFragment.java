@@ -1,11 +1,6 @@
 package com.example.natour2.fragment.loginSignin;
 
-import android.content.Intent;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +10,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.natour2.HomeActivity;
+import androidx.fragment.app.Fragment;
+
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerLoginSignin;
-import com.example.natour2.databinding.FragmentSignupBinding;
-import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SignupFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SignupFragment extends Fragment {
 
 
@@ -54,7 +40,7 @@ public class SignupFragment extends Fragment {
 
         //******************************************************************************************
 
-        preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
+        //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
 
         //******************************************************************************************
 
@@ -173,7 +159,7 @@ public class SignupFragment extends Fragment {
         }
     }
 */
-    private void loading(Boolean isLoading){
+    /*private void loading(Boolean isLoading){
         if(isLoading){
             btnRegister.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
@@ -182,6 +168,6 @@ public class SignupFragment extends Fragment {
             progressBar.setVisibility(View.INVISIBLE);
             btnRegister.setVisibility(View.INVISIBLE);
         }
-    }
+    }*/
 
 }

@@ -84,16 +84,8 @@ public class ProfileFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /* ************************************************************************************** */
-        preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
+        //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         /* ************************************************************************************** */
-        /*FirebaseMessaging.getInstance().deleteToken().addOnSuccessListener(tok -> {
-            Log.d("TAG", "TOKEN #################################################################### ELIMINATO");
-        }).addOnFailureListener(e -> {
-            //handle e
-        }).addOnCanceledListener(() -> {
-            //handle cancel
-        }).addOnCompleteListener(tok -> Log.v("TAG", "This is the token : " + tok.getResult()));*/
-
     }
 
     @Override

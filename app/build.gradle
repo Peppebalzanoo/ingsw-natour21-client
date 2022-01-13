@@ -1,3 +1,4 @@
+
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
@@ -51,20 +52,16 @@ dependencies {
 
     //**********************************************************************************************
     //implementation 'com.amazonaws:aws-android-sdk-core:2.6.3’
-    //implementation 'com.amazonaws:aws-android-sdk-auth-core:2.36.0@aar'
-    //implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.6.3@aar'
+    implementation 'com.amazonaws:aws-android-sdk-auth-core:2.36.0@aar'
+    implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.6.3@aar'
     //implementaion 'com.amazonaws:aws-android-sdk-auth-userpools:2.6.3@aar'
-   // implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.36.0'
+    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.36.0'
 
-
-
-
-    implementation 'com.amplifyframework:core:1.6.8'
-
-    implementation 'com.amplifyframework:aws-api:1.31.0'
-    implementation 'com.amplifyframework:aws-datastore:1.31.0'
-
-    implementation 'com.amplifyframework:aws-auth-cognito:1.6.8'
+    //implementation 'com.amazonaws:aws-java-sdk-sns:1.11.327'
+    //implementation 'com.amplifyframework:core:1.6.8'
+    //implementation 'com.amplifyframework:aws-api:1.31.0'
+    //implementation 'com.amplifyframework:aws-datastore:1.31.0'
+    //implementation 'com.amplifyframework:aws-auth-cognito:1.6.8'
 
 
 
@@ -86,13 +83,13 @@ dependencies {
     //Roundend ImageView
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
-
     //Firebase
     implementation 'com.google.firebase:firebase-bom:29.0.3'
     implementation 'com.google.firebase:firebase-messaging:23.0.0'
     implementation 'com.google.firebase:firebase-firestore:24.0.0'
+    implementation 'com.google.firebase:firebase-analytics:20.0.2'
 
-    implementation 'com.google.android.gms:play-services-location:19.0.0'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
 
 
     //MultiDex
@@ -101,6 +98,8 @@ dependencies {
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+
+
 
 
 }

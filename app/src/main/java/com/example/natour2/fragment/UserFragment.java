@@ -1,44 +1,28 @@
 package com.example.natour2.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.RecentConversationsAdapter;
-import com.example.natour2.adapter.UserAdapter;
 import com.example.natour2.controller.ControllerHomeAcrtivity;
-import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.listeners.ConversionListener;
 import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.User;
-import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class UserFragment extends BaseFragment implements ConversionListener {
 
     private PreferanceManager preferanceManager;
@@ -61,7 +45,7 @@ public class UserFragment extends BaseFragment implements ConversionListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
+        //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
 
         conversations = new ArrayList<>();
         conversationsAdapter = new RecentConversationsAdapter(conversations, this);
@@ -90,7 +74,7 @@ public class UserFragment extends BaseFragment implements ConversionListener {
     }
 
 
-    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
+    /*private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if(error != null){
             return;
         }
@@ -135,6 +119,7 @@ public class UserFragment extends BaseFragment implements ConversionListener {
             progressBarUserFragment.setVisibility(View.GONE);
         }
     };
+    */
 
 
     private void listenConversations(){
@@ -155,7 +140,6 @@ public class UserFragment extends BaseFragment implements ConversionListener {
 
     @Override
     public void onConversionClicked(User user) {
-        Log.i("FRAGMENT_MANAGER", "######################################################## 1");
         ChatFragment c = ctrl.setUser(user);
         ctrl.showChatFragment(getFragmentManager(), c);
     }

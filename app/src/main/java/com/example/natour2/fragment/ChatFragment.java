@@ -1,10 +1,6 @@
 package com.example.natour2.fragment;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,32 +12,24 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.natour2.HomeActivity;
-import com.example.natour2.MainActivity;
 import com.example.natour2.R;
 import com.example.natour2.adapter.ChatAdapter;
 import com.example.natour2.controller.ControllerHomeAcrtivity;
-import com.example.natour2.firebase.MessagingService;
 import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.User;
 import com.example.natour2.network.ApiClient;
 import com.example.natour2.network.ApiService;
 import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.common.base.MoreObjects;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.model.Document;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,24 +37,17 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.concurrent.Executor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChatFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ChatFragment extends BaseFragment{
 
     private User receiverUser;
@@ -88,44 +69,14 @@ public class ChatFragment extends BaseFragment{
     private static User user = null;
     private ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public ChatFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChatFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChatFragment newInstance(String param1, String param2) {
-        ChatFragment fragment = new ChatFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -134,9 +85,9 @@ public class ChatFragment extends BaseFragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         initViewComponent(view);
-        loadReceiverDetails();
-        init();
-        listenMessage();
+        //loadReceiverDetails();
+        //init();
+        //listenMessage();
         return view;
     }
 
@@ -156,7 +107,7 @@ public class ChatFragment extends BaseFragment{
             }
         });
 
-        layoutSend.setOnClickListener(v -> sendMessage());
+       // layoutSend.setOnClickListener(v -> sendMessage());
 
     }
 
@@ -169,7 +120,7 @@ public class ChatFragment extends BaseFragment{
         textNameChat.setText(receiverUser.name);
     }
 
-    private void init() {
+    /*private void init() {
         preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         chatMessages = new ArrayList<>();
         chatAdapter = new ChatAdapter(chatMessages, preferanceManager.getString(Constants.KEY_USER_ID));
@@ -268,8 +219,8 @@ public class ChatFragment extends BaseFragment{
         });
     }
 
-
-    private void listenAvailabilityOfReceiver(){
+*/
+    /*private void listenAvailabilityOfReceiver(){
         /*database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(receiverUser.id)
                 .addSnapshotListener(
@@ -294,6 +245,7 @@ public class ChatFragment extends BaseFragment{
                                 }
                             }
                 );*/
+    /*
         database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(receiverUser.id)
                 .addSnapshotListener((value, error) -> {
@@ -304,13 +256,13 @@ public class ChatFragment extends BaseFragment{
                         receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
                     }
                 });
-    }
+    }*/
 
 
 
 
 
-    private void listenMessage() {
+    /*private void listenMessage() {
         database.collection(Constants.KEY_COLLECTION_CHAT)
                 .whereEqualTo(Constants.KEY_SENDER_ID, preferanceManager.getString(Constants.KEY_USER_ID))
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.id)
@@ -373,14 +325,14 @@ public class ChatFragment extends BaseFragment{
                                   Constants.KEY_SENDER_ID , senderId,
                                   Constants.KEY_LAST_MESSAGE, message,
                                   Constants.KEY_TIMESTAMP, new Date());
-    }
+    }*/
 
 
     /*private Bitmap getBitmapFromEncodedString(String encodedImage){
         byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }*/
-
+    /*
     private void checkForConversion() {
         if (chatMessages.size() != 0) {
             checkForConversionRemotely(
@@ -415,4 +367,5 @@ public class ChatFragment extends BaseFragment{
         super.onResume();
         listenAvailabilityOfReceiver();
     }
+     */
 }

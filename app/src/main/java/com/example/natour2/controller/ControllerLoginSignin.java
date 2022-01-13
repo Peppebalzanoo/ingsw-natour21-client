@@ -9,8 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour2.HomeActivity;
-import com.example.natour2.amplify.AuthAmplify;
-import com.example.natour2.fragment.ChatFragment;
+import com.example.natour2.auth.Cognito;
 import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.R;
 import com.example.natour2.fragment.loginSignin.SignupFragment;
@@ -23,47 +22,49 @@ public class ControllerLoginSignin {
     private Activity activity = null;
     private Context context = null;
     private FragmentManager fragmentManager = null;
-    private String email = null;
-    private AuthAmplify authAmplify = new AuthAmplify();
+    private String username;
+    private String email;
+
+    //private AuthAmplify authAmplify = new AuthAmplify();
 
     private ControllerLoginSignin(){ }
 
     public static ControllerLoginSignin getInstance(){
         if(ctrlInstance == null)
             ctrlInstance = new ControllerLoginSignin();
-
         return ctrlInstance;
     }
 
 
     public void signup(String username, String email, String password){
-        /*
+
         this.username = username;
-        this.fragmentManager = fragmentManager;
-        Cognito authentication = new Cognito(context);
-        authentication.aggiungiAttributi("name", username);
-        authentication.aggiungiAttributi("email", email);
-        authentication.userSignUpInBackground(username, password);
-         */
         this.email = email;
-        authAmplify.signUp(username, email, password);
+
+        Cognito authentication = new Cognito(context);
+        authentication.addAttributes("name", username);
+        authentication.addAttributes("email", email);
+        authentication.userSignUpInBackground(username, password);
+
+        //authAmplify.signUp(username, email, password);
 
     }
 
 
     public void verifyCode(String code){
-        //Cognito authentication = new Cognito(context);
-        //authentication.confirmVerificationCodeUser(username, code);
-        authAmplify.confirmSignUp(this.email, code);
+        Cognito authentication = new Cognito(context);
+        authentication.confirmVerificationCodeUser(username, code);
+
+        //authAmplify.confirmSignUp(this.email, code);
 
     }
 
 
     public void login(String username, String passowrd){
-        //Cognito authentication = new Cognito(context);
-        //authentication.userLogIn(username, passowrd);
-        authAmplify.signIn(username, passowrd);
+        Cognito authentication = new Cognito(context);
+        authentication.userLogIn(username, passowrd);
 
+        //authAmplify.signIn(username, passowrd);
     }
 
 
@@ -76,11 +77,11 @@ public class ControllerLoginSignin {
     }
 
 
-    public void showHomeActivity(){
+    /*public void showHomeActivity(){
         Intent i = new Intent(context, HomeActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
-    }
+    }*/
 
     public void showHomeActivity(Context c){
         Intent i = new Intent(c, HomeActivity.class);
