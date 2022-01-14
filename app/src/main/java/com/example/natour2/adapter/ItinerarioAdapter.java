@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.natour2.R;
 import com.example.natour2.model.Itinerario;
@@ -23,7 +24,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import io.ticofab.androidgpxparser.parser.GPXParser;
+import io.ticofab.androidgpxparser.parser.domain.Gpx;
+import io.ticofab.androidgpxparser.parser.domain.Route;
+import io.ticofab.androidgpxparser.parser.domain.Track;
+import io.ticofab.androidgpxparser.parser.domain.TrackPoint;
+import io.ticofab.androidgpxparser.parser.domain.TrackSegment;
+import io.ticofab.androidgpxparser.parser.domain.WayPoint;
 
 public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.ViewHolder> {
 
@@ -69,6 +84,9 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
         public ViewHolder(@NonNull View itemView){
             super(itemView);
 
+
+
+
             profileImage = itemView.findViewById(R.id.imageProfile);
             username = itemView.findViewById(R.id.username);
             name = itemView.findViewById(R.id.name);
@@ -86,6 +104,19 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                 @Override
                 public void onMapReady(@NonNull GoogleMap googleMap) {
 
+                    GPXParser parser = new GPXParser(); // consider injection
+                    Gpx parsedGpx = null;
+                    try {
+                        InputStream in = mContext.getResources().openRawResource(
+                                mContext.getResources().getIdentifier("mapstogpx20220113_210828",
+                                        "raw", mContext.getPackageName()));
+
+                        parsedGpx = parser.parse(in); // consider using a background thread
+                    } catch (IOException | XmlPullParserException e) {
+                        // do something with this exception
+                        e.printStackTrace();
+                    }
+
 
                     /*
                     LatLng sydney = new LatLng(-34, 151);
@@ -98,6 +129,20 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                     MarkerOptions place2 = new MarkerOptions().position(new LatLng(27.667491, 85.3208583)).title("Location 2");
                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(27.658143, 85.3199503)));
                     drawPrimaryLinePath(googleMap,new LatLng(27.658143, 85.3199503), new LatLng(27.667491, 85.3208583) );
+                    if (parsedGpx == null) {
+                        System.out.println("????????????????????????????????????????????????????????????Errore");
+                    } else {
+                        LatLng prec = new LatLng(parsedGpx.getTracks().get(0).getTrackSegments().get(0).getTrackPoints().get(0).getLatitude(), parsedGpx.getTracks().get(0).getTrackSegments().get(0).getTrackPoints().get(0).getLongitude());
+                        for(Track t: parsedGpx.getTracks()){
+                            for(TrackSegment ts: t.getTrackSegments()){
+                                for(TrackPoint tp: ts.getTrackPoints()){
+                                    LatLng curr = new LatLng(tp.getLatitude(), tp.getLongitude());
+                                    drawPrimaryLinePath(googleMap, prec, curr);
+                                    prec = curr;
+                                }
+                            }
+                        }
+                    }
                     googleMap.addMarker(place1);
                     googleMap.addMarker(place2);
                     mapView.onResume();
