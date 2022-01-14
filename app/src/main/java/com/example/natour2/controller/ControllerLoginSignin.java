@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour2.HomeActivity;
 import com.example.natour2.auth.Cognito;
+import com.example.natour2.fragment.loginSignin.ForgetPasswordFragment;
 import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.R;
 import com.example.natour2.fragment.loginSignin.SignupFragment;
@@ -67,6 +68,11 @@ public class ControllerLoginSignin {
         //authAmplify.signIn(username, passowrd);
     }
 
+    public void forgetPassword(String userID, String vecchiaPassword, String nuovaPassword){
+        Cognito authentication = new Cognito(context);
+        authentication.forgetPasswordCognito(userID, vecchiaPassword, nuovaPassword);
+    }
+
 
     public void printToast(String str){
         activity.runOnUiThread(new Runnable() {
@@ -112,6 +118,14 @@ public class ControllerLoginSignin {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    public void showBlankFragment(){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame_layout, new ForgetPasswordFragment());
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
 
 
 

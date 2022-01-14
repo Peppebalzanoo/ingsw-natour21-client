@@ -11,6 +11,13 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSettings;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
+import com.amazonaws.services.cognitoidentity.AmazonCognitoIdentity;
+import com.amazonaws.services.cognitoidentityprovider.AmazonCognitoIdentityProviderClient;
+import com.amazonaws.services.cognitoidentityprovider.model.ForgotPasswordRequest;
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerLoginSignin;
 import com.example.natour2.databinding.FragmentLoginBinding;
@@ -88,10 +95,11 @@ public class LoginFragment extends Fragment {
         });
 
 
+
         txtForgetPass.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //Da vedere come fare il recupero password
+                ctrl.showBlankFragment();
             }
         });
 

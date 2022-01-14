@@ -6,6 +6,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
@@ -24,24 +25,28 @@ import com.example.natour2.controller.ControllerLoginSignin;
 
 public class Cognito {
 
-    private String userPoolId= "eu-west-3_40SDNNCeI";
+
+    private String userPoolUsersId = "eu-west-3_40SDNNCeI";
     private String clientId = "1fpi4iq7v0c9nauceoij11gnht";
     private String clientSecret= "rdg4q87k7b750tpsk18mgh32hivu854h0mg1eahoa9r1m4ar2rf";
     private Regions cognitoRegion =  ;
-    private CognitoUserPool userPool;
-    private Context context;
+    private CognitoUserPool userPoolUsers;
     private CognitoUserAttributes userAttributes;
+    private Context context;
     private String userPassword;
 
     private final ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
+    static String token;
 
     //fogab73794@leezro.com
     //Pippo90!
 
+
+
     //**********************************************************************************************
     public Cognito(Context context){
         this.context = context;
-        userPool = new CognitoUserPool(context, this.userPoolId, this.clientId, this.clientSecret, this.cognitoRegion);
+        userPoolUsers = new CognitoUserPool(context, this.userPoolUsersId, this.clientId, this.clientSecret, this.cognitoRegion);
         userAttributes = new CognitoUserAttributes();
     }
 
@@ -52,7 +57,7 @@ public class Cognito {
     //**********************************************************************************************
     //SIGNIN UTENTE - REGISTRAZIONE
     public void userSignUpInBackground(String userId, String password){
-        userPool.signUpInBackground(userId, password, this.userAttributes, null, signUpCallBack);
+        userPoolUsers.signUpInBackground(userId, password, this.userAttributes, null, signUpCallBack);
     }
 
     SignUpHandler signUpCallBack = new SignUpHandler() {
@@ -75,15 +80,16 @@ public class Cognito {
     //LOGIN UTENTE - ACCESSO
     public void userLogIn(String userId, String password){
         if(!userId.isEmpty() && !password.isEmpty()) {
-            CognitoUser cognitoUser = userPool.getUser(userId);
+            CognitoUser cognitoUser = userPoolUsers.getUser(userId);
             this.userPassword = password;
             cognitoUser.getSessionInBackground(authenticationHandler);
+
         }else{
             Toast.makeText(context,"Username o Password non validi!", Toast.LENGTH_LONG).show();
         }
     }
 
-    static String token;
+
     // Callback handler for the sign-in process
     AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
         @Override
@@ -123,7 +129,7 @@ public class Cognito {
         public void onFailure(Exception exception) {
             // Sign-in failed, check exception for the cause
             Toast.makeText(context,"Accesso fallito!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO FALLITO EXCEPTION: "+exception);
+            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO FALLITO EXCEPTION: "+exception.getLocalizedMessage());
         }
 
 
@@ -131,7 +137,7 @@ public class Cognito {
     //**********************************************************************************************
     //VERICATION USER - VERIFICA UTENTE
     public void confirmVerificationCodeUser(String userId, String codiceDiVerifica){
-        CognitoUser cognitoUser = userPool.getUser(userId);
+        CognitoUser cognitoUser = userPoolUsers.getUser(userId);
         cognitoUser.confirmSignUpInBackground(codiceDiVerifica, false, verificationCodeCallBack);
 
     }
@@ -155,14 +161,32 @@ public class Cognito {
         }
     };
     //**********************************************************************************************
+    public void forgetPasswordCognito(String userid, String vecchiaPassword, String nuovaPassword){
+        CognitoUser cognitoUser = userPoolUsers.getUser(userid);
+        cognitoUser.changePasswordInBackground(vecchiaPassword, nuovaPassword, forgotPasswordHandler);
+    }
 
+    GenericHandler forgotPasswordHandler = new GenericHandler() {
+        @Override
+        public void onSuccess() {
+            Toast.makeText(context,"Password Modificata Correttamente!", Toast.LENGTH_LONG).show();
+            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: PASSWORD CAMBIATA CORRETTAMENTE!");
+            ctrl.showLoginFragment();
+        }
 
+        @Override
+        public void onFailure(Exception exception) {
+            Toast.makeText(context,"Errore Modifca Password", Toast.LENGTH_LONG).show();
+            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ERRORE CAMBIO PASSWORD!"+exception.getLocalizedMessage());
+        }
+    };
+    //**********************************************************************************************
 
     public CognitoUserAttributes getCongitoUserAttributi(){
         return userAttributes;
     }
     public String getUserPoolId(){
-        return userPoolId;
+        return userPoolUsersId;
     }
     public String getClientId() {
         return clientId;
