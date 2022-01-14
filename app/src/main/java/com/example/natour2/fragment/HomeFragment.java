@@ -71,7 +71,7 @@ public class HomeFragment extends BaseFragment {
 
     private void readItinerari(){
         Itinerario itr1 = new Itinerario("sentiero", "01:14", "facile", "bello il sentiero", "antonio", "pippo");
-        Itinerario itr2 = new Itinerario("sentiero2", "01:48", "difficile", "brutto il sentiero", "anto", "pippo2");
+        Itinerario itr2 = new Itinerario("sentiero2", "01:48", "difficile", "brutto il sentiero", "Peppe", "pippo2");
         itinerarioList.add(itr1);
         itinerarioList.add(itr2);
 

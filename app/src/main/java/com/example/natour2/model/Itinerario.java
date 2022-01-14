@@ -18,6 +18,30 @@ public class Itinerario {
         this.image = image;
     }
 
+    public String getDurata() {
+        return durata;
+    }
+
+    public void setDurata(String durata) {
+        this.durata = durata;
+    }
+
+    public String getDiff() {
+        return diff;
+    }
+
+    public void setDiff(String diff) {
+        this.diff = diff;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getName() {
         return name;
     }
