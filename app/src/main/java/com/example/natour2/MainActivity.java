@@ -9,33 +9,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.natour2.controller.ControllerLoginSignin;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
 
     private String Firebasetoken = "";
+    private FirebaseAnalytics analytics;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         this.getSupportActionBar().hide();
+        setContentView(R.layout.activity_main);
 
-
-
-        /*try {
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.configure(getApplicationContext());
-
-
-        } catch (AmplifyException error) {
-            System.out.println(error.toString());
-            error.printStackTrace();
-        }*/
-
+        analytics = FirebaseAnalytics.getInstance(this);
 
         ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
+        ctrl.setAnalytics(analytics);
         ctrl.setFragmentManager(getSupportFragmentManager());
         ctrl.showLoginFragment();
         //ctrl.showHomeActivity(getApplicationContext());

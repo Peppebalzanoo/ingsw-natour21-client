@@ -3,6 +3,7 @@ package com.example.natour2.controller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +18,7 @@ import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.R;
 import com.example.natour2.fragment.loginSignin.SignupFragment;
 import com.example.natour2.fragment.loginSignin.VerifyCodeFragment;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 
 public class ControllerLoginSignin {
@@ -29,13 +31,14 @@ public class ControllerLoginSignin {
     private String email;
     private String matricolaAdim;
 
-    //private AuthAmplify authAmplify = new AuthAmplify();
+    private FirebaseAnalytics analytics;
 
     private ControllerLoginSignin(){ }
 
     public static ControllerLoginSignin getInstance(){
-        if(ctrlInstance == null)
+        if(ctrlInstance == null) {
             ctrlInstance = new ControllerLoginSignin();
+        }
         return ctrlInstance;
     }
 
@@ -43,6 +46,10 @@ public class ControllerLoginSignin {
     public void login(String username, String passowrd){
         Cognito authentication = new Cognito(context);
         authentication.userLogIn(username, passowrd);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.METHOD, "login");
+        analytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
 
         //authAmplify.signIn(username, passowrd);
     }
@@ -57,6 +64,10 @@ public class ControllerLoginSignin {
         authentication.addAttributes("name", username);
         authentication.addAttributes("email", email);
         authentication.userSignUpInBackground(username, password);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.METHOD, "signup");
+        analytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
 
         //authAmplify.signUp(username, email, password);
     }
@@ -73,6 +84,16 @@ public class ControllerLoginSignin {
     public void forgetPassword(String userID, String vecchiaPassword, String nuovaPassword){
         Cognito authentication = new Cognito(context);
         authentication.forgetPasswordCognito(userID, vecchiaPassword, nuovaPassword);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.METHOD, "forgot_password");
+        analytics.logEvent("forgot_password", bundle);
+
+        Bundle bundle2 = new Bundle();
+        analytics.logEvent("forgot_password_senza_parametro", bundle);
+
+
+
     }
 
     public void printToast(String str){
@@ -173,6 +194,9 @@ public class ControllerLoginSignin {
     }
 
 
+    public void setAnalytics(FirebaseAnalytics analytics) {
+        this.analytics = analytics;
+    }
 }
 
 
