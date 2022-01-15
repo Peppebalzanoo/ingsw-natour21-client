@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -39,6 +40,9 @@ import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.model.Itinerario;
 import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -74,6 +78,7 @@ public class ProfileFragment extends BaseFragment {
     private final ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
     private final ControllerLoginSignin ctrl2 = ControllerLoginSignin.getInstance();
 
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -83,6 +88,9 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctrl2.setActivity(getActivity());
+        ctrl2.setContext(getActivity().getApplicationContext());
+        ctrl2.setFragmentManager(getActivity().getSupportFragmentManager());
         /* ************************************************************************************** */
         //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         /* ************************************************************************************** */
@@ -129,7 +137,7 @@ public class ProfileFragment extends BaseFragment {
         buttonLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signOut();
+                ctrl2.signOut();
             }
         });
         /* ****************************************************************************************/
@@ -254,6 +262,9 @@ public class ProfileFragment extends BaseFragment {
         return byteOutStream.toByteArray();
     }
 
+
+
+
     /* ****************************************************************************************** */
     private PreferanceManager preferanceManager;
 
@@ -262,8 +273,8 @@ public class ProfileFragment extends BaseFragment {
     }
 
 
-    private void signOut(){
-        showToast("Logout ...");
+    // private void signOut(){
+     //   showToast("Logout ...");
         /*FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(preferanceManager.getString(Constants.KEY_USER_ID));
@@ -282,7 +293,7 @@ public class ProfileFragment extends BaseFragment {
                 .addOnFailureListener(e -> showToast("Unable to signout"));
 
          */
-    }
+   // }
     /* ****************************************************************************************** */
 
 }

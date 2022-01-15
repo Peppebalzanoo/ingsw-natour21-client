@@ -1,6 +1,8 @@
 package com.example.natour2.fragment.loginSignin;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,13 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.natour2.R;
+import com.example.natour2.auth.Google;
 import com.example.natour2.controller.ControllerLoginSignin;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
 
 public class LoginFragment extends Fragment {
@@ -25,7 +33,11 @@ public class LoginFragment extends Fragment {
     private ProgressBar progressBar;
     private Button bntAccessoAdmin;
 
+
+
     private final ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
+    private Google googleInstance;
+
     //----------------------------------------
     //private FragmentLoginBinding binding;
     //private PreferanceManager preferanceManager;
@@ -36,15 +48,15 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //*****************************************************************************************
-
         //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
-
         //*****************************************************************************************
-
 
         ctrl.setActivity(getActivity());
         ctrl.setContext(getActivity().getApplicationContext());
         ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
+
+        googleInstance = new Google(getActivity().getApplicationContext());
+        ctrl.setGoogleSignInClient(googleInstance.getGoogleSignInClient());
     }
 
     @Override
@@ -66,7 +78,6 @@ public class LoginFragment extends Fragment {
         etPassword = view.findViewById(R.id.etPasswordLogin);
         progressBar = view.findViewById(R.id.progessBarLogIn);
         bntAccessoAdmin = view.findViewById(R.id.buttonAdminLoginFragment);
-
 
         bntAccessoAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +112,56 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        SignInButton signInButton = view.findViewById(R.id.sign_in_button);
+        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if(googleInstance.checkAlreadySignIn(getActivity().getApplicationContext())){
+//                    ctrl.showHomeActivity(getActivity().getApplicationContext());
+//                }
+//                else{
+//                    signIn();
+//                }
+                signIn();
+            }
+        });
+
+    }
+
+    private void signIn(){
+        Intent signInIntent = googleInstance.getGoogleSignInClient().getSignInIntent();
+        startActivityForResult(signInIntent, Google.RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == Google.RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            // Signed in successfully
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            googleInstance.setGoogleSignInClient(account);
+
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity().getApplicationContext());
+            if (acct != null) {
+                googleInstance.storeInformationAccount(acct);
+            }
+            ctrl.showHomeActivity(getActivity().getApplicationContext());
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w("TAG", "signInResult:failed code=" + e.getStatusCode());
+        }
     }
 
     /* ****************************************************************************************** */

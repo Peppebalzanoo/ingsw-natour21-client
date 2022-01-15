@@ -24,15 +24,18 @@ import com.example.natour2.fragment.loginSignin.SignupFragment;
 import com.example.natour2.fragment.loginSignin.VerifyCodeFragment;
 import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.User;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerHomeAcrtivity {
-    //public static User utente;
+    private final ControllerLoginSignin controllerLoginSignin = ControllerLoginSignin.getInstance();
+
 
     public ControllerHomeAcrtivity(){
     }
+
 
     public void showHomeFragment(FragmentManager fragmentManager){
         //activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new SignupFragment()).commit();
@@ -44,7 +47,7 @@ public class ControllerHomeAcrtivity {
 
     public void showProfileFragment(FragmentManager fragmentManager){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout_home, new ProfileFragment()); // give your fragment container id in first parameter
+        transaction.replace(R.id.frame_layout_home,  new ProfileFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
