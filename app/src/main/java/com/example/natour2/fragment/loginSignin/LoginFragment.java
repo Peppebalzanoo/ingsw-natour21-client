@@ -11,17 +11,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSettings;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
-import com.amazonaws.services.cognitoidentity.AmazonCognitoIdentity;
-import com.amazonaws.services.cognitoidentityprovider.AmazonCognitoIdentityProviderClient;
-import com.amazonaws.services.cognitoidentityprovider.model.ForgotPasswordRequest;
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerLoginSignin;
-import com.example.natour2.databinding.FragmentLoginBinding;
-import com.example.natour2.utilities.PreferanceManager;
 
 
 public class LoginFragment extends Fragment {
@@ -32,9 +23,9 @@ public class LoginFragment extends Fragment {
     private EditText etUsername;
     private EditText etPassword;
     private ProgressBar progressBar;
+    private Button bntAccessoAdmin;
 
     private final ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
-
     //----------------------------------------
     //private FragmentLoginBinding binding;
     //private PreferanceManager preferanceManager;
@@ -74,6 +65,15 @@ public class LoginFragment extends Fragment {
         etUsername = view.findViewById(R.id.etUsernameLogin);
         etPassword = view.findViewById(R.id.etPasswordLogin);
         progressBar = view.findViewById(R.id.progessBarLogIn);
+        bntAccessoAdmin = view.findViewById(R.id.buttonAdminLoginFragment);
+
+
+        bntAccessoAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ctrl.showAdminFragment();
+            }
+        });
 
         btnSignUp.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -94,12 +94,10 @@ public class LoginFragment extends Fragment {
             }
         });
 
-
-
         txtForgetPass.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                ctrl.showBlankFragment();
+                ctrl.showForgetPasswordFragment();
             }
         });
 

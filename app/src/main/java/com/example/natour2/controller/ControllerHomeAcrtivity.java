@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour2.R;
+import com.example.natour2.fragment.AdminFragment;
 import com.example.natour2.fragment.BaseFragment;
 import com.example.natour2.fragment.ChatFragment;
 import com.example.natour2.fragment.HomeFragment;
@@ -90,6 +91,7 @@ public class ControllerHomeAcrtivity {
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
+
 
 
     //Mi serve per passare uno user da SelectUserFragment a ChatFragment

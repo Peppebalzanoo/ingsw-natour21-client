@@ -89,4 +89,10 @@
         android:textSize="18dp"
         android:textStyle="bold" />
 
+    <Button
+        android:id="@+id/buttonAdminLoginFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ADMIN" />
+
 </LinearLayout>
