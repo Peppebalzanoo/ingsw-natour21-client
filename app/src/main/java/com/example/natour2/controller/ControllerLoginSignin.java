@@ -90,7 +90,7 @@ public class ControllerLoginSignin {
         analytics.logEvent("forgot_password", bundle);
 
         Bundle bundle2 = new Bundle();
-        analytics.logEvent("forgot_password_senza_parametro", bundle);
+        analytics.logEvent("forgot_password_senza_parametro", bundle2);
 
 
 
