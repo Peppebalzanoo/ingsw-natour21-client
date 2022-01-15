@@ -36,18 +36,26 @@ public class AdminFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       // Inflate the layout for this fragment
       View view = inflater.inflate(R.layout.fragment_admin, container, false);
-      btnAccediAdmin = view.findViewById(R.id.buttonInviaAdminFragment);
-      passwordAdmin = view.findViewById(R.id.editTextPasswordAdminFragment);
-      matricolaAdmin = view.findViewById(R.id.editTextAdminFragment);
 
+      initViewComponents(view);
 
-
-      btnAccediAdmin.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              ctrl.loginAdmin(matricolaAdmin.getText().toString(), passwordAdmin.getText().toString());
-          }
-      });
       return view;
+    }
+
+    private void initViewComponents(View view){
+
+        btnAccediAdmin = view.findViewById(R.id.buttonInviaAdminFragment);
+        passwordAdmin = view.findViewById(R.id.editTextPasswordAdminFragment);
+        matricolaAdmin = view.findViewById(R.id.editTextAdminFragment);
+
+
+
+        btnAccediAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ctrl.loginAdmin(matricolaAdmin.getText().toString(), passwordAdmin.getText().toString());
+            }
+        });
+
     }
 }

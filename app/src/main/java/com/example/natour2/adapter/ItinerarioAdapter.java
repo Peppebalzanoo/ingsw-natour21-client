@@ -53,21 +53,18 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        System.out.println("***************************************** Sono in create");
         View view = LayoutInflater.from(mContext).inflate(R.layout.itinerario_item, parent, false);
         return new ItinerarioAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        System.out.println("***************************************** Sono in Bind");
         Itinerario itr = mItinerario.get(position);
         publisherInfo(holder.username, holder.name, holder.durata, holder.diff, holder.descrizione, holder.mapView, itr);
     }
 
     @Override
     public int getItemCount() {
-        System.out.println("***************************************** Sono in Item");
         return mItinerario.size();
     }
 
@@ -127,9 +124,9 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
     private void publisherInfo(final TextView username, final TextView name, final TextView durata, final TextView diff, final TextView descrizione, final MapViewCustom mapView, Itinerario itr ){
 
         username.setText(itr.getAutore());
-        name.setText("Nome: " + itr.getName());
-        durata.setText("Durata: " + itr.getDurata());
-        diff.setText("Difficoltà: " + itr.getDiff());
+        name.setText(itr.getName());
+        durata.setText(itr.getDurata());
+        diff.setText(itr.getDiff());
         descrizione.setText("Il sentiero è motlo bello, basta solo essere un minimo allenato per poterlo finiere senza problemi");
 
         mapView.getMapAsync(new OnMapReadyCallback() {

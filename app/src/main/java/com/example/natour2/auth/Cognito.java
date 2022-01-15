@@ -92,76 +92,6 @@ public class Cognito {
             Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE FALLITA EXCEPTION: "+exception);
         }
     };
-    //**********************************************************************************************
-    //SIGN-UP ADMIN - REGISTRAZIONE
-    public void adminSignUpInBackground(String userId, String password){
-        userPoolAdmins.signUpInBackground(userId, password, this.adminAttributes, null, signUpCallBackAdmin);
-    }
-
-    SignUpHandler signUpCallBackAdmin = new SignUpHandler() {
-        @Override
-        public void onSuccess(CognitoUser user, SignUpResult signUpResult) {
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE EFFETTUATA CORRETTAMENTE!");
-        }
-
-        @Override
-        public void onFailure(Exception exception) {
-            //Registrazione fallita, il metodo cattura l'eccezione che provoca il fallimento
-            Toast.makeText(context,"Registrazione fallita!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE FALLITA EXCEPTION: "+exception);
-        }
-    };
-    //**********************************************************************************************
-
-    public void adminLogIn(String matricolaAdmin, String passwordAdmin) {
-        if(!matricolaAdmin.isEmpty()  && !passwordAdmin.isEmpty()){
-            CognitoUser cognitoUserAdmin = userPoolAdmins.getUser(matricolaAdmin);
-            cognitoUserAdmin.getSessionInBackground(authenticationHandlerAdmin);
-            this.adminPassword = passwordAdmin;
-        }else{
-            Toast.makeText(context,"Username o Password non validi!", Toast.LENGTH_LONG).show();
-        }
-    }
-    AuthenticationHandler authenticationHandlerAdmin = new AuthenticationHandler() {
-        @Override
-        public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-            Toast.makeText(context,"Accesso effettuato!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO EFFETTUATO CORRETTAMENTE!");
-            ctrl.showHomeAdminActivity(context);
-            Log.i("COGNITO TOKEN ADMIN","******************************************************** COGNITO_TOKEN: "+userSession.getIdToken().getJWTToken());
-            tokenAdmin = userSession.getIdToken().getJWTToken();
-        }
-
-        @Override
-        public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
-            // The API needs user sign-in credentials to continue
-            AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, adminPassword, null);
-
-            // Pass the user sign-in credentials to the continuation
-            authenticationContinuation.setAuthenticationDetails(authenticationDetails);
-
-            // Allow the sign-in to continue
-            authenticationContinuation.continueTask();
-        }
-
-        @Override
-        public void getMFACode(MultiFactorAuthenticationContinuation continuation) {
-
-        }
-
-        @Override
-        public void authenticationChallenge(ChallengeContinuation continuation) {
-
-        }
-
-        @Override
-        public void onFailure(Exception exception) {
-            Toast.makeText(context,"Accesso fallito!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO FALLITO EXCEPTION: "+exception.getLocalizedMessage());
-        }
-    };
-
-
 
 
     //LOGIN UTENTE - ACCESSO
@@ -265,7 +195,75 @@ public class Cognito {
             Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ERRORE CAMBIO PASSWORD!"+exception.getLocalizedMessage());
         }
     };
+
     //**********************************************************************************************
+    //SIGN-UP ADMIN - REGISTRAZIONE
+    public void adminSignUpInBackground(String userId, String password){
+        userPoolAdmins.signUpInBackground(userId, password, this.adminAttributes, null, signUpCallBackAdmin);
+    }
+
+    SignUpHandler signUpCallBackAdmin = new SignUpHandler() {
+        @Override
+        public void onSuccess(CognitoUser user, SignUpResult signUpResult) {
+            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE EFFETTUATA CORRETTAMENTE!");
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            //Registrazione fallita, il metodo cattura l'eccezione che provoca il fallimento
+            Toast.makeText(context,"Registrazione fallita!", Toast.LENGTH_LONG).show();
+            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE FALLITA EXCEPTION: "+exception);
+        }
+    };
+    //**********************************************************************************************
+
+    public void adminLogIn(String matricolaAdmin, String passwordAdmin) {
+        if(!matricolaAdmin.isEmpty()  && !passwordAdmin.isEmpty()){
+            CognitoUser cognitoUserAdmin = userPoolAdmins.getUser(matricolaAdmin);
+            cognitoUserAdmin.getSessionInBackground(authenticationHandlerAdmin);
+            this.adminPassword = passwordAdmin;
+        }else{
+            Toast.makeText(context,"Username o Password non validi!", Toast.LENGTH_LONG).show();
+        }
+    }
+    AuthenticationHandler authenticationHandlerAdmin = new AuthenticationHandler() {
+        @Override
+        public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+            Toast.makeText(context,"Accesso effettuato!", Toast.LENGTH_LONG).show();
+            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO EFFETTUATO CORRETTAMENTE!");
+            ctrl.showHomeAdminActivity(context);
+            Log.i("COGNITO TOKEN ADMIN","******************************************************** COGNITO_TOKEN: "+userSession.getIdToken().getJWTToken());
+            tokenAdmin = userSession.getIdToken().getJWTToken();
+        }
+
+        @Override
+        public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
+            // The API needs user sign-in credentials to continue
+            AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, adminPassword, null);
+
+            // Pass the user sign-in credentials to the continuation
+            authenticationContinuation.setAuthenticationDetails(authenticationDetails);
+
+            // Allow the sign-in to continue
+            authenticationContinuation.continueTask();
+        }
+
+        @Override
+        public void getMFACode(MultiFactorAuthenticationContinuation continuation) {
+
+        }
+
+        @Override
+        public void authenticationChallenge(ChallengeContinuation continuation) {
+
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            Toast.makeText(context,"Accesso fallito!", Toast.LENGTH_LONG).show();
+            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO FALLITO EXCEPTION: "+exception.getLocalizedMessage());
+        }
+    };
 
     public CognitoUserAttributes getCongitoUserAttributi(){
         return userAttributes;

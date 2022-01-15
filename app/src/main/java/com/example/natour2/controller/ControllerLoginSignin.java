@@ -40,6 +40,14 @@ public class ControllerLoginSignin {
     }
 
 
+    public void login(String username, String passowrd){
+        Cognito authentication = new Cognito(context);
+        authentication.userLogIn(username, passowrd);
+
+        //authAmplify.signIn(username, passowrd);
+    }
+
+
     public void signup(String username, String email, String password){
 
         this.username = username;
@@ -51,14 +59,6 @@ public class ControllerLoginSignin {
         authentication.userSignUpInBackground(username, password);
 
         //authAmplify.signUp(username, email, password);
-
-    }
-
-    public void signupAdmin(String username, String password){
-        this.matricolaAdim = username;
-        Cognito authentication = new Cognito(context, "admin");
-        authentication.addAttributesAdmin("name", username);
-        authentication.adminSignUpInBackground(username, password);
     }
 
 
@@ -70,25 +70,9 @@ public class ControllerLoginSignin {
 
     }
 
-
-    public void login(String username, String passowrd){
-        Cognito authentication = new Cognito(context);
-        authentication.userLogIn(username, passowrd);
-
-        //authAmplify.signIn(username, passowrd);
-    }
-
     public void forgetPassword(String userID, String vecchiaPassword, String nuovaPassword){
         Cognito authentication = new Cognito(context);
         authentication.forgetPasswordCognito(userID, vecchiaPassword, nuovaPassword);
-    }
-
-
-
-    public void loginAdmin(String matricolaAdmin, String passwordAdmin) {
-        //signupAdmin(matricolaAdmin, passwordAdmin);
-        Cognito authentication = new Cognito(context, "admin");
-        authentication.adminLogIn(matricolaAdmin, passwordAdmin);
     }
 
     public void printToast(String str){
@@ -98,7 +82,6 @@ public class ControllerLoginSignin {
             }
         });
     }
-
 
     /*public void showHomeActivity(){
         Intent i = new Intent(context, HomeActivity.class);
@@ -158,6 +141,19 @@ public class ControllerLoginSignin {
     }
 
 
+    public void loginAdmin(String matricolaAdmin, String passwordAdmin) {
+        //signupAdmin(matricolaAdmin, passwordAdmin);
+        Cognito authentication = new Cognito(context, "admin");
+        authentication.adminLogIn(matricolaAdmin, passwordAdmin);
+    }
+
+
+    public void signupAdmin(String username, String password){
+        this.matricolaAdim = username;
+        Cognito authentication = new Cognito(context, "admin");
+        authentication.addAttributesAdmin("name", username);
+        authentication.adminSignUpInBackground(username, password);
+    }
 
 
 
