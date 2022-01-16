@@ -21,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 
 public class LoginFragment extends Fragment {
@@ -36,6 +37,7 @@ public class LoginFragment extends Fragment {
 
 
     private final ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
+    private FirebaseAnalytics analytics;
     private Google googleInstance;
 
     //----------------------------------------
@@ -43,6 +45,10 @@ public class LoginFragment extends Fragment {
     //private PreferanceManager preferanceManager;
 
     public LoginFragment() { }
+
+    public LoginFragment(FirebaseAnalytics analytics){
+        this.analytics = analytics;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -157,6 +163,10 @@ public class LoginFragment extends Fragment {
                 googleInstance.storeInformationAccount(acct);
             }
             ctrl.showHomeActivity(getActivity().getApplicationContext());
+
+            Bundle bundle = new Bundle();
+            analytics.logEvent("signin_google", bundle);
+
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.

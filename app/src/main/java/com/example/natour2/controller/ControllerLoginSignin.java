@@ -86,6 +86,8 @@ public class ControllerLoginSignin {
         authentication.confirmVerificationCodeUser(username, code);
 
         //authAmplify.confirmSignUp(this.email, code);
+        Bundle bundle = new Bundle();
+        analytics.logEvent("verify_code", bundle);
 
     }
 
@@ -94,13 +96,7 @@ public class ControllerLoginSignin {
         authentication.forgetPasswordCognito(userID, vecchiaPassword, nuovaPassword);
 
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.METHOD, "forgot_password");
         analytics.logEvent("forgot_password", bundle);
-
-        Bundle bundle2 = new Bundle();
-        analytics.logEvent("forgot_password_senza_parametro", bundle2);
-
-
 
     }
 
@@ -142,7 +138,7 @@ public class ControllerLoginSignin {
 
     public void showLoginFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, new LoginFragment());
+        transaction.replace(R.id.frame_layout, new LoginFragment(analytics));
         transaction.addToBackStack(null);
         transaction.commit();
     }
