@@ -8,9 +8,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,33 +17,10 @@ import com.example.natour2.adapter.ChatAdapter;
 import com.example.natour2.controller.ControllerHomeAcrtivity;
 import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.User;
-import com.example.natour2.network.ApiClient;
-import com.example.natour2.network.ApiService;
-import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ChatFragment extends BaseFragment{
@@ -117,7 +92,7 @@ public class ChatFragment extends BaseFragment{
 
     private void loadReceiverDetails() {
         receiverUser = user;
-        textNameChat.setText(receiverUser.name);
+        textNameChat.setText(receiverUser.nickname);
     }
 
     /*private void init() {

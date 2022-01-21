@@ -24,12 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
     private String Firebasetoken = "";
     private FirebaseAnalytics analytics;
+    private final ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getSupportActionBar().hide();
+       // this.getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
         analytics = FirebaseAnalytics.getInstance(this);

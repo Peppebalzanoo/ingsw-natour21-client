@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour2.HomeActivity;
 import com.example.natour2.MainActivity;
 import com.example.natour2.auth.Cognito;
-import com.example.natour2.auth.Google;
 import com.example.natour2.fragment.AdminFragment;
 import com.example.natour2.HomeAdmin;
 import com.example.natour2.fragment.loginSignin.ForgetPasswordFragment;
@@ -21,9 +19,6 @@ import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.R;
 import com.example.natour2.fragment.loginSignin.SignupFragment;
 import com.example.natour2.fragment.loginSignin.VerifyCodeFragment;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 
@@ -38,8 +33,6 @@ public class ControllerLoginSignin {
     private String matricolaAdim;
 
     private FirebaseAnalytics analytics;
-    private GoogleSignInClient googleSignInClient;
-
 
     private ControllerLoginSignin(){ }
 
@@ -115,6 +108,8 @@ public class ControllerLoginSignin {
     }*/
 
     public void showHomeActivity(Context c){
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sono in showHomeActivity di ctrl");
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Context è: " + c.toString());
         Intent i = new Intent(c, HomeActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         c.startActivity(i);
@@ -193,39 +188,22 @@ public class ControllerLoginSignin {
         this.fragmentManager = fragmentManager;
     }
 
-
-    public void setAnalytics(FirebaseAnalytics analytics) {
-        this.analytics = analytics;
-    }
-
-
-
-
-    public void setGoogleSignInClient(GoogleSignInClient mGoogleSignInClient) {
-        this.googleSignInClient = mGoogleSignInClient;
-    }
-
-
     public void showMainActivity(Context c){
         Intent i = new Intent(c, MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         c.startActivity(i);
     }
 
-    public void signOut() {
-        googleSignInClient.signOut().addOnCompleteListener(activity, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                        printToast("Logout in corso...");
-                        showMainActivity(context);
-                    }
-                });
+
+    public void setAnalytics(FirebaseAnalytics analytics) {
+        this.analytics = analytics;
     }
 
-    public void ggg(){
+
+    public void signOut(){
 
     }
+
 
 }
 

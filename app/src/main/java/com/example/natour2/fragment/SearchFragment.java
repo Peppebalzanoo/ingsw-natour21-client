@@ -64,7 +64,6 @@ public class SearchFragment extends BaseFragment {
 
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
-        /* ****************************************************************************************** */
         return view;
     }
 

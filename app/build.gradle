@@ -98,6 +98,14 @@ dependencies {
 
     implementation 'com.github.ticofab:android-gpx-parser:2.2.0'
 
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.1.0'
+
+    implementation "com.github.skydoves:powerspinner:1.1.9"
+
+
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'

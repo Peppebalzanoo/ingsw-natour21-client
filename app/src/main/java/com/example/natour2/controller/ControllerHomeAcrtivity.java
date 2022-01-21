@@ -10,8 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour2.R;
-import com.example.natour2.fragment.AdminFragment;
-import com.example.natour2.fragment.BaseFragment;
+import com.example.natour2.fragment.AddItinerarioFragment;
 import com.example.natour2.fragment.ChatFragment;
 import com.example.natour2.fragment.HomeFragment;
 import com.example.natour2.fragment.NotificationFragment;
@@ -19,15 +18,9 @@ import com.example.natour2.fragment.ProfileFragment;
 import com.example.natour2.fragment.SearchFragment;
 import com.example.natour2.fragment.SelectUsersFragment;
 import com.example.natour2.fragment.UserFragment;
-import com.example.natour2.fragment.loginSignin.LoginFragment;
-import com.example.natour2.fragment.loginSignin.SignupFragment;
-import com.example.natour2.fragment.loginSignin.VerifyCodeFragment;
-import com.example.natour2.model.ChatMessage;
-import com.example.natour2.model.User;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.natour2.model.User;
+
 
 public class ControllerHomeAcrtivity {
     private final ControllerLoginSignin controllerLoginSignin = ControllerLoginSignin.getInstance();
@@ -84,6 +77,13 @@ public class ControllerHomeAcrtivity {
     public void showChatFragment(FragmentManager fragmentManager){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, new ChatFragment()); // give your fragment container id in first parameter
+        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+        transaction.commit();
+    }
+
+    public void showAddItinerarioFragment(FragmentManager fragmentManager){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame_layout_home, new AddItinerarioFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }

@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
@@ -17,10 +16,7 @@ import com.example.natour2.adapter.UserAdapter;
 import com.example.natour2.controller.ControllerHomeAcrtivity;
 import com.example.natour2.listeners.UserListener;
 import com.example.natour2.model.User;
-import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,9 +113,9 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
         List<User> users = new ArrayList<>();
         User user1 = new User();
         User user2 = new User();
-        user1.name = "pippo";
+        user1.nickname = "pippo";
         user1.email = "pippo@gmail.com";
-        user2.name = "pluto";
+        user2.nickname = "pluto";
         user2.email = "pluto@gmail.com";
         users.add(user1);
         users.add(user2);

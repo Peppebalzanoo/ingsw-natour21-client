@@ -1,8 +1,5 @@
 package com.example.natour2.adapter;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -56,7 +53,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         }
 
         void setUserData(User user){
-            binding.textName.setText(user.name);
+            binding.textName.setText(user.nickname);
             binding.textEmail.setText(user.email);
             //binding.imageProfile.setImageBitmap(getUserImage(user.image));
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));

@@ -89,6 +89,12 @@ public class HomeFragment extends BaseFragment {
                 ctrl.showNotificationFragment(getActivity().getSupportFragmentManager());
             }
         });
+        addItinerario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ctrl.showAddItinerarioFragment(getActivity().getSupportFragmentManager());
+            }
+        });
     }
 
     /* ****************************************************************************************** */

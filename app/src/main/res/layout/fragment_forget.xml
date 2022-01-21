@@ -1,62 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.loginSignin.ForgetPasswordFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center_horizontal">
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".LoginFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<ImageView
+    android:layout_width="500dp"
+    android:layout_height="264dp"
+    android:src="@drawable/image" />
 
-        <EditText
-            android:id="@+id/editTextMailBlakFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:ems="10"
-            android:hint="email"
-            android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+<TextView android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="NaTour21"
+    android:textColor="#0d6e6a"
+    android:textSize="35dp"
+    android:textStyle="bold"
+    android:letterSpacing="0.03"/>
 
-        <Button
-            android:id="@+id/buttonSendBlank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="360dp"
-            android:text="INVIA"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextNuovaPasswordBlank" />
+<EditText
+    android:id="@+id/editTextMailBlakFragment"
+    android:layout_width="350dp"
+    android:layout_height="45dp"
+    android:layout_marginTop="30dp"
+    android:background="@drawable/forget"
+    android:hint="@string/Username"
+    android:paddingLeft="20dp"
+    android:textColor="#0d6e6a"
+    android:textSize="18dp"
+    android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/editTextTextVecchiaPasswordBlank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="vecchai password"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextMailBlakFragment" />
+<EditText android:layout_width="350dp"
+    android:layout_height="45dp"
+    android:id="@+id/editTextTextVecchiaPasswordBlank"
+    android:background="@drawable/forget"
+    android:hint="@string/Password"
+    android:inputType="textPassword"
+    android:textColor="#0d6e6a"
+    android:textStyle="bold"
+    android:textSize="18dp"
+    android:layout_marginTop="20dp"
+    android:paddingLeft="20dp"/>
+<EditText android:layout_width="350dp"
+    android:layout_height="45dp"
+    android:id="@+id/editTextTextNuovaPasswordBlank"
+    android:background="@drawable/forget"
+    android:hint="@string/Password"
+    android:inputType="textPassword"
+    android:textColor="#0d6e6a"
+    android:textStyle="bold"
+    android:textSize="18dp"
+    android:layout_marginTop="20dp"
+    android:paddingLeft="20dp"/>
 
-        <EditText
-            android:id="@+id/editTextTextNuovaPasswordBlank"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:ems="10"
-            android:hint="nuova password"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextVecchiaPasswordBlank" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true">
+
+    <Button
+        android:id="@+id/buttonSendBlank"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button"
+        android:text="Login"
+        android:textColor="#FFF"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <ProgressBar
+        android:id="@+id/progessBarLogIn"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
+
 </FrameLayout>
+</LinearLayout>

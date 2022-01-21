@@ -32,4 +32,16 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/primary</item>
     </style>
 
+
+
+    <style name="filter" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+
+    </style>
+
+
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+    </style>
+
+
 </resources>

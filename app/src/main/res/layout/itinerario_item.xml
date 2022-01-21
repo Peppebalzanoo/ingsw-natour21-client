@@ -228,18 +228,6 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/contatta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="190dp"
-                android:text="contatta"
-                android:textColor="#000"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-
         </LinearLayout>
 
 
