@@ -42,7 +42,7 @@ public class ChatFragment extends BaseFragment{
     private Boolean isReceiverAvailable = false;
 
     private static User user = null;
-    private ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
+    private ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
 
     public ChatFragment() {
         // Required empty public constructor
@@ -52,6 +52,9 @@ public class ChatFragment extends BaseFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctrl.setActivity(getActivity());
+        ctrl.setContext(getActivity().getApplicationContext());
+        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
     }
 
     @Override
@@ -78,7 +81,7 @@ public class ChatFragment extends BaseFragment{
             @Override
             public void onClick(View v) {
                 //getActivity().onBackPressed();
-                ctrl.showUserFragment(getFragmentManager());
+                ctrl.showUserFragment();
             }
         });
 

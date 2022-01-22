@@ -1,90 +1,51 @@
 package com.example.natour2.fragment;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.ContentValues.TAG;
 
 import android.app.TimePickerDialog;
-import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import android.os.Environment;
-import android.os.FileUtils;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
-import android.provider.OpenableColumns;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeAcrtivity;
-import com.example.natour2.controller.ControllerLoginSignin;
 import com.example.natour2.utilities.MapViewCustom;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.tasks.Task;
-
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import io.ticofab.androidgpxparser.parser.GPXParser;
-import io.ticofab.androidgpxparser.parser.domain.Gpx;
-import io.ticofab.androidgpxparser.parser.domain.Track;
-import io.ticofab.androidgpxparser.parser.domain.TrackPoint;
-import io.ticofab.androidgpxparser.parser.domain.TrackSegment;
-import io.ticofab.androidgpxparser.parser.domain.WayPoint;
-
 public class AddItinerarioFragment extends Fragment {
 
-    private Button prova;
+    private Button btnSfoglia;
     private Button btnSelectTime;
     private MapViewCustom mapView;
+    private EditText txtNameItinerario;
+    private EditText editTextTextMultiLineDescrizione;
+    private Button btnAnnulla;
+    private Button btnPubblica;
     private String[] items = {"Facile", "Normale", "Difficile"};
     private int hour, minute;
-    private AutoCompleteTextView autoCompleteTextView;
 
-    ArrayAdapter<String> arrayAdapter;
-    ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
+    private ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
 
     public AddItinerarioFragment() {
         // Required empty public constructor
@@ -93,22 +54,34 @@ public class AddItinerarioFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctrl.setActivity(getActivity());
+        ctrl.setContext(getActivity().getApplicationContext());
+        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_add_itinerario, container, false);
-
-        prova = view.findViewById(R.id.button3);
         mapView = view.findViewById(R.id.mapView2);
         mapView.onCreate(savedInstanceState);
-        btnSelectTime = view.findViewById(R.id.btnSelectTime);
-        //autoCompleteTextView = view.findViewById(R.id.auto_complete_txt);
-      //  arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, items);
-//        autoCompleteTextView.setAdapter(arrayAdapter);
 
-        prova.setOnClickListener(new View.OnClickListener() {
+        initViewComponents(view);
+
+        return view;
+    }
+
+    private void initViewComponents(View view){
+
+        btnSfoglia = view.findViewById(R.id.btnSfoglia);
+        btnSelectTime = view.findViewById(R.id.btnSelectTime);
+        txtNameItinerario = view.findViewById(R.id.txtNameItinerario);
+        editTextTextMultiLineDescrizione = view.findViewById(R.id.editTextTextMultiLineDescrizione);
+        btnAnnulla = view.findViewById(R.id.btnAnnulla);
+        btnPubblica = view.findViewById(R.id.btnPubblica);
+
+
+        btnSfoglia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
@@ -126,17 +99,19 @@ public class AddItinerarioFragment extends Fragment {
             }
         });
 
-        /*
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        btnAnnulla.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(getContext(), "Item: "+ item, Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                ctrl.showHomeFragment();
             }
         });
-*/
 
-        return view;
+        btnPubblica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Funzione per pubblicare
+            }
+        });
     }
 
 

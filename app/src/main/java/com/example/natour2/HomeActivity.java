@@ -13,13 +13,17 @@ public class HomeActivity extends AppCompatActivity {
     //ciao peppe
     private MeowBottomNavigation bottomNavigation;
 
-    private final ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
+    private final ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        //this.getSupportActionBar().hide();
+        this.getSupportActionBar().hide();
+
+        ctrl.setActivity(this);
+        ctrl.setContext(this);
+        ctrl.setFragmentManager(getSupportFragmentManager());
 
         //Assign variable
         bottomNavigation = findViewById(R.id.bottom_navigation);
@@ -62,19 +66,19 @@ public class HomeActivity extends AppCompatActivity {
     private void showItem(int itemID){
         switch (itemID){
             case 1: {
-                ctrl.showHomeFragment(getSupportFragmentManager());
+                ctrl.showHomeFragment();
                 break;
             }
             case 2: {
-                ctrl.showSearchFragment(getSupportFragmentManager());
+                ctrl.showSearchFragment();
                 break;
             }
             case 3: {
-                ctrl.showUserFragment(getSupportFragmentManager());
+                ctrl.showUserFragment();
                 break;
             }
             case 4: {
-                ctrl.showProfileFragment(getSupportFragmentManager());
+                ctrl.showProfileFragment();
                 break;
             }
         }

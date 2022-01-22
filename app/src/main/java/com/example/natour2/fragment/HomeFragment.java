@@ -28,7 +28,7 @@ public class HomeFragment extends BaseFragment {
     private ImageView addItinerario;
     private ImageView notification;
 
-    private final ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
+    private final ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -42,6 +42,9 @@ public class HomeFragment extends BaseFragment {
         //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         //loadUserDetails();
 
+        ctrl.setActivity(getActivity());
+        ctrl.setContext(getActivity().getApplicationContext());
+        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
 
     }
 
@@ -86,13 +89,13 @@ public class HomeFragment extends BaseFragment {
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ctrl.showNotificationFragment(getActivity().getSupportFragmentManager());
+                ctrl.showNotificationFragment();
             }
         });
         addItinerario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ctrl.showAddItinerarioFragment(getActivity().getSupportFragmentManager());
+                ctrl.showAddItinerarioFragment();
             }
         });
     }

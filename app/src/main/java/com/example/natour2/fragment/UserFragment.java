@@ -34,7 +34,7 @@ public class UserFragment extends BaseFragment implements ConversionListener {
     private ProgressBar progressBarUserFragment;
 
 
-    private final ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
+    private final ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
 
 
     public UserFragment() {
@@ -46,6 +46,10 @@ public class UserFragment extends BaseFragment implements ConversionListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
+
+        ctrl.setActivity(getActivity());
+        ctrl.setContext(getActivity().getApplicationContext());
+        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
 
         conversations = new ArrayList<>();
         conversationsAdapter = new RecentConversationsAdapter(conversations, this);
@@ -63,7 +67,7 @@ public class UserFragment extends BaseFragment implements ConversionListener {
         fabNewChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               ctrl.showSelectUserFragment(getActivity().getSupportFragmentManager());
+               ctrl.showSelectUserFragment();
             }
         });
         recyclerViewConversation = view.findViewById(R.id.conversationRecyclerView);

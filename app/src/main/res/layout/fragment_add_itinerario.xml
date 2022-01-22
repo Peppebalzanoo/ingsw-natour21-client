@@ -12,25 +12,25 @@
         android:layout_height="match_parent">
 
 
-
         <com.example.natour2.utilities.MapViewCustom
             android:id="@+id/mapView2"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginTop="196dp"
+            android:layout_width="383dp"
+            android:layout_height="212dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:background="#bbbbbb"
             android:clickable="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             app:uiCompass="true"
             app:uiZoomControls="true"
             app:zOrderOnTop="true" />
 
         <LinearLayout
-            android:layout_width="409dp"
-            android:layout_height="190dp"
+            android:id="@+id/linearLayout"
+            android:layout_width="413dp"
+            android:layout_height="217dp"
             android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
@@ -38,6 +38,53 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="PUBBLICA UN NUOVO ITINERARIO"
+                android:textColor="#000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingTop="1dp"
+                    android:paddingEnd="10dp"
+                    android:text="Nome: "
+                    android:textColor="#000"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/txtNameItinerario"
+                    android:layout_width="230dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@drawable/forget"
+                    android:hint="Nome"
+                    android:paddingLeft="20dp"
+                    android:textColor="#0d6e6a"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
 
             <!--
@@ -69,44 +116,106 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Scegli difficoltà"
-                    android:textColor="#0d6e6a"
-                    android:textStyle="bold"
                     android:gravity="center"
-                    android:paddingTop="20dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="5dp"
+                    android:text="Difficoltà: "
+                    android:textColor="#000"
                     android:textSize="17dp"
-                    android:paddingEnd="10dp"
-                    android:paddingStart="10dp"/>
+                    android:textStyle="bold" />
 
                 <com.google.android.material.chip.ChipGroup
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    app:singleSelection="true"
                     android:layout_gravity="center"
-                    >
+
+                    app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
+                        style="@style/CustomChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/CustomChipStyle"
-                        android:theme="@style/Theme.ChatApp"
-                        android:text="Facile" />
+                        android:text="Facile"
+                        android:theme="@style/Theme.ChatApp" />
+
                     <com.google.android.material.chip.Chip
+                        style="@style/CustomChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/CustomChipStyle"
-                        android:theme="@style/Theme.ChatApp"
-                        android:text="Normale"/>
+                        android:text="Normale"
+                        android:theme="@style/Theme.ChatApp" />
+
                     <com.google.android.material.chip.Chip
+                        style="@style/CustomChipStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/CustomChipStyle"
-                        android:theme="@style/Theme.ChatApp"
-                        android:text="Difficle" />
+                        android:text="Difficle"
+                        android:theme="@style/Theme.ChatApp" />
 
                 </com.google.android.material.chip.ChipGroup>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:text="Durata: "
+                    android:textColor="#000"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+
+                <Button
+                    android:id="@+id/btnSelectTime"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/button"
+                    android:text="00:00" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingTop="7dp"
+                    android:paddingEnd="10dp"
+                    android:text="Inserisci percorso itinerario: "
+                    android:textColor="#000"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnSfoglia"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/button"
+                    android:text="Sfoglia" />
 
             </LinearLayout>
 
@@ -114,26 +223,46 @@
 
 
 
-            <Button
-                android:id="@+id/btnSelectTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="SELECT TIME" />
-
-
-
-
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="Button" />
         </LinearLayout>
+
+        <EditText
+            android:id="@+id/editTextTextMultiLineDescrizione"
+            android:layout_width="389dp"
+            android:layout_height="121dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/forget"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="     Scrivi una descrizione..."
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mapView2" />
+
+        <Button
+            android:id="@+id/btnPubblica"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/button"
+            android:text="pubblica"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLineDescrizione" />
+
+        <Button
+            android:id="@+id/btnAnnulla"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/button"
+            android:text="Annulla"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextMultiLineDescrizione" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <!-- TODO: Update blank fragment layout -->

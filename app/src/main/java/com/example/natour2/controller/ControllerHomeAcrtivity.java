@@ -2,6 +2,7 @@ package com.example.natour2.controller;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -23,14 +24,24 @@ import com.example.natour2.model.User;
 
 
 public class ControllerHomeAcrtivity {
-    private final ControllerLoginSignin controllerLoginSignin = ControllerLoginSignin.getInstance();
 
+    private static ControllerHomeAcrtivity ctrlInstance;
+    private Activity activity = null;
+    private Context context = null;
+    private FragmentManager fragmentManager = null;
 
-    public ControllerHomeAcrtivity(){
+    private ControllerHomeAcrtivity(){
+    }
+
+    public static ControllerHomeAcrtivity getInstance(){
+        if(ctrlInstance == null) {
+            ctrlInstance = new ControllerHomeAcrtivity();
+        }
+        return ctrlInstance;
     }
 
 
-    public void showHomeFragment(FragmentManager fragmentManager){
+    public void showHomeFragment(){
         //activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new SignupFragment()).commit();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, new HomeFragment()); // give your fragment container id in first parameter
@@ -38,28 +49,28 @@ public class ControllerHomeAcrtivity {
         transaction.commit();
     }
 
-    public void showProfileFragment(FragmentManager fragmentManager){
+    public void showProfileFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home,  new ProfileFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
 
-    public void showSearchFragment(FragmentManager fragmentManager){
+    public void showSearchFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, new SearchFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
 
-    public void showNotificationFragment(FragmentManager fragmentManager){
+    public void showNotificationFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, new NotificationFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
 
-    public void showUserFragment(FragmentManager fragmentManager){
+    public void showUserFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, new UserFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
@@ -67,21 +78,21 @@ public class ControllerHomeAcrtivity {
     }
 
 
-    public void showSelectUserFragment(FragmentManager fragmentManager){
+    public void showSelectUserFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, new SelectUsersFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
 
-    public void showChatFragment(FragmentManager fragmentManager){
+    public void showChatFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, new ChatFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
 
-    public void showAddItinerarioFragment(FragmentManager fragmentManager){
+    public void showAddItinerarioFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, new AddItinerarioFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
@@ -103,6 +114,21 @@ public class ControllerHomeAcrtivity {
         ChatFragment c = new ChatFragment();
         c.pippo(u);
         return c;
+    }
+
+
+    public void setActivity(Activity activity){
+        this.activity = activity;
+    }
+
+
+    public void setContext(Context context){
+        this.context = context;
+    }
+
+
+    public void setFragmentManager(FragmentManager fragmentManager){
+        this.fragmentManager = fragmentManager;
     }
 
 }

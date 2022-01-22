@@ -28,7 +28,7 @@ import java.util.Random;
 
 public class MessagingService extends FirebaseMessagingService {
 
-    private ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
+    private ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
 
     /*@Override
     public void onNewToken(@NonNull String token) {

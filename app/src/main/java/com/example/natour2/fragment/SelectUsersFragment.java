@@ -34,7 +34,7 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
     private RecyclerView userRecyclerView;
     private AppCompatImageView imageBackSelectUser;
 
-    private final ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
+    private final ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
 
 
 
@@ -47,6 +47,9 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
+        ctrl.setActivity(getActivity());
+        ctrl.setContext(getActivity().getApplicationContext());
+        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
     }
 
     @Override
@@ -70,7 +73,7 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
             @Override
             public void onClick(View v) {
                 //v -> getActivity().onBackPressed()
-                ctrl.showUserFragment(getFragmentManager());
+                ctrl.showUserFragment();
             }
         });
 
@@ -149,7 +152,7 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
     @Override
     public void onUserClicked(User user) {
         ctrl.setUser(user);
-        ctrl.showChatFragment(getFragmentManager());
+        ctrl.showChatFragment();
 
     }
 

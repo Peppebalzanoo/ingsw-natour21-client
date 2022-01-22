@@ -75,7 +75,7 @@ public class ProfileFragment extends BaseFragment {
     private Button buttonLogOut;
     /* ****************************************************************************************** */
 
-    private final ControllerHomeAcrtivity ctrl = new ControllerHomeAcrtivity();
+    private final ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
     private final ControllerLoginSignin ctrl2 = ControllerLoginSignin.getInstance();
 
 
@@ -91,6 +91,9 @@ public class ProfileFragment extends BaseFragment {
         ctrl2.setActivity(getActivity());
         ctrl2.setContext(getActivity().getApplicationContext());
         ctrl2.setFragmentManager(getActivity().getSupportFragmentManager());
+        ctrl.setActivity(getActivity());
+        ctrl.setContext(getActivity().getApplicationContext());
+        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
         /* ************************************************************************************** */
         //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         /* ************************************************************************************** */
