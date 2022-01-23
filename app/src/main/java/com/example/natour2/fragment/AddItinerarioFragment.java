@@ -141,6 +141,7 @@ public class AddItinerarioFragment extends Fragment {
                             String readedTexFromUri = null;
                             try {
                                 readedTexFromUri = readTextFromUri(uri);
+                                System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& Stampo GPX: " + readedTexFromUri);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

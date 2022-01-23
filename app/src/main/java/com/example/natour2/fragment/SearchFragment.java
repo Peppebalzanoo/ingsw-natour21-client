@@ -1,5 +1,6 @@
 package com.example.natour2.fragment;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TimePicker;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
@@ -20,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchFragment extends BaseFragment {
 
@@ -33,6 +36,8 @@ public class SearchFragment extends BaseFragment {
     private BottomSheetDialog dialog;
     /* ****************************************************************************************** */
 
+    private Button btnSelectTimeFilter;
+    private int hour, minute;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -66,13 +71,24 @@ public class SearchFragment extends BaseFragment {
         recyclerView.setAdapter(itinerarioAdapter);
 
         /* ****************************************************************************************** */
+
         buttonFiltersFloating = view.findViewById(R.id.buttonFiltersFloating);
+
 
         dialog = new BottomSheetDialog(getContext());
         dialog.setContentView(R.layout.bottom_dialog);
         dialog.setCanceledOnTouchOutside(false);
 
         buttonApply = dialog.findViewById(R.id.buttonApply);
+
+        btnSelectTimeFilter = dialog.findViewById(R.id.btnSelectTimeFilter);
+
+        btnSelectTimeFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popTimePicker(view);
+            }
+        });
 
         buttonFiltersFloating.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +110,19 @@ public class SearchFragment extends BaseFragment {
         return view;
     }
 
+    private void popTimePicker(View view){
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                hour = selectedHour;
+                minute = selectedMinute;
+                btnSelectTimeFilter.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
+            }
+        };
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), onTimeSetListener, hour, minute, true);
+        timePickerDialog.setTitle("Select Time");
+        timePickerDialog.show();
+    }
 
     private void readItinerari(){
         Itinerario itr1 = new Itinerario("sentiero", "01:14", "facile", "bello il sentiero", "antonio", "pippo");
