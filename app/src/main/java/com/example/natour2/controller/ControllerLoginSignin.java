@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.natour2.HomeActivity;
 import com.example.natour2.MainActivity;
 import com.example.natour2.auth.Cognito;
+import com.example.natour2.dao.UserDao;
 import com.example.natour2.fragment.AdminFragment;
 import com.example.natour2.HomeAdmin;
 import com.example.natour2.fragment.loginSignin.ForgetPasswordFragment;
@@ -19,12 +20,17 @@ import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.R;
 import com.example.natour2.fragment.loginSignin.SignupFragment;
 import com.example.natour2.fragment.loginSignin.VerifyCodeFragment;
+import com.example.natour2.model.User;
+import com.example.natour2.utilities.RetrofitInstance;
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import java.io.IOException;
+
+import retrofit2.Call;
 
 
 public class ControllerLoginSignin {
 
-    private static ControllerLoginSignin ctrlInstance;
     private Activity activity = null;
     private Context context = null;
     private FragmentManager fragmentManager = null;
@@ -33,6 +39,8 @@ public class ControllerLoginSignin {
     private String matricolaAdim;
 
     private FirebaseAnalytics analytics;
+
+    private static ControllerLoginSignin ctrlInstance;
 
     private ControllerLoginSignin(){ }
 
@@ -162,16 +170,16 @@ public class ControllerLoginSignin {
 
     public void loginAdmin(String matricolaAdmin, String passwordAdmin) {
         //signupAdmin(matricolaAdmin, passwordAdmin);
-        Cognito authentication = new Cognito(context, "admin");
-        authentication.adminLogIn(matricolaAdmin, passwordAdmin);
+       // Cognito authentication = new Cognito(context, "admin");
+        //authentication.adminLogIn(matricolaAdmin, passwordAdmin);
     }
 
 
     public void signupAdmin(String username, String password){
         this.matricolaAdim = username;
-        Cognito authentication = new Cognito(context, "admin");
-        authentication.addAttributesAdmin("name", username);
-        authentication.adminSignUpInBackground(username, password);
+        //Cognito authentication = new Cognito(context, "admin");
+        //authentication.addAttributesAdmin("name", username);
+       // authentication.adminSignUpInBackground(username, password);
     }
 
     public void setActivity(Activity activity){
@@ -204,6 +212,25 @@ public class ControllerLoginSignin {
 
     }
 
+    private final UserDao userDAO = RetrofitInstance.getRetrofitInstance().create(UserDao.class);
+    public void setUser(String token){
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                User result;
+                Call<User> call = userDAO.setUser(token);
+                try {
+                    result = call.execute().body();
+                    //System.out.println("*************************************** username: "+ result.toString());
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore");
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+    }
 
 }
 

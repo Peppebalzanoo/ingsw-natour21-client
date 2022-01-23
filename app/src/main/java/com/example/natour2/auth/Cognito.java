@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
@@ -21,19 +22,28 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHa
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
+import com.example.natour2.controller.ControllerHomeAcrtivity;
 import com.example.natour2.controller.ControllerLoginSignin;
 
 public class Cognito {
 
 
-    private String userPoolUsersId = "eu-west-3_40SDNNCeI";
-    private String clientId = "1fpi4iq7v0c9nauceoij11gnht";
-    private String clientSecret= "rdg4q87k7b750tpsk18mgh32hivu854h0mg1eahoa9r1m4ar2rf";
+    //private String userPoolUsersId = "eu-west-3_40SDNNCeI";
+    //private String clientId = "1fpi4iq7v0c9nauceoij11gnht";
+    //private String clientSecret= "rdg4q87k7b750tpsk18mgh32hivu854h0mg1eahoa9r1m4ar2rf";
+
+    private String userPoolUsersId = " ";
+    private String clientId = " ";
+    private String clientSecret= " ";
     private Regions cognitoRegion =  ;
     private CognitoUserPool userPoolUsers;
     private CognitoUserAttributes userAttributes;
     private Context context;
     private String userPassword;
+
+
+
+
 
     private String userPoolAdminsId = "eu-west-3_3VRktEGN7";
     private String clientIdAdmin = "78f9mtuk5q1n6t4r3129087ffr";
@@ -46,7 +56,7 @@ public class Cognito {
     static String tokenUser;
     static String tokenAdmin;
 
-    //fogab73794@leezro.com
+    //pippo
     //Pippo90!
 
 
@@ -57,12 +67,14 @@ public class Cognito {
         userPoolUsers = new CognitoUserPool(context, this.userPoolUsersId, this.clientId, this.clientSecret, this.cognitoRegion);
         userAttributes = new CognitoUserAttributes();
     }
-
+/*
     public Cognito(Context context, String type){
         this.context = context;
         userPoolAdmins = new CognitoUserPool(context, this.userPoolAdminsId, this.clientIdAdmin, this.clientSecretAdmin, this.cognitoRegion);
         adminAttributes = new CognitoUserAttributes();
     }
+
+ */
 
     public void addAttributesAdmin(String key, String value){
         adminAttributes.addAttribute(key, value);
@@ -79,8 +91,10 @@ public class Cognito {
     }
 
     SignUpHandler signUpCallBack = new SignUpHandler() {
+
+
         @Override
-        public void onSuccess(CognitoUser user, SignUpResult signUpResult) {
+        public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
             ctrl.showVerifyCodeFragment();
             Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE EFFETTUATA CORRETTAMENTE!");
         }
@@ -97,6 +111,61 @@ public class Cognito {
     //LOGIN UTENTE - ACCESSO
     public void userLogIn(String userId, String password){
         if(!userId.isEmpty() && !password.isEmpty()) {
+
+            // Callback handler for the sign-in process
+            AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
+                @Override
+                public void authenticationChallenge(ChallengeContinuation continuation) { }
+
+                @Override
+                public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+                    Toast.makeText(context,"Accesso effettuato!", Toast.LENGTH_LONG).show();
+                    Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO EFFETTUATO CORRETTAMENTE!");
+                    ctrl.setUser(userSession.getIdToken().getJWTToken());
+                    ctrl.showHomeActivity(context);
+                    ControllerHomeAcrtivity ctrl1 = ControllerHomeAcrtivity.getInstance();
+                    ctrl1.setToken(userSession.getIdToken().getJWTToken());
+                    Log.i("COGNITO TOKEN ID USER","******************************************************** ID: "+userSession.getIdToken().getJWTToken());
+                    Log.i("COGNITO TOKEN USER","******************************************************** ACCESS: "+userSession.getAccessToken().getJWTToken());
+                    Log.i("COGNITO TOKEN USER","******************************************************** REFRESH.get: "+userSession.getRefreshToken().getToken());
+
+                    tokenUser = userSession.getIdToken().getJWTToken();
+
+                }
+
+                @Override
+                public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
+                    // The API needs user sign-in credentials to continue
+                    AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, userPassword, null);
+
+                    // Pass the user sign-in credentials to the continuation
+                    authenticationContinuation.setAuthenticationDetails(authenticationDetails);
+
+                    // Allow the sign-in to continue
+                    authenticationContinuation.continueTask();
+                }
+
+                @Override
+                public void getMFACode(MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation) {
+                    // Multi-factor authentication is required; get the verification code from user
+                    //multiFactorAuthenticationContinuation.setMfaCode(mfaVerificationCode);
+                    // Allow the sign-in process to continue
+                    //multiFactorAuthenticationContinuation.continueTask();
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    // Sign-in failed, check exception for the cause
+                    Toast.makeText(context,"Accesso fallito!", Toast.LENGTH_LONG).show();
+                    Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO FALLITO EXCEPTION: "+exception.getLocalizedMessage());
+                }
+
+
+            };
+
+
+
+
             CognitoUser cognitoUser = userPoolUsers.getUser(userId);
             this.userPassword = password;
             cognitoUser.getSessionInBackground(authenticationHandler);
@@ -106,50 +175,6 @@ public class Cognito {
         }
     }
 
-    // Callback handler for the sign-in process
-    AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
-        @Override
-        public void authenticationChallenge(ChallengeContinuation continuation) { }
-
-        @Override
-        public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-            Toast.makeText(context,"Accesso effettuato!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO EFFETTUATO CORRETTAMENTE!");
-            ctrl.showHomeActivity(context);
-            Log.i("COGNITO TOKEN USER","******************************************************** COGNITO_TOKEN ADMIN: "+userSession.getIdToken().getJWTToken());
-            tokenUser = userSession.getIdToken().getJWTToken();
-
-        }
-
-        @Override
-        public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
-            // The API needs user sign-in credentials to continue
-            AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, userPassword, null);
-
-            // Pass the user sign-in credentials to the continuation
-            authenticationContinuation.setAuthenticationDetails(authenticationDetails);
-
-            // Allow the sign-in to continue
-            authenticationContinuation.continueTask();
-        }
-
-        @Override
-        public void getMFACode(MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation) {
-            // Multi-factor authentication is required; get the verification code from user
-            //multiFactorAuthenticationContinuation.setMfaCode(mfaVerificationCode);
-            // Allow the sign-in process to continue
-            //multiFactorAuthenticationContinuation.continueTask();
-        }
-
-        @Override
-        public void onFailure(Exception exception) {
-            // Sign-in failed, check exception for the cause
-            Toast.makeText(context,"Accesso fallito!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO FALLITO EXCEPTION: "+exception.getLocalizedMessage());
-        }
-
-
-    };
     //**********************************************************************************************
     //VERICATION USER - VERIFICA UTENTE
     public void confirmVerificationCodeUser(String userId, String codiceDiVerifica){
@@ -203,9 +228,11 @@ public class Cognito {
     }
 
     SignUpHandler signUpCallBackAdmin = new SignUpHandler() {
+
         @Override
-        public void onSuccess(CognitoUser user, SignUpResult signUpResult) {
+        public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
             Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE EFFETTUATA CORRETTAMENTE!");
+
         }
 
         @Override

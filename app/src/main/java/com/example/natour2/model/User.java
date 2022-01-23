@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User{
-    public String nickname;
-    //public String image;
+    public long id;
+    public String username;
     public String email;
+    //public String image;
     //public String token;
-    public String id;
+    public String idString;
 
 }

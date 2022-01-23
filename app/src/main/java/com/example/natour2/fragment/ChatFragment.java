@@ -95,7 +95,7 @@ public class ChatFragment extends BaseFragment{
 
     private void loadReceiverDetails() {
         receiverUser = user;
-        textNameChat.setText(receiverUser.nickname);
+        textNameChat.setText(receiverUser.username);
     }
 
     /*private void init() {

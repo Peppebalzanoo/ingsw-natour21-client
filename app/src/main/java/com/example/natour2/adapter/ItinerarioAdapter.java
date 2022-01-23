@@ -1,26 +1,36 @@
 package com.example.natour2.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.PointerIcon;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
+import com.example.natour2.controller.ControllerHomeAcrtivity;
 import com.example.natour2.model.Itinerario;
 import com.example.natour2.utilities.MapViewCustom;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PointOfInterest;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -70,9 +80,8 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView profileImage;
-        public TextView username, name, durata, diff, descrizione, segnala;
-        public Button dettaglio;
+        public ImageView profileImage, infoDettaglio;
+        public TextView username, name, durata, diff, descrizione, segnala, dettaglio;
         public MapViewCustom mapView;
 
 
@@ -93,8 +102,25 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
             diff = itemView.findViewById(R.id.difficolta);
             descrizione = itemView.findViewById(R.id.descrizione);
             segnala = itemView.findViewById(R.id.segnala);
-            // dettaglio = itemView.findViewById(R.id.dettaglio);
+            dettaglio = itemView.findViewById(R.id.textViewDettaglio);
             mapView = itemView.findViewById(R.id.mapView);
+            infoDettaglio = itemView.findViewById(R.id.imageViewDettaglio);
+
+            dettaglio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //System.out.println("***************************************************+ Potition " + mItinerario.get(getAdapterPosition()).getName());
+                    ControllerHomeAcrtivity.getInstance().pippo();
+                }
+            });
+
+            infoDettaglio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("***************************************************+ Potition " + mItinerario.get(getAdapterPosition()).getName());
+                }
+            });
+
 
         }
     }
@@ -118,11 +144,31 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                         mContext.getResources().getIdentifier("mapstogpx20220113_210828",
                                 "raw", mContext.getPackageName()));
 
+                LatLng start = new LatLng(40.7753594015775, 14.46880965563265);
+                MarkerOptions options = new MarkerOptions();
+                options.position(start);
+                //options.icon(BitmapDescriptorFactory.fromResource(mContext.getResources().getIdentifier("ic_1","drawable", mContext.getPackageName())));
+                options.icon(bitmapDescriptorFromVector(mContext, R.drawable.ic_home));
+                googleMap.addMarker(options);
+
                 mapView.getMap(googleMap, in);
                 mapView.onResume();
                 mapView.onEnterAmbient(null);
             }
         });
+    }
+
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_home);
+        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
+        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        background.draw(canvas);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
 }

@@ -116,9 +116,9 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
         List<User> users = new ArrayList<>();
         User user1 = new User();
         User user2 = new User();
-        user1.nickname = "pippo";
+        user1.username = "pippo";
         user1.email = "pippo@gmail.com";
-        user2.nickname = "pluto";
+        user2.username = "pluto";
         user2.email = "pluto@gmail.com";
         users.add(user1);
         users.add(user2);

@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour2.R;
+import com.example.natour2.dao.UserDao;
 import com.example.natour2.fragment.AddItinerarioFragment;
 import com.example.natour2.fragment.ChatFragment;
 import com.example.natour2.fragment.HomeFragment;
@@ -21,6 +22,14 @@ import com.example.natour2.fragment.SelectUsersFragment;
 import com.example.natour2.fragment.UserFragment;
 
 import com.example.natour2.model.User;
+import com.example.natour2.utilities.RetrofitInstance;
+
+import java.io.IOException;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ControllerHomeAcrtivity {
@@ -29,6 +38,8 @@ public class ControllerHomeAcrtivity {
     private Activity activity = null;
     private Context context = null;
     private FragmentManager fragmentManager = null;
+
+    private String token;
 
     private ControllerHomeAcrtivity(){
     }
@@ -129,6 +140,38 @@ public class ControllerHomeAcrtivity {
 
     public void setFragmentManager(FragmentManager fragmentManager){
         this.fragmentManager = fragmentManager;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    private final UserDao userDAO = RetrofitInstance.getRetrofitInstance().create(UserDao.class);
+
+
+    public void pippo(){
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                User result;
+                Call<User> call = userDAO.getUserByUsername(token);
+                try {
+                    result = call.execute().body();
+                    System.out.println("*************************************** username: "+ result.toString());
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore");
+                    e.printStackTrace();
+                }
+            }
+        });
+       t1.start();
+
+
     }
 
 }
