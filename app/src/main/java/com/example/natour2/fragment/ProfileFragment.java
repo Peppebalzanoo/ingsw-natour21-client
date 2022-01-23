@@ -122,12 +122,10 @@ public class ProfileFragment extends BaseFragment {
         imageViewChangeProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Boolean permission1 = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
-                Boolean permission2 = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
-                if(permission1 && permission2){
+                if(checkPermission()){
                     selectImageFromGallery();
                 }else {
-                    CheckPermission(permission1, permission2);
+                    requestPermission();
                 }
             }
         });
@@ -147,18 +145,22 @@ public class ProfileFragment extends BaseFragment {
         itinerarioList.add(itr1);
         itinerarioList.add(itr2);
 
-        itinerarioAdapter.notifyDataSetChanged(); //*********************
+        //itinerarioAdapter.notifyDataSetChanged(); //*********************
+        itinerarioAdapter.notifyItemInserted(0);
+        itinerarioAdapter.notifyItemInserted(1);
     }
 
-
-    public void CheckPermission(Boolean perm1, Boolean perm2){
-        if(perm1 == perm2){
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
-        }else if(perm1){
-            ActivityCompat.requestPermissions(getActivity(),new String[] { Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
-        }else{
-            ActivityCompat.requestPermissions(getActivity(),new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 3);
+    public boolean checkPermission(){
+        Boolean permission1 = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        Boolean permission2 = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        if(permission1 && permission2){
+            return true;
         }
+        return false;
+    }
+
+    public void requestPermission(){
+        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
     }
 
     public void selectImageFromGallery(){
