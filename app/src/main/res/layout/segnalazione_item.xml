@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView_CostumListView"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_CostumListView"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView_CostumListView5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_CostumListView10"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:text="Titolo Segnalazione"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView_CostumListView8"
+            app:layout_constraintTop_toBottomOf="@+id/textView_CostumListView" />
+
+        <TextView
+            android:id="@+id/textView_CostumListView12"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:text="Utente 1"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView_CostumListView9"
+            app:layout_constraintTop_toBottomOf="@+id/textView_CostumListView10" />
+
+        <TextView
+            android:id="@+id/textView_CostumListView5"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:text="Itinerario:"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/imageView_CostumListView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_CostumListView8"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:text="Titolo:"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/imageView_CostumListView"
+            app:layout_constraintTop_toBottomOf="@+id/textView_CostumListView5" />
+
+        <TextView
+            android:id="@+id/textView_CostumListView9"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:text="Segnalatore:"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/imageView_CostumListView"
+            app:layout_constraintTop_toBottomOf="@+id/textView_CostumListView8" />
+
+        <TextView
+            android:id="@+id/textView_CostumListView2"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="68dp"
+            android:text="Utente:"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_CostumListView9" />
+
+        <TextView
+            android:id="@+id/textView_CostumListView3"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:text="Utente 2"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView_CostumListView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView_CostumListView12" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>

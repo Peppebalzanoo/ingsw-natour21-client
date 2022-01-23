@@ -1,12 +1,8 @@
 package com.example.natour2.controller;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
 
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -20,16 +16,12 @@ import com.example.natour2.fragment.ProfileFragment;
 import com.example.natour2.fragment.SearchFragment;
 import com.example.natour2.fragment.SelectUsersFragment;
 import com.example.natour2.fragment.UserFragment;
-
 import com.example.natour2.model.User;
 import com.example.natour2.utilities.RetrofitInstance;
 
 import java.io.IOException;
-import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ControllerHomeAcrtivity {

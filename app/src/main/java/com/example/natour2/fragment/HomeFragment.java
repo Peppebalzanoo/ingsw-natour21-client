@@ -60,9 +60,11 @@ public class HomeFragment extends BaseFragment {
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
+
         recyclerView.setLayoutManager(linearLayoutManager);
         itinerarioList = new ArrayList<>();
         itinerarioAdapter = new ItinerarioAdapter(getContext(), itinerarioList, savedInstanceState, recyclerView);

@@ -14,7 +14,7 @@ import com.example.natour2.MainActivity;
 import com.example.natour2.auth.Cognito;
 import com.example.natour2.dao.UserDao;
 import com.example.natour2.fragment.AdminFragment;
-import com.example.natour2.HomeAdmin;
+import com.example.natour2.HomeAdminActivity;
 import com.example.natour2.fragment.loginSignin.ForgetPasswordFragment;
 import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.R;
@@ -124,7 +124,7 @@ public class ControllerLoginSignin {
     }
 
     public void showHomeAdminActivity(Context c){
-        Intent i = new Intent(c, HomeAdmin.class);
+        Intent i = new Intent(c, HomeAdminActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         c.startActivity(i);
     }
