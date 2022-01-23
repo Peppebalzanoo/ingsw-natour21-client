@@ -1,7 +1,6 @@
 package com.example.natour2.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.RecentConversationsAdapter;
-import com.example.natour2.controller.ControllerHomeAcrtivity;
+import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.listeners.ConversionListener;
 import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.User;
@@ -34,7 +33,7 @@ public class UserFragment extends BaseFragment implements ConversionListener {
     private ProgressBar progressBarUserFragment;
 
 
-    private final ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
+    private final ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
 
 
     public UserFragment() {

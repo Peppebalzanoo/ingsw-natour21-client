@@ -13,14 +13,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
 import com.example.natour2.R;
-import com.example.natour2.controller.ControllerHomeAcrtivity;
+import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.utilities.MapViewCustom;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,7 +43,7 @@ public class AddItinerarioFragment extends Fragment {
     private String[] items = {"Facile", "Normale", "Difficile"};
     private int hour, minute;
 
-    private ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
+    private ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
 
     public AddItinerarioFragment() {
         // Required empty public constructor

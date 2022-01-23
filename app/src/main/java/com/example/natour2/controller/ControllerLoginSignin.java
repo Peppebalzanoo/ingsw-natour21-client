@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
@@ -39,6 +41,7 @@ public class ControllerLoginSignin {
     private String matricolaAdim;
 
     private FirebaseAnalytics analytics;
+
 
     private static ControllerLoginSignin ctrlInstance;
 
@@ -101,12 +104,19 @@ public class ControllerLoginSignin {
 
     }
 
+    /*
     public void printToast(String str){
         activity.runOnUiThread(new Runnable() {
             public void run() {
                 Toast.makeText(activity, str, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void showMainActivity(Context c){
+        Intent i = new Intent(c, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        c.startActivity(i);
     }
 
     /*public void showHomeActivity(){
@@ -125,10 +135,9 @@ public class ControllerLoginSignin {
 
     public void showHomeAdminActivity(Context c){
         Intent i = new Intent(c, HomeAdminActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
         c.startActivity(i);
     }
-
 
 
     public void showSignupFragment(){
@@ -145,6 +154,7 @@ public class ControllerLoginSignin {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 
     public void showAdminFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -169,11 +179,10 @@ public class ControllerLoginSignin {
 
 
     public void loginAdmin(String matricolaAdmin, String passwordAdmin) {
-        //signupAdmin(matricolaAdmin, passwordAdmin);
-       // Cognito authentication = new Cognito(context, "admin");
-        //authentication.adminLogIn(matricolaAdmin, passwordAdmin);
+        signupAdmin(matricolaAdmin, passwordAdmin);
+        Cognito authentication = new Cognito(context, "admin");
+        authentication.adminLogIn(matricolaAdmin, passwordAdmin);
     }
-
 
     public void signupAdmin(String username, String password){
         this.matricolaAdim = username;
@@ -196,11 +205,6 @@ public class ControllerLoginSignin {
         this.fragmentManager = fragmentManager;
     }
 
-    public void showMainActivity(Context c){
-        Intent i = new Intent(c, MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        c.startActivity(i);
-    }
 
 
     public void setAnalytics(FirebaseAnalytics analytics) {
@@ -208,9 +212,6 @@ public class ControllerLoginSignin {
     }
 
 
-    public void signOut(){
-
-    }
 
     private final UserDao userDAO = RetrofitInstance.getRetrofitInstance().create(UserDao.class);
     public void setUser(String token){

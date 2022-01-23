@@ -46,6 +46,7 @@ public class LoginFragment extends Fragment {
         ctrl.setActivity(getActivity());
         ctrl.setContext(getActivity().getApplicationContext());
         ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
+
     }
 
     @Override

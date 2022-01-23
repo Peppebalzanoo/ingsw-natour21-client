@@ -1,13 +1,21 @@
 package com.example.natour2.controller;
 
+import android.content.Context;
+import android.content.Intent;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.natour2.HomeAdminActivity;
+import com.example.natour2.MainActivity;
 import com.example.natour2.fragment.AdminFragment;
 import com.example.natour2.fragment_admin.ControlPanelFragment;
 import com.example.natour2.R;
 import com.example.natour2.fragment_admin.NewsLetterFragment;
 import com.example.natour2.fragment_admin.SegnalazioneFragment;
+
+import java.util.Objects;
 
 public class ControllerAdminActivity {
 
@@ -44,11 +52,17 @@ public class ControllerAdminActivity {
         transaction.commit();
     }
 
-    public void showAdminFrament(FragmentManager fragmentManager){
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout_admin, new AdminFragment()); // give your fragment container id in first parameter
-        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
-        transaction.commit();
+    public void showMainActivityAndClearBackStack(FragmentManager fragmentManager, Context c){
+        clearBackStack(fragmentManager);
+        Intent i = new Intent(c, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        c.startActivity(i);
+    }
+
+    public void clearBackStack(FragmentManager fragmentManager){
+        for(int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+            fragmentManager.popBackStack();
+        }
     }
 
 

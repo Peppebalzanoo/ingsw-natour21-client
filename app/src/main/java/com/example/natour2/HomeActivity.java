@@ -5,15 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
-import com.example.natour2.controller.ControllerHomeAcrtivity;
-import com.google.android.gms.maps.MapView;
+import com.example.natour2.controller.ControllerHomeActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
     //ciao peppe
     private MeowBottomNavigation bottomNavigation;
 
-    private final ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
+    private final ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

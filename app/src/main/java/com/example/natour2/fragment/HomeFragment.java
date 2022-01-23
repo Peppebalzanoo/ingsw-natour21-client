@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
-import com.example.natour2.controller.ControllerHomeAcrtivity;
+import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.model.Itinerario;
 import com.example.natour2.utilities.PreferanceManager;
 
@@ -28,7 +28,7 @@ public class HomeFragment extends BaseFragment {
     private ImageView addItinerario;
     private ImageView notification;
 
-    private final ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
+    private final ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
 
     public HomeFragment() {
         // Required empty public constructor

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.ChatAdapter;
-import com.example.natour2.controller.ControllerHomeAcrtivity;
+import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.User;
 import com.example.natour2.utilities.PreferanceManager;
@@ -42,7 +42,7 @@ public class ChatFragment extends BaseFragment{
     private Boolean isReceiverAvailable = false;
 
     private static User user = null;
-    private ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
+    private ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
 
     public ChatFragment() {
         // Required empty public constructor

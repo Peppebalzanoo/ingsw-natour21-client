@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,7 +111,7 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
         imageViewLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ctrl.showAdminFrament(requireActivity().getSupportFragmentManager());
+                ctrl.showMainActivityAndClearBackStack(requireActivity().getSupportFragmentManager(), getContext());
             }
         });
     }

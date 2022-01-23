@@ -13,40 +13,25 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
-import com.example.natour2.controller.ControllerHomeAcrtivity;
+import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.controller.ControllerLoginSignin;
-import com.example.natour2.fragment.loginSignin.LoginFragment;
 import com.example.natour2.model.Itinerario;
-import com.example.natour2.utilities.Constants;
-import com.example.natour2.utilities.PreferanceManager;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -55,7 +40,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -67,16 +51,17 @@ public class ProfileFragment extends BaseFragment {
     private ItinerarioAdapter itinerarioAdapter;
     private List<Itinerario> itinerarioList;
 
-    /* ****************************************************************************************** */
-    private CircleImageView image;
+
+    private CircleImageView profileImage;
     private Bitmap bitmapApp;
     private byte arrayBytesOfImageProfile[];
     private static final int REQUEST_GALLERY = 1000;
-    private Button buttonLogOut;
-    /* ****************************************************************************************** */
+    private ImageView imageViewLogOut;
+    private ImageView imageViewChangeProfileImage;
 
-    private final ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
-    private final ControllerLoginSignin ctrl2 = ControllerLoginSignin.getInstance();
+
+    private final ControllerHomeActivity ctrlHomeActivity = ControllerHomeActivity.getInstance();
+    private final ControllerLoginSignin ctrlLogInSignIn = ControllerLoginSignin.getInstance();
 
 
     public ProfileFragment() {
@@ -88,42 +73,53 @@ public class ProfileFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ctrl2.setActivity(getActivity());
-        ctrl2.setContext(getActivity().getApplicationContext());
-        ctrl2.setFragmentManager(getActivity().getSupportFragmentManager());
-        ctrl.setActivity(getActivity());
-        ctrl.setContext(getActivity().getApplicationContext());
-        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
+
+        ctrlLogInSignIn.setActivity(requireActivity());
+        ctrlLogInSignIn.setContext(requireActivity().getApplicationContext());
+        ctrlLogInSignIn.setFragmentManager(requireActivity().getSupportFragmentManager());
+
+        ctrlHomeActivity.setActivity(requireActivity());
+        ctrlHomeActivity.setContext(requireActivity().getApplicationContext());
+        ctrlHomeActivity.setFragmentManager(requireActivity().getSupportFragmentManager());
         /* ************************************************************************************** */
         //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         /* ************************************************************************************** */
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        recyclerView = view.findViewById(R.id.recycler_view2);
-        recyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setReverseLayout(true);
-        linearLayoutManager.setStackFromEnd(true);
-
-        recyclerView.setLayoutManager(linearLayoutManager);
+        initViewComponents(view);
 
         itinerarioList = new ArrayList<>();
         itinerarioAdapter = new ItinerarioAdapter(getContext(), itinerarioList, savedInstanceState, recyclerView);
-
         recyclerView.setAdapter(itinerarioAdapter);
 
+        setListeners();
 
-        /* ****************************************************************************************/
-        image = view.findViewById(R.id.imageViewProfile);
+        readItinerari();
 
-        image.setOnClickListener(new View.OnClickListener() {
+        return view;
+    }
+
+
+    public void initViewComponents(View view){
+        imageViewLogOut = view.findViewById(R.id.imageView_LogOut_ProfileFragment);
+        imageViewChangeProfileImage = view.findViewById(R.id.imageView_ChangeImageProfile_ProfileFragment);
+        profileImage = view.findViewById(R.id.imageViewProfile);
+        recyclerView = view.findViewById(R.id.recycler_view2);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+
+    public void setListeners(){
+        imageViewChangeProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Boolean permission1 = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
@@ -135,17 +131,14 @@ public class ProfileFragment extends BaseFragment {
                 }
             }
         });
-        /* ****************************************************************************************/
-        buttonLogOut = view.findViewById(R.id.buttonLogOut);
-        buttonLogOut.setOnClickListener(new View.OnClickListener() {
+
+        imageViewLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ctrl2.signOut();
+                ctrlHomeActivity.showMainActivity(getContext());
             }
         });
-        /* ****************************************************************************************/
-        readItinerari();
-        return view;
+
     }
 
     private void readItinerari(){
@@ -154,10 +147,10 @@ public class ProfileFragment extends BaseFragment {
         itinerarioList.add(itr1);
         itinerarioList.add(itr2);
 
-        itinerarioAdapter.notifyDataSetChanged();
+        itinerarioAdapter.notifyDataSetChanged(); //*********************
     }
 
-    /* ****************************************************************************************** */
+
     public void CheckPermission(Boolean perm1, Boolean perm2){
         if(perm1 == perm2){
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
@@ -207,7 +200,7 @@ public class ProfileFragment extends BaseFragment {
         if(resultCode == RESULT_OK && requestCode == REQUEST_GALLERY) {
             try {
                 Uri selectedImageUri = data.getData();
-                image.setImageURI(selectedImageUri);
+                profileImage.setImageURI(selectedImageUri);
                 bitmapApp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), selectedImageUri);
                 arrayBytesOfImageProfile = convertBitmapToArrayOfByte(bitmapApp);
                 createDirectoryAndSaveFile(convertByteToBitmap(arrayBytesOfImageProfile),  "NaTour21_IMG");
@@ -269,11 +262,11 @@ public class ProfileFragment extends BaseFragment {
 
 
     /* ****************************************************************************************** */
-    private PreferanceManager preferanceManager;
-
-    private void showToast(String message){
-        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
+//    private PreferanceManager preferanceManager;
+//
+//    private void showToast(String message){
+//        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+//    }
 
 
     // private void signOut(){

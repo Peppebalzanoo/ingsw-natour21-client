@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.UserAdapter;
-import com.example.natour2.controller.ControllerHomeAcrtivity;
+import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.listeners.UserListener;
 import com.example.natour2.model.User;
 import com.example.natour2.utilities.PreferanceManager;
@@ -34,7 +34,7 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
     private RecyclerView userRecyclerView;
     private AppCompatImageView imageBackSelectUser;
 
-    private final ControllerHomeAcrtivity ctrl = ControllerHomeAcrtivity.getInstance();
+    private final ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
 
 
 

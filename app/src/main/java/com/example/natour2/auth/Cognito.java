@@ -21,8 +21,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.Authentic
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
-import com.example.natour2.controller.ControllerHomeAcrtivity;
+import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.controller.ControllerLoginSignin;
 
 public class Cognito {
@@ -67,14 +66,14 @@ public class Cognito {
         userPoolUsers = new CognitoUserPool(context, this.userPoolUsersId, this.clientId, this.clientSecret, this.cognitoRegion);
         userAttributes = new CognitoUserAttributes();
     }
-/*
+
     public Cognito(Context context, String type){
         this.context = context;
         userPoolAdmins = new CognitoUserPool(context, this.userPoolAdminsId, this.clientIdAdmin, this.clientSecretAdmin, this.cognitoRegion);
         adminAttributes = new CognitoUserAttributes();
     }
 
- */
+
 
     public void addAttributesAdmin(String key, String value){
         adminAttributes.addAttribute(key, value);
@@ -123,7 +122,7 @@ public class Cognito {
                     Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO EFFETTUATO CORRETTAMENTE!");
                     ctrl.setUser(userSession.getIdToken().getJWTToken());
                     ctrl.showHomeActivity(context);
-                    ControllerHomeAcrtivity ctrl1 = ControllerHomeAcrtivity.getInstance();
+                    ControllerHomeActivity ctrl1 = ControllerHomeActivity.getInstance();
                     ctrl1.setToken(userSession.getIdToken().getJWTToken());
                     Log.i("COGNITO TOKEN ID USER","******************************************************** ID: "+userSession.getIdToken().getJWTToken());
                     Log.i("COGNITO TOKEN USER","******************************************************** ACCESS: "+userSession.getAccessToken().getJWTToken());

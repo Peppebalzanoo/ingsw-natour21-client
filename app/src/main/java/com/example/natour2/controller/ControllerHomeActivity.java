@@ -2,10 +2,12 @@ package com.example.natour2.controller;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.natour2.MainActivity;
 import com.example.natour2.R;
 import com.example.natour2.dao.UserDao;
 import com.example.natour2.fragment.AddItinerarioFragment;
@@ -24,21 +26,21 @@ import java.io.IOException;
 import retrofit2.Call;
 
 
-public class ControllerHomeAcrtivity {
+public class ControllerHomeActivity {
 
-    private static ControllerHomeAcrtivity ctrlInstance;
+    private static ControllerHomeActivity ctrlInstance;
     private Activity activity = null;
     private Context context = null;
     private FragmentManager fragmentManager = null;
 
     private String token;
 
-    private ControllerHomeAcrtivity(){
+    private ControllerHomeActivity(){
     }
 
-    public static ControllerHomeAcrtivity getInstance(){
+    public static ControllerHomeActivity getInstance(){
         if(ctrlInstance == null) {
-            ctrlInstance = new ControllerHomeAcrtivity();
+            ctrlInstance = new ControllerHomeActivity();
         }
         return ctrlInstance;
     }
@@ -50,6 +52,13 @@ public class ControllerHomeAcrtivity {
         transaction.replace(R.id.frame_layout_home, new HomeFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
+    }
+
+    public void showMainActivity(Context c){
+        clearBackStack();
+        Intent i = new Intent(c, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+        c.startActivity(i);
     }
 
     public void showProfileFragment(){
@@ -110,6 +119,11 @@ public class ControllerHomeAcrtivity {
     }
 
 
+    public void clearBackStack(){
+        for(int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+            fragmentManager.popBackStack();
+        }
+    }
 
     //Mi serve per passare uno user da SelectUserFragment a ChatFragment
     //Ovviamente è una soluzione momentanea

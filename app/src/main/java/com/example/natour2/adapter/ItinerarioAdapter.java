@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
-import com.example.natour2.controller.ControllerHomeAcrtivity;
+import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.model.Itinerario;
 import com.example.natour2.utilities.MapViewCustom;
 import com.google.android.gms.maps.GoogleMap;
@@ -94,7 +94,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                 @Override
                 public void onClick(View view) {
                     //System.out.println("***************************************************+ Potition " + mItinerario.get(getAdapterPosition()).getName());
-                    ControllerHomeAcrtivity.getInstance().pippo();
+                    ControllerHomeActivity.getInstance().pippo();
                 }
             });
 
