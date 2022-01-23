@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
-import com.example.natour2.model.Itinerario;
+import com.example.natour2.model.Itinerary;
 import com.example.natour2.utilities.PreferanceManager;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class HomeFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
     private ItinerarioAdapter itinerarioAdapter;
-    private List<Itinerario> itinerarioList;
+    private List<Itinerary> itineraryList;
     private ImageView addItinerario;
     private ImageView notification;
 
@@ -66,8 +66,8 @@ public class HomeFragment extends BaseFragment {
         linearLayoutManager.setStackFromEnd(true);
 
         recyclerView.setLayoutManager(linearLayoutManager);
-        itinerarioList = new ArrayList<>();
-        itinerarioAdapter = new ItinerarioAdapter(getContext(), itinerarioList, savedInstanceState, recyclerView);
+        itineraryList = new ArrayList<>();
+        itinerarioAdapter = new ItinerarioAdapter(getContext(), itineraryList, savedInstanceState, recyclerView);
         recyclerView.setAdapter(itinerarioAdapter);
 
         readItinerari();
@@ -75,11 +75,12 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void readItinerari(){
+        /*
         Itinerario itr1 = new Itinerario("sentiero", "01:14", "facile", "bello il sentiero", "antonio", "pippo");
         Itinerario itr2 = new Itinerario("sentiero2", "01:48", "difficile", "brutto il sentiero", "Peppe", "pippo2");
         itinerarioList.add(itr1);
         itinerarioList.add(itr2);
-
+*/
         itinerarioAdapter.notifyDataSetChanged();
     }
 

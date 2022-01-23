@@ -31,7 +31,7 @@ import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.controller.ControllerLoginSignin;
-import com.example.natour2.model.Itinerario;
+import com.example.natour2.model.Itinerary;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -49,7 +49,7 @@ public class ProfileFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
     private ItinerarioAdapter itinerarioAdapter;
-    private List<Itinerario> itinerarioList;
+    private List<Itinerary> itineraryList;
 
 
     private CircleImageView profileImage;
@@ -93,8 +93,8 @@ public class ProfileFragment extends BaseFragment {
 
         initViewComponents(view);
 
-        itinerarioList = new ArrayList<>();
-        itinerarioAdapter = new ItinerarioAdapter(getContext(), itinerarioList, savedInstanceState, recyclerView);
+        itineraryList = new ArrayList<>();
+        itinerarioAdapter = new ItinerarioAdapter(getContext(), itineraryList, savedInstanceState, recyclerView);
         recyclerView.setAdapter(itinerarioAdapter);
 
         setListeners();
@@ -140,14 +140,19 @@ public class ProfileFragment extends BaseFragment {
     }
 
     private void readItinerari(){
+        /*
         Itinerario itr1 = new Itinerario("sentiero", "01:14", "facile", "bello il sentiero", "antonio", "pippo");
         Itinerario itr2 = new Itinerario("sentiero2", "01:48", "difficile", "brutto il sentiero", "anto", "pippo2");
         itinerarioList.add(itr1);
         itinerarioList.add(itr2);
-
+*/
         //itinerarioAdapter.notifyDataSetChanged(); //*********************
-        itinerarioAdapter.notifyItemInserted(0);
-        itinerarioAdapter.notifyItemInserted(1);
+
+        for(Itinerary it: ctrlHomeActivity.getActiveUserItineraries()){
+            itineraryList.add(it);
+        }
+
+        itinerarioAdapter.notifyDataSetChanged();
     }
 
     public boolean checkPermission(){

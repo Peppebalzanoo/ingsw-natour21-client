@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour2.MainActivity;
 import com.example.natour2.R;
+import com.example.natour2.dao.Dao;
+import com.example.natour2.dao.ItineraryDao;
 import com.example.natour2.dao.UserDao;
 import com.example.natour2.fragment.AddItinerarioFragment;
 import com.example.natour2.fragment.ChatFragment;
@@ -18,12 +20,17 @@ import com.example.natour2.fragment.ProfileFragment;
 import com.example.natour2.fragment.SearchFragment;
 import com.example.natour2.fragment.SelectUsersFragment;
 import com.example.natour2.fragment.UserFragment;
+import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.User;
 import com.example.natour2.utilities.RetrofitInstance;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ControllerHomeActivity {
@@ -35,6 +42,7 @@ public class ControllerHomeActivity {
 
     private String token;
 
+    List<Itinerary> listItineraries = new ArrayList<>();
     private ControllerHomeActivity(){
     }
 
@@ -176,7 +184,33 @@ public class ControllerHomeActivity {
             }
         });
        t1.start();
+    }
 
+    public List<Itinerary> getActiveUserItineraries(){
+        final ItineraryDao itineraryDao = RetrofitInstance.getRetrofitInstance().create(ItineraryDao.class);
+
+        Call<List<Itinerary>> call = itineraryDao.getActiveUserItineraries(token);
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Call<List<Itinerary>> call = itineraryDao.getActiveUserItineraries(token);
+                try {
+                    listItineraries = call.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("ééééééééééééééééééééééééééééééééééééééééééééééééè Stampo: "+ listItineraries.get(0).getName());
+        return listItineraries;
 
     }
 

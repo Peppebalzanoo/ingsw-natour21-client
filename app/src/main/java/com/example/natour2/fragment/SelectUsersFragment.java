@@ -21,11 +21,7 @@ import com.example.natour2.utilities.PreferanceManager;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SelectUsersFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class SelectUsersFragment extends BaseFragment implements UserListener {
 
     private ProgressBar progressBar;
@@ -116,10 +112,10 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
         List<User> users = new ArrayList<>();
         User user1 = new User();
         User user2 = new User();
-        user1.username = "pippo";
-        user1.email = "pippo@gmail.com";
-        user2.username = "pluto";
-        user2.email = "pluto@gmail.com";
+        user1.setUsername("pippo");
+        user1.setEmail("pippo@gmail.com");
+        user2.setUsername("pluto");
+        user2.setEmail("pluto@gmail.com");
         users.add(user1);
         users.add(user2);
         UserAdapter userAdapter = new UserAdapter(users, this);

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
-import com.example.natour2.model.Itinerario;
+import com.example.natour2.model.Itinerary;
 import com.example.natour2.utilities.MapViewCustom;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,19 +27,20 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 
 public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.ViewHolder> {
 
     public Context mContext;
-    public List<Itinerario> mItinerario;
+    public List<Itinerary> mItinerary;
     public Bundle savedInstanceState;
     public RecyclerView recyclerView;
 
-    public ItinerarioAdapter(Context context, List<Itinerario> mItinerario, Bundle savedInstanceState, RecyclerView recyclerView){
+    public ItinerarioAdapter(Context context, List<Itinerary> mItinerary, Bundle savedInstanceState, RecyclerView recyclerView){
         this.mContext = context;
-        this.mItinerario = mItinerario;
+        this.mItinerary = mItinerary;
         this.savedInstanceState = savedInstanceState;
         this.recyclerView = recyclerView;
     }
@@ -53,13 +54,13 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Itinerario itr = mItinerario.get(position);
+        Itinerary itr = mItinerary.get(position);
         publisherInfo(holder.username, holder.name, holder.durata, holder.diff, holder.descrizione, holder.mapView, itr);
     }
 
     @Override
     public int getItemCount() {
-        return mItinerario.size();
+        return mItinerary.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -101,7 +102,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
             infoDettaglio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("***************************************************+ Potition " + mItinerario.get(getAdapterPosition()).getName());
+                    System.out.println("***************************************************+ Potition " + mItinerary.get(getAdapterPosition()).getName());
                 }
             });
 
@@ -111,22 +112,22 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
 
 
 
-    private void publisherInfo(final TextView username, final TextView name, final TextView durata, final TextView diff, final TextView descrizione, final MapViewCustom mapView, Itinerario itr ){
+    private void publisherInfo(final TextView username, final TextView name, final TextView durata, final TextView diff, final TextView descrizione, final MapViewCustom mapView, Itinerary itr ){
 
-        username.setText(itr.getAutore());
+        username.setText(itr.getAuthor().getUsername());
         name.setText(itr.getName());
-        durata.setText(itr.getDurata());
-        diff.setText(itr.getDiff());
-        descrizione.setText("Il sentiero è motlo bello, basta solo essere un minimo allenato per poterlo finiere senza problemi");
-
+        durata.setText(itr.getDuration());
+        diff.setText(itr.getDifficulty());
+        descrizione.setText(itr.getDescription());
         mapView.getMapAsync(new OnMapReadyCallback() {
 
 
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
-                InputStream in = mContext.getResources().openRawResource(
+                /*InputStream in = mContext.getResources().openRawResource(
                         mContext.getResources().getIdentifier("mapstogpx20220113_210828",
                                 "raw", mContext.getPackageName()));
+
 
                 LatLng start = new LatLng(40.7753594015775, 14.46880965563265);
                 MarkerOptions options = new MarkerOptions();
@@ -135,6 +136,8 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                 options.icon(bitmapDescriptorFromVector(mContext, R.drawable.ic_home));
                 googleMap.addMarker(options);
 
+                 */
+                InputStream in = convertStringToInputStream(itr.getGpx());
                 mapView.getMap(googleMap, in);
                 mapView.onResume();
                 mapView.onEnterAmbient(null);
@@ -142,6 +145,10 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
         });
     }
 
+    private InputStream convertStringToInputStream(String string) {
+        InputStream inputStream = new ByteArrayInputStream(string.getBytes());
+        return inputStream;
+    }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
         Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_home);

@@ -3,7 +3,6 @@ package com.example.natour2.fragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +15,7 @@ import android.widget.TimePicker;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
-import com.example.natour2.model.Itinerario;
+import com.example.natour2.model.Itinerary;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -29,7 +28,7 @@ public class SearchFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
     private ItinerarioAdapter itinerarioAdapter;
-    private List<Itinerario> itinerarioList;
+    private List<Itinerary> itineraryList;
     /* ****************************************************************************************** */
     private FloatingActionButton buttonFiltersFloating;
     private Button buttonApply;
@@ -65,8 +64,8 @@ public class SearchFragment extends BaseFragment {
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        itinerarioList = new ArrayList<>();
-        itinerarioAdapter = new ItinerarioAdapter(getContext(), itinerarioList, savedInstanceState, recyclerView);
+        itineraryList = new ArrayList<>();
+        itinerarioAdapter = new ItinerarioAdapter(getContext(), itineraryList, savedInstanceState, recyclerView);
 
         recyclerView.setAdapter(itinerarioAdapter);
 
@@ -125,11 +124,12 @@ public class SearchFragment extends BaseFragment {
     }
 
     private void readItinerari(){
+        /*
         Itinerario itr1 = new Itinerario("sentiero", "01:14", "facile", "bello il sentiero", "antonio", "pippo");
         Itinerario itr2 = new Itinerario("sentiero2", "01:48", "difficile", "brutto il sentiero", "anto", "pippo2");
         itinerarioList.add(itr1);
         itinerarioList.add(itr2);
-
+*/
         itinerarioAdapter.notifyDataSetChanged();
     }
 
