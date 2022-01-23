@@ -70,13 +70,12 @@ public class ChatFragment extends BaseFragment{
     }
 
     private void initViewComponent(View view) {
-        layoutSend = view.findViewById(R.id.layoutSend);
-        textNameChat = view.findViewById(R.id.textNameChat);
-        textAvaibility = view.findViewById(R.id.textAvailability);
+        layoutSend = view.findViewById(R.id.layoutSend_ChatFragment);
+        textNameChat = view.findViewById(R.id.textView_NameUser_ChatFragment);
         chatRecyclerView = view.findViewById(R.id.chatRecyclerView);
-        inputMessage = view.findViewById(R.id.inputMessage);
-        progressBar = view.findViewById(R.id.progessBarChatFragment);
-        imageBackChat = view.findViewById(R.id.imageBackChat);
+        inputMessage = view.findViewById(R.id.inputMessage_ChatFragment);
+        progressBar = view.findViewById(R.id.progessBar_ChatFragment);
+        imageBackChat = view.findViewById(R.id.imageBack_ChatFragment);
         imageBackChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

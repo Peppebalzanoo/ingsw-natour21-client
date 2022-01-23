@@ -62,14 +62,14 @@ public class UserFragment extends BaseFragment implements ConversionListener {
 
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
-        fabNewChat = view.findViewById(R.id.fabNewChat);
+        fabNewChat = view.findViewById(R.id.fabNewChat_UserFragment);
         fabNewChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                ctrl.showSelectUserFragment();
             }
         });
-        recyclerViewConversation = view.findViewById(R.id.conversationRecyclerView);
+        recyclerViewConversation = view.findViewById(R.id.recyclerview_UserFragment);
         recyclerViewConversation.setAdapter(conversationsAdapter);
 
         progressBarUserFragment = view.findViewById(R.id.progessBarUserFragment);

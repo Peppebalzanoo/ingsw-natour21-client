@@ -60,11 +60,11 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
     }
 
     private void initViewComponents(View view){
-        progressBar = view.findViewById(R.id.progessBarSelectUserFragment);
-        userRecyclerView = view.findViewById(R.id.userRecyclerView);
-        textErrorMessage = view.findViewById(R.id.textErrorMessage);
+        progressBar = view.findViewById(R.id.progessBar_SelectUserFragment);
+        userRecyclerView = view.findViewById(R.id.recyclerview_SelectUserFragment);
+        textErrorMessage = view.findViewById(R.id.textView_ErrorMessage_SelectUserFragment);
 
-        imageBackSelectUser = view.findViewById(R.id.imageBackSelectUser);
+        imageBackSelectUser = view.findViewById(R.id.imageBack_SelectUserFragment);
         imageBackSelectUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
