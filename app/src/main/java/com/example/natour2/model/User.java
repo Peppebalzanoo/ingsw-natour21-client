@@ -1,6 +1,13 @@
 package com.example.natour2.model;
 
+import com.example.natour2.dao.UserDao;
+import com.example.natour2.utilities.RetrofitInstance;
+import com.example.natour2.utilities.SharedPreferencesUtil;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.IOException;
+
+import retrofit2.Call;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User{
@@ -20,6 +27,7 @@ public class User{
         this.username = username;
         this.email = email;
     }
+
 
     public long getId() {
         return id;

@@ -3,6 +3,7 @@ package com.example.natour2.controller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -40,9 +41,7 @@ public class ControllerHomeActivity {
     private Context context = null;
     private FragmentManager fragmentManager = null;
 
-    private String token;
 
-    List<Itinerary> listItineraries = new ArrayList<>();
     private ControllerHomeActivity(){
     }
 
@@ -141,6 +140,13 @@ public class ControllerHomeActivity {
         return c;
     }
 
+    public void printToast(String str){
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(activity, str, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
     public void setActivity(Activity activity){
         this.activity = activity;
@@ -154,64 +160,6 @@ public class ControllerHomeActivity {
 
     public void setFragmentManager(FragmentManager fragmentManager){
         this.fragmentManager = fragmentManager;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    private final UserDao userDAO = RetrofitInstance.getRetrofitInstance().create(UserDao.class);
-
-
-    public void pippo(){
-
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                User result;
-                Call<User> call = userDAO.getUserByUsername(token);
-                try {
-                    result = call.execute().body();
-                    System.out.println("*************************************** username: "+ result.toString());
-                } catch (IOException e) {
-                    System.out.println("*************************************** errore");
-                    e.printStackTrace();
-                }
-            }
-        });
-       t1.start();
-    }
-
-    public List<Itinerary> getActiveUserItineraries(){
-        final ItineraryDao itineraryDao = RetrofitInstance.getRetrofitInstance().create(ItineraryDao.class);
-
-        Call<List<Itinerary>> call = itineraryDao.getActiveUserItineraries(token);
-
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Call<List<Itinerary>> call = itineraryDao.getActiveUserItineraries(token);
-                try {
-                    listItineraries = call.execute().body();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        t1.start();
-        try {
-            t1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("ééééééééééééééééééééééééééééééééééééééééééééééééè Stampo: "+ listItineraries.get(0).getName());
-        return listItineraries;
-
     }
 
 }

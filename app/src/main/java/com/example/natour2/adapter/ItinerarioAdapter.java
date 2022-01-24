@@ -18,14 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.model.Itinerary;
 import com.example.natour2.utilities.MapViewCustom;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -95,7 +94,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                 @Override
                 public void onClick(View view) {
                     //System.out.println("***************************************************+ Potition " + mItinerario.get(getAdapterPosition()).getName());
-                    ControllerHomeActivity.getInstance().pippo();
+                    //ControllerHomeActivity.getInstance().getActiveUser();
                 }
             });
 
@@ -116,8 +115,8 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
 
         username.setText(itr.getAuthor().getUsername());
         name.setText(itr.getName());
-        durata.setText(itr.getDuration());
-        diff.setText(itr.getDifficulty());
+        durata.setText(itr.getDuration().toString());
+        diff.setText(itr.getDifficulty().toString());
         descrizione.setText(itr.getDescription());
         mapView.getMapAsync(new OnMapReadyCallback() {
 

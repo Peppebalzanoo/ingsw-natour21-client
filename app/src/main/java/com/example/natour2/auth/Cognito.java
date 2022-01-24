@@ -2,6 +2,7 @@ package com.example.natour2.auth;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,8 +22,12 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.Authentic
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.regions.Regions;
+import com.example.natour2.MainActivity;
 import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerItinerary;
 import com.example.natour2.controller.ControllerLoginSignin;
+import com.example.natour2.controller.ControllerUser;
+import com.example.natour2.utilities.SharedPreferencesUtil;
 
 public class Cognito {
 
@@ -38,6 +43,7 @@ public class Cognito {
     private CognitoUserPool userPoolUsers;
     private CognitoUserAttributes userAttributes;
     private Context context;
+    private Activity activity;
     private String userPassword;
 
 
@@ -52,6 +58,7 @@ public class Cognito {
     private String adminPassword;
 
     private final ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
+    private final ControllerUser ctrlUser = ControllerUser.getInstance();
     static String tokenUser;
     static String tokenAdmin;
 
@@ -61,10 +68,13 @@ public class Cognito {
 
 
     //**********************************************************************************************
-    public Cognito(Context context){
+    public Cognito(Context context, Activity activity){
         this.context = context;
         userPoolUsers = new CognitoUserPool(context, this.userPoolUsersId, this.clientId, this.clientSecret, this.cognitoRegion);
         userAttributes = new CognitoUserAttributes();
+        this.activity = activity;
+        ctrlUser.setActivity(activity);
+        ctrlUser.setContext(context);
     }
 
     public Cognito(Context context, String type){
@@ -120,14 +130,17 @@ public class Cognito {
                 public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
                     Toast.makeText(context,"Accesso effettuato!", Toast.LENGTH_LONG).show();
                     Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO EFFETTUATO CORRETTAMENTE!");
-                    ctrl.setUser(userSession.getIdToken().getJWTToken());
+                    String token = userSession.getAccessToken().getJWTToken();
+                    String idToken = userSession.getIdToken().getJWTToken();
+                    String refreshToken = userSession.getRefreshToken().getToken();
+                    ctrlUser.setUser(idToken);
+                    SharedPreferencesUtil.setStringPreference(activity, "IDTOKEN", idToken);
+                    SharedPreferencesUtil.setStringPreference(activity, "TOKEN", token);
+                    SharedPreferencesUtil.setStringPreference(activity, "REFRESHTOKEN", refreshToken);
                     ctrl.showHomeActivity(context);
-                    ControllerHomeActivity ctrl1 = ControllerHomeActivity.getInstance();
-                    ctrl1.setToken(userSession.getIdToken().getJWTToken());
-                    Log.i("COGNITO TOKEN ID USER","******************************************************** ID: "+userSession.getIdToken().getJWTToken());
-                    Log.i("COGNITO TOKEN USER","******************************************************** ACCESS: "+userSession.getAccessToken().getJWTToken());
-                    Log.i("COGNITO TOKEN USER","******************************************************** REFRESH.get: "+userSession.getRefreshToken().getToken());
-
+                    Log.i("COGNITO TOKEN ID USER","******************************************************** ID: "+idToken);
+                    Log.i("COGNITO TOKEN USER","******************************************************** ACCESS: "+token);
+                    Log.i("COGNITO TOKEN USER","******************************************************** REFRESH.get: "+refreshToken);
                     tokenUser = userSession.getIdToken().getJWTToken();
 
                 }

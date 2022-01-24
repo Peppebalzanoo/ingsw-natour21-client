@@ -19,9 +19,13 @@ import android.widget.TimePicker;
 
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerItinerary;
+import com.example.natour2.model.Itinerary;
 import com.example.natour2.utilities.MapViewCustom;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -37,13 +41,16 @@ public class AddItinerarioFragment extends Fragment {
     private Button btnSelectTime;
     private MapViewCustom mapView;
     private EditText txtNameItinerario;
+    private ChipGroup chipGroupDiffAddItinerario;
     private EditText editTextTextMultiLineDescrizione;
     private Button btnAnnulla;
     private Button btnPubblica;
     private String[] items = {"Facile", "Normale", "Difficile"};
     private int hour, minute;
 
+    private String readedTexFromUri = null;
     private ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
+    private final ControllerItinerary ctrlItinerary = ControllerItinerary.getInstance();
 
     public AddItinerarioFragment() {
         // Required empty public constructor
@@ -55,6 +62,9 @@ public class AddItinerarioFragment extends Fragment {
         ctrl.setActivity(getActivity());
         ctrl.setContext(getActivity().getApplicationContext());
         ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
+
+        ctrlItinerary.setActivity(getActivity());
+        ctrlItinerary.setContext(getActivity().getApplicationContext());
     }
 
     @Override
@@ -77,6 +87,7 @@ public class AddItinerarioFragment extends Fragment {
         editTextTextMultiLineDescrizione = view.findViewById(R.id.editTextTextMultiLineDescrizione);
         btnAnnulla = view.findViewById(R.id.btnAnnulla);
         btnPubblica = view.findViewById(R.id.btnPubblica);
+        chipGroupDiffAddItinerario = view.findViewById(R.id.chipGroupDiffAddItinerario);
 
 
         btnSfoglia.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +118,39 @@ public class AddItinerarioFragment extends Fragment {
         btnPubblica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Funzione per pubblicare
+                Itinerary itinerary = null;
+                int durata = (hour*60)+minute;
+                int chipsCount = chipGroupDiffAddItinerario.getChildCount();
+
+                int i = 0;
+                while (i < chipsCount) {
+                    Chip chip = (Chip) chipGroupDiffAddItinerario.getChildAt(i);
+                    if (chip.isChecked() ) {
+                        break;
+                    }
+                    i++;
+                };
+                i = i+1;
+
+                String nome= txtNameItinerario.getText().toString();
+                String descrizione = editTextTextMultiLineDescrizione.getText().toString();
+                if(nome == null || nome.equals("") || durata == 0 || i > 4 || i <= 0 || readedTexFromUri == null || readedTexFromUri.equals("")  ){
+                   ctrl.printToast("Copilare tutti i campi.");
+                    return;
+                }
+                /*
+                System.out.println("*************** nome: " + nome);
+                System.out.println("*************** durata: " + durata);
+                System.out.println("*************** diff: " + i);
+                System.out.println("*************** descrizione: " + descrizione);
+                System.out.println("*************** gpx: " + readedTexFromUri);
+                Boolean b = true;
+                */
+                itinerary = new Itinerary(nome, durata, i, descrizione, readedTexFromUri, true);
+                System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°");
+                ctrlItinerary.uploadItinerary(itinerary);
+                ctrl.printToast("Itinerario pubblicato correttamente.");
+                ctrl.showHomeFragment();
             }
         });
     }
@@ -138,22 +181,17 @@ public class AddItinerarioFragment extends Fragment {
                         @Override
                         public void onMapReady(@NonNull GoogleMap googleMap) {
 
-                            String readedTexFromUri = null;
                             try {
                                 readedTexFromUri = readTextFromUri(uri);
-                                System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& Stampo GPX: " + readedTexFromUri);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                             InputStream inputStream = convertStringToInputStream(readedTexFromUri);
-
                             mapView.getMap(googleMap, inputStream);
                             mapView.onResume();
                             mapView.onEnterAmbient(null);
                         }
                     });
-
-
                 }
                 break;
         }
@@ -173,7 +211,6 @@ public class AddItinerarioFragment extends Fragment {
                 stringBuilder.append(line);
             }
         }
-
         return stringBuilder.toString();
     }
 

@@ -25,13 +25,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerItinerary;
 import com.example.natour2.controller.ControllerLoginSignin;
+import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.model.Itinerary;
+import com.example.natour2.model.User;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -50,8 +54,8 @@ public class ProfileFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private ItinerarioAdapter itinerarioAdapter;
     private List<Itinerary> itineraryList;
-
-
+    private TextView email;
+    private TextView username;
     private CircleImageView profileImage;
     private Bitmap bitmapApp;
     private byte arrayBytesOfImageProfile[];
@@ -62,6 +66,9 @@ public class ProfileFragment extends BaseFragment {
 
     private final ControllerHomeActivity ctrlHomeActivity = ControllerHomeActivity.getInstance();
     private final ControllerLoginSignin ctrlLogInSignIn = ControllerLoginSignin.getInstance();
+    private final ControllerUser ctrlUser =  ControllerUser.getInstance();
+    private final ControllerItinerary ctrlItinerary =  ControllerItinerary.getInstance();
+
 
 
     public ProfileFragment() {
@@ -81,6 +88,11 @@ public class ProfileFragment extends BaseFragment {
         ctrlHomeActivity.setActivity(requireActivity());
         ctrlHomeActivity.setContext(requireActivity().getApplicationContext());
         ctrlHomeActivity.setFragmentManager(requireActivity().getSupportFragmentManager());
+
+        ctrlUser.setActivity(getActivity());
+        ctrlUser.setContext(getContext());
+        ctrlItinerary.setActivity(getActivity());
+        ctrlItinerary.setContext(getContext());
         /* ************************************************************************************** */
         //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         /* ************************************************************************************** */
@@ -106,6 +118,8 @@ public class ProfileFragment extends BaseFragment {
 
 
     public void initViewComponents(View view){
+        email = view.findViewById(R.id.textViewNomeUtente);
+        username = view.findViewById(R.id.textViewEmail);
         imageViewLogOut = view.findViewById(R.id.imageView_LogOut_ProfileFragment);
         imageViewChangeProfileImage = view.findViewById(R.id.imageView_ChangeImageProfile_ProfileFragment);
         profileImage = view.findViewById(R.id.imageViewProfile);
@@ -115,6 +129,9 @@ public class ProfileFragment extends BaseFragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+        User u = ctrlUser.getActiveUser();
+        email.setText(u.getEmail());
+        username.setText(u.getUsername());
     }
 
 
@@ -140,18 +157,11 @@ public class ProfileFragment extends BaseFragment {
     }
 
     private void readItinerari(){
-        /*
-        Itinerario itr1 = new Itinerario("sentiero", "01:14", "facile", "bello il sentiero", "antonio", "pippo");
-        Itinerario itr2 = new Itinerario("sentiero2", "01:48", "difficile", "brutto il sentiero", "anto", "pippo2");
-        itinerarioList.add(itr1);
-        itinerarioList.add(itr2);
-*/
-        //itinerarioAdapter.notifyDataSetChanged(); //*********************
-
-        for(Itinerary it: ctrlHomeActivity.getActiveUserItineraries()){
-            itineraryList.add(it);
+        List<Itinerary> list = ctrlItinerary.getActiveUserItineraries();
+        if(list == null){
+            return;
         }
-
+        itineraryList.addAll(list);
         itinerarioAdapter.notifyDataSetChanged();
     }
 

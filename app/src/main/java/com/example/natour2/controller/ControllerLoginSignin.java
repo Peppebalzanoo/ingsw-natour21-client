@@ -40,6 +40,7 @@ public class ControllerLoginSignin {
     private String email;
     private String matricolaAdim;
 
+
     private FirebaseAnalytics analytics;
 
 
@@ -56,7 +57,7 @@ public class ControllerLoginSignin {
 
 
     public void login(String username, String passowrd){
-        Cognito authentication = new Cognito(context);
+        Cognito authentication = new Cognito(context, activity);
         authentication.userLogIn(username, passowrd);
 
         Bundle bundle = new Bundle();
@@ -72,7 +73,7 @@ public class ControllerLoginSignin {
         this.username = username;
         this.email = email;
 
-        Cognito authentication = new Cognito(context);
+        Cognito authentication = new Cognito(context, activity);
         authentication.addAttributes("name", username);
         authentication.addAttributes("email", email);
         authentication.userSignUpInBackground(username, password);
@@ -86,7 +87,7 @@ public class ControllerLoginSignin {
 
 
     public void verifyCode(String code){
-        Cognito authentication = new Cognito(context);
+        Cognito authentication = new Cognito(context, activity);
         authentication.confirmVerificationCodeUser(username, code);
 
         //authAmplify.confirmSignUp(this.email, code);
@@ -96,7 +97,7 @@ public class ControllerLoginSignin {
     }
 
     public void forgetPassword(String userID, String vecchiaPassword, String nuovaPassword){
-        Cognito authentication = new Cognito(context);
+        Cognito authentication = new Cognito(context, activity);
         authentication.forgetPasswordCognito(userID, vecchiaPassword, nuovaPassword);
 
         Bundle bundle = new Bundle();
@@ -212,26 +213,6 @@ public class ControllerLoginSignin {
     }
 
 
-
-    private final UserDao userDAO = RetrofitInstance.getRetrofitInstance().create(UserDao.class);
-    public void setUser(String token){
-
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                User result;
-                Call<User> call = userDAO.setUser(token);
-                try {
-                    result = call.execute().body();
-                    //System.out.println("*************************************** username: "+ result.toString());
-                } catch (IOException e) {
-                    System.out.println("*************************************** errore");
-                    e.printStackTrace();
-                }
-            }
-        });
-        t1.start();
-    }
 
 }
 

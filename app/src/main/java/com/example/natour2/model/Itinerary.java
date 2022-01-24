@@ -4,37 +4,18 @@ public class Itinerary {
 
     private long id;
     private String name;
-    private String duration;
-    private String difficulty;
+    private Integer duration;
+    private Integer difficulty;
     private String description;
     private String gpx;
     private User author; // Questo dovrebbe essere di tipo User
     private Boolean disabledAccess;
 
-
-
-
-/*
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
-    private Integer duration;
-    private Integer difficulty;
-    private String description;
-    private String gpx;
-    @Column(name = "disabled_access")
-    Boolean disabledAccess;
-    @ManyToOne
-    @JoinColumn(name = "author")
-    private User author;
-
-   */
     public Itinerary(){
 
     }
 
-    public Itinerary(long id, String name, String duration, String difficulty, String description, String gpx, Boolean disabledAccessUser, User author){
+    public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser, User author){
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -42,8 +23,16 @@ public class Itinerary {
         this.description = description;
         this.gpx = gpx;
         this.author = author;
-        this.disabledAccess = disabledAccess;
+        this.disabledAccess = disabledAccessUser;
+    }
 
+    public Itinerary(String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser){
+        this.name = name;
+        this.duration = duration;
+        this.difficulty = difficulty;
+        this.description = description;
+        this.gpx = gpx;
+        this.disabledAccess = disabledAccessUser;
     }
 
     public long getId() {
@@ -62,19 +51,19 @@ public class Itinerary {
         this.name = name;
     }
 
-    public String getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
-    public String getDifficulty() {
+    public Integer getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(String difficulty) {
+    public void setDifficulty(Integer difficulty) {
         this.difficulty = difficulty;
     }
 
