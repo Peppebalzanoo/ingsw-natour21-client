@@ -141,11 +141,9 @@ public class ControllerHomeActivity {
     }
 
     public void printToast(String str){
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
-                Toast.makeText(activity, str, Toast.LENGTH_LONG).show();
-            }
-        });
+
+        Toast.makeText(activity, str, Toast.LENGTH_LONG).show();
+
     }
 
     public void setActivity(Activity activity){

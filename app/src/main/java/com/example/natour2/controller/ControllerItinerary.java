@@ -21,11 +21,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-interface GetDataCallback {
-    void onGetMapData(List<Itinerary> list);
-    void onError();
-}
-
 public class ControllerItinerary {
 
     private static ControllerItinerary ctrlInstance;
@@ -76,7 +71,6 @@ public class ControllerItinerary {
             public void onResponse(Call<Itinerary> call, Response<Itinerary> response) {
                 System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° ok: " +  response.code());
 
-
             }
             @Override
             public void onFailure(Call<Itinerary> call, Throwable t) {
@@ -84,8 +78,56 @@ public class ControllerItinerary {
 
             }
         });
-
     }
+
+
+    public List<Itinerary> getAllItineraries(){
+
+        Call<List<Itinerary>> call = itineraryDao.getAllItineraries(null, null, null, null, null, null, null, null, null, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    listItineraries = call.execute().body();
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore!!!!");
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return listItineraries;
+    }
+
+    public List<Itinerary> getAllItinerariesByFilters(String name, Integer duration, Integer durationLessThan, Integer durationGreaterThan, Integer difficulty, Integer difficultyLessThan, Integer difficultyGreaterThan, Boolean disabledAccess, Integer sort){
+
+        Call<List<Itinerary>> call = itineraryDao.getAllItineraries(name, duration, durationLessThan, durationGreaterThan, difficulty, difficultyLessThan, difficultyGreaterThan, disabledAccess, sort, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    listItineraries = call.execute().body();
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore!!!!");
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return listItineraries;
+    }
+
+
 
     public Activity getActivity() {
         return activity;

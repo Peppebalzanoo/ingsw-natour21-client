@@ -12,12 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
+import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerItinerary;
 import com.example.natour2.model.Itinerary;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -35,9 +43,16 @@ public class SearchFragment extends BaseFragment {
     private Button buttonApply;
     private BottomSheetDialog dialog;
     /* ****************************************************************************************** */
-
+    private ChipGroup chipGroup_Difficoltà_BottomDialog;
+    private CheckBox checkBox_Accessibilità_BottomDialog;
+    private EditText editTextSearch;
+    private ImageView searchItineraryIcon;
+    private Button buttonAnnulla_BottomDialog;
     private Button btnSelectTimeFilter;
     private int hour, minute;
+
+    ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
+    ControllerItinerary ctrlItinerary = ControllerItinerary.getInstance();
 
     public SearchFragment() {
         // Required empty public constructor
@@ -47,6 +62,11 @@ public class SearchFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctrl.setActivity(getActivity());
+        ctrl.setContext(getActivity().getApplicationContext());
+        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
+        ctrlItinerary.setActivity(getActivity());
+        ctrlItinerary.setContext(getActivity().getApplicationContext());
     }
 
     @Override
@@ -55,41 +75,39 @@ public class SearchFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
+        initViewComponents(view);
 
+        itinerarioAdapter = new ItinerarioAdapter(getContext(), itineraryList, savedInstanceState, recyclerView);
+        recyclerView.setAdapter(itinerarioAdapter);
+
+        getAllItineraries();
+        return view;
+    }
+
+
+
+    private void initViewComponents(View view){
+        //RecyclerView settings
         recyclerView = view.findViewById(R.id.recycler_viewSearch);
         recyclerView.setHasFixedSize(true);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
-
         recyclerView.setLayoutManager(linearLayoutManager);
-
         itineraryList = new ArrayList<>();
-        itinerarioAdapter = new ItinerarioAdapter(getContext(), itineraryList, savedInstanceState, recyclerView);
+        editTextSearch = view.findViewById(R.id.editTextSearch);
+        searchItineraryIcon = view.findViewById(R.id.searchItineraryIcon);
 
-        recyclerView.setAdapter(itinerarioAdapter);
-
-        /* ****************************************************************************************** */
-
-        buttonFiltersFloating = view.findViewById(R.id.buttonFiltersFloating);
-
-
-        dialog = new BottomSheetDialog(requireContext());
-        dialog.setContentView(R.layout.bottom_dialog);
-        dialog.setCanceledOnTouchOutside(false);
-
-        buttonApply = dialog.findViewById(R.id.buttonApplica_BottomDialog);
-
-        btnSelectTimeFilter = dialog.findViewById(R.id.button_Durata_BottomDialog);
-
-        btnSelectTimeFilter.setOnClickListener(new View.OnClickListener() {
+        searchItineraryIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popTimePicker(view);
+                System.out.println("ù§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ Sto in icon");
+                getItinerariesByFilters();
             }
         });
 
+        //Show Filter Dialog
+        buttonFiltersFloating = view.findViewById(R.id.buttonFiltersFloating);
         buttonFiltersFloating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +116,33 @@ public class SearchFragment extends BaseFragment {
             }
         });
 
+
+        //Filter Dialog
+        dialog = new BottomSheetDialog(requireContext());
+        dialog.setContentView(R.layout.bottom_dialog);
+        dialog.setCanceledOnTouchOutside(false);
+        buttonApply = dialog.findViewById(R.id.buttonApplica_BottomDialog);
+        btnSelectTimeFilter = dialog.findViewById(R.id.button_Durata_BottomDialog);
+        chipGroup_Difficoltà_BottomDialog = dialog.findViewById(R.id.chipGroup_Difficoltà_BottomDialog);
+        checkBox_Accessibilità_BottomDialog = dialog.findViewById(R.id.checkBox_Accessibilità_BottomDialog);
+        buttonAnnulla_BottomDialog = dialog.findViewById(R.id.buttonAnnulla_BottomDialog);
+
+        btnSelectTimeFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popTimePicker(view);
+            }
+        });
+
         buttonApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getItinerariesByFilters();
+                dialog.dismiss();
+            }
+        });
+
+        buttonAnnulla_BottomDialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -106,10 +150,78 @@ public class SearchFragment extends BaseFragment {
         });
 
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
-        readItinerari();
-        return view;
     }
+
+
+    private void getAllItineraries(){
+
+        List<Itinerary> list = ctrlItinerary.getAllItinerariesByFilters(null, null, null, null, null, null, null, null, null);
+        if(list == null){
+            return;
+        }
+        itineraryList.addAll(list);
+        itinerarioAdapter.notifyDataSetChanged();
+    }
+
+    private void getItinerariesByFilters(){
+
+        String name = getNameFilter();
+        Integer duration = getDurataFilter();
+        Integer difficulty = getDifficultyFilter();
+        Boolean disabledAcces =  getDisabledAccesFilter();
+        //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ name : " + name);
+        //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ duration : " + duration);
+        //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ difficulty : " + difficulty);
+        //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ disabled : " + disabledAcces);
+        List<Itinerary> list = ctrlItinerary.getAllItinerariesByFilters(name, null, duration, null, difficulty, null, null, disabledAcces, null);
+        itineraryList.removeAll(itineraryList);
+        if(list != null){
+            itineraryList.addAll(list);
+        }
+        itinerarioAdapter.notifyDataSetChanged();
+    }
+
+    private String getNameFilter(){
+        String name = editTextSearch.getText().toString();
+        if(name == null || name.equals("")){
+            return null;
+        }
+        return name;
+    }
+
+    private Integer getDurataFilter(){
+        Integer durata = (hour*60)+minute;
+        if(durata == 0){
+            durata = null;
+        }
+        return durata;
+    }
+
+    private Integer getDifficultyFilter(){
+        int chipsCount =  chipGroup_Difficoltà_BottomDialog.getChildCount();
+        int i = 0;
+        while (i < chipsCount) {
+            Chip chip = (Chip)  chipGroup_Difficoltà_BottomDialog.getChildAt(i);
+            if (chip.isChecked() ) {
+                break;
+            }
+            i++;
+        }
+        i = i+1;
+        if(i<=0 || i>=4){
+            return null;
+        }
+
+        return i;
+    }
+
+    private Boolean getDisabledAccesFilter(){
+        if(checkBox_Accessibilità_BottomDialog.isChecked()){
+            return true;
+        }
+        return null;
+    }
+
 
     private void popTimePicker(View view){
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
@@ -123,16 +235,6 @@ public class SearchFragment extends BaseFragment {
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), onTimeSetListener, hour, minute, true);
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
-    }
-
-    private void readItinerari(){
-        /*
-        Itinerario itr1 = new Itinerario("sentiero", "01:14", "facile", "bello il sentiero", "antonio", "pippo");
-        Itinerario itr2 = new Itinerario("sentiero2", "01:48", "difficile", "brutto il sentiero", "anto", "pippo2");
-        itinerarioList.add(itr1);
-        itinerarioList.add(itr2);
-*/
-        itinerarioAdapter.notifyDataSetChanged();
     }
 
 

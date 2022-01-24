@@ -1,5 +1,7 @@
 package com.example.natour2.model;
 
+import java.util.List;
+
 public class Itinerary {
 
     private long id;
@@ -10,12 +12,13 @@ public class Itinerary {
     private String gpx;
     private User author; // Questo dovrebbe essere di tipo User
     private Boolean disabledAccess;
+    private List<Reporting> reports;
 
     public Itinerary(){
 
     }
 
-    public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser, User author){
+    public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser, User author, List<Reporting> reports){
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -24,6 +27,7 @@ public class Itinerary {
         this.gpx = gpx;
         this.author = author;
         this.disabledAccess = disabledAccessUser;
+        this.reports = reports;
     }
 
     public Itinerary(String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser){
@@ -97,5 +101,13 @@ public class Itinerary {
 
     public void setDisabledAccess(Boolean disabledAccess) {
         this.disabledAccess = disabledAccess;
+    }
+
+    public List<Reporting> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<Reporting> reports) {
+        this.reports = reports;
     }
 }
