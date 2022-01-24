@@ -3,45 +3,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00897B"
     android:orientation="vertical"
-    android:paddingHorizontal="20dp"
-    android:background="#FF018786"
-    android:paddingBottom="100dp">
+    android:paddingHorizontal="20dp">
 
 
     <Button
-        android:id="@+id/buttonApply"
+        android:id="@+id/buttonApplica_BottomDialog"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="48dp"
-        android:background="#00ACC1"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/custom_button"
         android:text="APPLICA"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/buttonAnnulla_BottomDialog"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_Accessibilità_BottomDialog"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/buttonAnnulla_BottomDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/custom_button"
+        android:text="Annulla"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_Accessibilità_BottomDialog"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
+        android:id="@+id/chipGroup_Difficoltà_BottomDialog"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Difficoltà_BottomDialog"
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip5"
+            style="@style/CustomChipStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
             android:text="FACILE"
-            android:theme="@style/Theme.MaterialComponents.Light" />
+            android:theme="@style/Theme.ChatApp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip6"
+            style="@style/CustomChipStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
@@ -50,6 +72,7 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip4"
+            style="@style/CustomChipStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkable="true"
@@ -58,86 +81,88 @@
     </com.google.android.material.chip.ChipGroup>
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView_Durata_BottomDialog"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="Durata: "
-        android:textColor="#000"
-        android:textSize="20dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal|left"
+        android:text="Durata "
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/btnSelectTimeFilter"
-        app:layout_constraintHorizontal_bias="0.934"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/chipGroup_Difficoltà_BottomDialog" />
 
     <Button
-        android:id="@+id/btnSelectTimeFilter"
-        android:layout_width="74dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="124dp"
-        android:background="@drawable/button"
+        android:id="@+id/button_Durata_BottomDialog"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/custom_button"
         android:text="00:00"
-        android:textColor="#000"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Durata_BottomDialog" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView_Difficoltà_BottomDialog"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Difficoltà: "
-        android:textColor="#000"
-        android:textSize="20dp"
+        android:layout_marginTop="15dp"
+        android:text="Difficoltà"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:id="@+id/textView_Accessibilità_BottomDialog"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Accesso disabili: "
-        android:textColor="#000"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/chipGroupDiabili"
-        app:layout_constraintHorizontal_bias="0.706"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroupDiabili"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="64dp"
+        android:text="Accessibilità"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSelectTimeFilter"
-        app:singleSelection="true">
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_Durata_BottomDialog" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checkable="true"
-            android:text="  SI  "
-            android:theme="@style/Theme.MaterialComponents.Light" />
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:tint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_power_spinner_library" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checkable="true"
-            android:text=" NO "
-            android:theme="@style/Theme.MaterialComponents.Light" />
-
-    </com.google.android.material.chip.ChipGroup>
+    <CheckBox
+        android:id="@+id/checkBox_Accessibilità_BottomDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:buttonTint="#FFFFFF"
+        android:text="Disponibile"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Accessibilità_BottomDialog" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

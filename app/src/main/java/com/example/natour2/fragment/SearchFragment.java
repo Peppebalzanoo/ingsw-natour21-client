@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,13 +75,13 @@ public class SearchFragment extends BaseFragment {
         buttonFiltersFloating = view.findViewById(R.id.buttonFiltersFloating);
 
 
-        dialog = new BottomSheetDialog(getContext());
+        dialog = new BottomSheetDialog(requireContext());
         dialog.setContentView(R.layout.bottom_dialog);
         dialog.setCanceledOnTouchOutside(false);
 
-        buttonApply = dialog.findViewById(R.id.buttonApply);
+        buttonApply = dialog.findViewById(R.id.buttonApplica_BottomDialog);
 
-        btnSelectTimeFilter = dialog.findViewById(R.id.btnSelectTimeFilter);
+        btnSelectTimeFilter = dialog.findViewById(R.id.button_Durata_BottomDialog);
 
         btnSelectTimeFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +93,7 @@ public class SearchFragment extends BaseFragment {
         buttonFiltersFloating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("****","************************************************************ HO PREMUTO");
                 dialog.show();
             }
         });

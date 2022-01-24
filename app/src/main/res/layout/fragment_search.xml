@@ -9,50 +9,48 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff">
+        android:background="#FFFFFF">
 
         <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:elevation="4dp"
-            android:paddingRight="16dp">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/appBarSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:id="@+id/appBarSearch">
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editTextTextEmailAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="6dp"
                     android:background="@drawable/forget"
-                    android:ems="10"
+                    android:ems="15"
                     android:hint="Cerca qui"
                     android:textColor="#0d6e6a"
                     android:textSize="18dp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="10dp"
                     android:src="@drawable/ic_search"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@+id/editTextTextEmailAddress"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="0.0"
+                    app:tint="#0d6e6a" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -64,25 +62,23 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_viewSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/appBarLayout"
-        android:layout_marginTop="2dp" />
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonFiltersFloating"
         android:layout_width="wrap_content"
-        android:layout_height="226dp"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:backgroundTint="#0d6e6a"
-        android:elevation="0dp"
         android:src="@drawable/ic_filter"
-        app:elevation="0dp"
-        tools:ignore="SpeakableTextPresentCheck"
-        tools:layout_editor_absoluteX="333dp"
-        tools:layout_editor_absoluteY="3dp" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
 </RelativeLayout>
