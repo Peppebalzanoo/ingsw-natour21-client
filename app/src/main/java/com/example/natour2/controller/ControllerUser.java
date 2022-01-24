@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.example.natour2.dao.UserDao;
+import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.User;
 import com.example.natour2.utilities.RetrofitInstance;
 import com.example.natour2.utilities.SharedPreferencesUtil;
 
 import java.io.IOException;
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -17,7 +19,7 @@ public class ControllerUser {
     private static ControllerUser ctrlInstance;
     private Activity activity;
     private Context context;
-
+    private List<User> listUsers = null;
     private final UserDao userDAO = RetrofitInstance.getRetrofitInstance().create(UserDao.class);
 
     private ControllerUser(){
@@ -82,6 +84,30 @@ public class ControllerUser {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public List<User> getAllUsers(){
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Call<List<User>> call = userDAO.getAllUsers(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+                try {
+                    listUsers = call.execute().body();
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore");
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return listUsers;
     }
 
 

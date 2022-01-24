@@ -9,12 +9,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.UserAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.listeners.UserListener;
+import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.User;
 import com.example.natour2.utilities.PreferanceManager;
 
@@ -29,9 +32,11 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
     private TextView textErrorMessage;
     private RecyclerView userRecyclerView;
     private AppCompatImageView imageBackSelectUser;
+    private List<User> users;
+    private UserAdapter userAdapter;
 
     private final ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
-
+    private final ControllerUser ctrlUser = ControllerUser.getInstance();
 
 
     public SelectUsersFragment() {
@@ -46,6 +51,8 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
         ctrl.setActivity(getActivity());
         ctrl.setContext(getActivity().getApplicationContext());
         ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
+        ctrlUser.setActivity(getActivity());
+        ctrlUser.setContext(getActivity().getApplicationContext());
     }
 
     @Override
@@ -61,8 +68,20 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
 
     private void initViewComponents(View view){
         progressBar = view.findViewById(R.id.progessBar_SelectUserFragment);
-        userRecyclerView = view.findViewById(R.id.recyclerview_SelectUserFragment);
         textErrorMessage = view.findViewById(R.id.textView_ErrorMessage_SelectUserFragment);
+
+        userRecyclerView = view.findViewById(R.id.recyclerview_SelectUserFragment);
+        userRecyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        //linearLayoutManager.setStackFromEnd(true);
+        userRecyclerView.setLayoutManager(linearLayoutManager);
+
+        users = new ArrayList<>();
+        userAdapter = new UserAdapter(users, this);
+        userRecyclerView.setAdapter(userAdapter);
+        userRecyclerView.setVisibility(View.VISIBLE);
 
         imageBackSelectUser = view.findViewById(R.id.imageBack_SelectUserFragment);
         imageBackSelectUser.setOnClickListener(new View.OnClickListener() {
@@ -109,18 +128,14 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
                 });
 
          */
-        List<User> users = new ArrayList<>();
-        User user1 = new User();
-        User user2 = new User();
-        user1.setUsername("pippo");
-        user1.setEmail("pippo@gmail.com");
-        user2.setUsername("pluto");
-        user2.setEmail("pluto@gmail.com");
-        users.add(user1);
-        users.add(user2);
-        UserAdapter userAdapter = new UserAdapter(users, this);
-        userRecyclerView.setAdapter(userAdapter);
-        userRecyclerView.setVisibility(View.VISIBLE);
+
+        List<User> list = ctrlUser.getAllUsers();
+        if(list == null){
+            return;
+        }
+        users.addAll(list);
+        userAdapter.notifyDataSetChanged();
+
     }
 
 
