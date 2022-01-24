@@ -118,41 +118,77 @@ public class AddItinerarioFragment extends Fragment {
         btnPubblica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Itinerary itinerary = null;
-                int durata = (hour*60)+minute;
-                int chipsCount = chipGroupDiffAddItinerario.getChildCount();
-
-                int i = 0;
-                while (i < chipsCount) {
-                    Chip chip = (Chip) chipGroupDiffAddItinerario.getChildAt(i);
-                    if (chip.isChecked() ) {
-                        break;
-                    }
-                    i++;
-                };
-                i = i+1;
-
-                String nome= txtNameItinerario.getText().toString();
-                String descrizione = editTextTextMultiLineDescrizione.getText().toString();
-                if(nome == null || nome.equals("") || durata == 0 || i > 4 || i <= 0 || readedTexFromUri == null || readedTexFromUri.equals("")  ){
-                   ctrl.printToast("Copilare tutti i campi.");
-                    return;
-                }
-                /*
-                System.out.println("*************** nome: " + nome);
-                System.out.println("*************** durata: " + durata);
-                System.out.println("*************** diff: " + i);
-                System.out.println("*************** descrizione: " + descrizione);
-                System.out.println("*************** gpx: " + readedTexFromUri);
-                Boolean b = true;
-                */
-                itinerary = new Itinerary(nome, durata, i, descrizione, readedTexFromUri, true);
-                System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°");
-                ctrlItinerary.uploadItinerary(itinerary);
-                ctrl.printToast("Itinerario pubblicato correttamente.");
-                ctrl.showHomeFragment();
+                publishItinerary();
             }
         });
+    }
+
+
+    private void publishItinerary(){
+        String name = getNameFilter();
+        Integer duration = getDurataFilter();
+        Integer difficulty = getDifficultyFilter();
+        //Boolean disabledAcces =  getDisabledAccesFilter();
+        String description = getDescriptionFilter();
+
+        if(name == null || name.equals("") || duration == null || difficulty == null || readedTexFromUri == null || readedTexFromUri.equals("")){
+            ctrl.printToast("Errore! Inserisci campi obbligatori");
+            return;
+        }
+        Itinerary itinerary  = new Itinerary(name, duration, difficulty, description, readedTexFromUri, true);
+        ctrlItinerary.uploadItinerary(itinerary);
+        ctrl.printToast("Itinerario pubblicato correttamente.");
+        ctrl.showHomeFragment();
+    }
+
+
+    private String getNameFilter(){
+        String name = txtNameItinerario.getText().toString();
+        if(name == null || name.equals("")){
+            return null;
+        }
+        return name;
+    }
+
+    private Integer getDurataFilter(){
+        Integer durata = (hour*60)+minute;
+        if(durata == 0){
+            return null;
+        }
+        return durata;
+    }
+
+    private Integer getDifficultyFilter(){
+        int chipsCount =  chipGroupDiffAddItinerario.getChildCount();
+        int i = 0;
+        while (i < chipsCount) {
+            Chip chip = (Chip)  chipGroupDiffAddItinerario.getChildAt(i);
+            if (chip.isChecked() ) {
+                break;
+            }
+            i++;
+        }
+        i = i+1;
+        if(i<=0 || i>=4){
+            return null;
+        }
+        return i;
+    }
+/*
+    private Boolean getDisabledAccesFilter(){
+        if(checkBox_Accessibilità_BottomDialog.isChecked()){
+            return true;
+        }
+        return null;
+    }
+    */
+
+    private String getDescriptionFilter(){
+        String description = editTextTextMultiLineDescrizione.getText().toString();
+        if(description == null || description.equals("")){
+            return null;
+        }
+        return description;
     }
 
 

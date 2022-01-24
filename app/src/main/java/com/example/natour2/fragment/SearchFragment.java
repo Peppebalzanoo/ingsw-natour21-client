@@ -174,10 +174,13 @@ public class SearchFragment extends BaseFragment {
         //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ difficulty : " + difficulty);
         //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ disabled : " + disabledAcces);
         List<Itinerary> list = ctrlItinerary.getAllItinerariesByFilters(name, null, duration, null, difficulty, null, null, disabledAcces, null);
-        itineraryList.removeAll(itineraryList);
-        if(list != null){
-            itineraryList.addAll(list);
+
+        if(list == null){
+            ctrl.printToast("Nessun risultato per questi filtri.");
+            return;
         }
+        itineraryList.removeAll(itineraryList);
+        itineraryList.addAll(list);
         itinerarioAdapter.notifyDataSetChanged();
     }
 
