@@ -1,8 +1,9 @@
 package com.example.natour2.model;
 
 import java.util.Date;
+import java.util.List;
 
-public class Reporting {
+public class Report {
 
 
     private long id;
@@ -10,13 +11,12 @@ public class Reporting {
     private String reasonDescription;
     private String providedExplanation;
     private Date openOn;
-    private Itinerary itinerary;
+    private Object itinerary;
 
-
-    public Reporting(){
+    public Report(){
     }
 
-    public Reporting(long id, String reasonTitle, String reasonDescription, String providedExplanation, Date openOn, Itinerary itinerary) {
+    public Report(long id, String reasonTitle, String reasonDescription, String providedExplanation, Date openOn, Object itinerary) {
         this.id = id;
         this.reasonTitle = reasonTitle;
         this.reasonDescription = reasonDescription;
@@ -65,11 +65,11 @@ public class Reporting {
         this.openOn = openOn;
     }
 
-    public Itinerary getItinerary() {
+    public Object getItinerary() {
         return itinerary;
     }
 
-    public void setItinerary(Itinerary itinerary) {
+    public void setItinerary(Object itinerary) {
         this.itinerary = itinerary;
     }
 }

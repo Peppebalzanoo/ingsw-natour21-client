@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
+import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.model.Itinerary;
 import com.example.natour2.utilities.MapViewCustom;
 import com.example.natour2.utilities.SharedPreferencesUtil;
@@ -37,6 +38,8 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
     private List<Itinerary> mItinerary;
     private Bundle savedInstanceState;
     private RecyclerView recyclerView;
+
+    private final ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
 
     public ItinerarioAdapter(Activity activity, Context context, List<Itinerary> mItinerary, Bundle savedInstanceState, RecyclerView recyclerView){
         this.activity = activity;
@@ -110,7 +113,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
             imageViewPointOfInterest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    ctrl.showAddPointOfInterestFragment();
                 }
             });
 

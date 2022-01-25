@@ -10,10 +10,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.natour2.MainActivity;
 import com.example.natour2.R;
-import com.example.natour2.dao.Dao;
-import com.example.natour2.dao.ItineraryDao;
-import com.example.natour2.dao.UserDao;
 import com.example.natour2.fragment.AddItinerarioFragment;
+import com.example.natour2.fragment.AddPointOfInterestFragment;
 import com.example.natour2.fragment.ChatFragment;
 import com.example.natour2.fragment.HomeFragment;
 import com.example.natour2.fragment.NotificationFragment;
@@ -21,17 +19,7 @@ import com.example.natour2.fragment.ProfileFragment;
 import com.example.natour2.fragment.SearchFragment;
 import com.example.natour2.fragment.SelectUsersFragment;
 import com.example.natour2.fragment.UserFragment;
-import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.User;
-import com.example.natour2.utilities.RetrofitInstance;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ControllerHomeActivity {
@@ -114,6 +102,13 @@ public class ControllerHomeActivity {
     public void showAddItinerarioFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, new AddItinerarioFragment()); // give your fragment container id in first parameter
+        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+        transaction.commit();
+    }
+
+    public void showAddPointOfInterestFragment(){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame_layout_home, new AddPointOfInterestFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }

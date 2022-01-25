@@ -12,13 +12,13 @@ public class Itinerary {
     private String gpx;
     private User author; // Questo dovrebbe essere di tipo User
     private Boolean disabledAccess;
-    private List<Reporting> reports;
+    private List<Report> reports;
 
     public Itinerary(){
 
     }
 
-    public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser, User author, List<Reporting> reports){
+    public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser, User author, List<Report> reports){
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -103,11 +103,11 @@ public class Itinerary {
         this.disabledAccess = disabledAccess;
     }
 
-    public List<Reporting> getReports() {
+    public List<Report> getReports() {
         return reports;
     }
 
-    public void setReports(List<Reporting> reports) {
+    public void setReports(List<Report> reports) {
         this.reports = reports;
     }
 }

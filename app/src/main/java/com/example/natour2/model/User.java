@@ -6,6 +6,7 @@ import com.example.natour2.utilities.SharedPreferencesUtil;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.IOException;
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -17,15 +18,17 @@ public class User{
     //public String image;
     //public String token;
     private  String idString;
+    private List<Object> itineraries;
 
     public User(){
 
     }
 
-    public User(long id, String username, String email) {
+    public User(long id, String username, String email, List<Object> itineraries) {
         this.id = id;
         this.username = username;
         this.email = email;
+        this.itineraries = itineraries;
     }
 
 
@@ -59,5 +62,13 @@ public class User{
 
     public void setIdString(String idString) {
         this.idString = idString;
+    }
+
+    public List<Object> getItineraries() {
+        return itineraries;
+    }
+
+    public void setItineraries(List<Object> itineraries) {
+        this.itineraries = itineraries;
     }
 }
