@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.natour2.R;
@@ -45,6 +46,8 @@ public class AddItinerarioFragment extends Fragment {
     private EditText editTextTextMultiLineDescrizione;
     private Button btnAnnulla;
     private Button btnPubblica;
+    private TextView textViewTime;
+    private TextView textViewSelectedFile;
     private String[] items = {"Facile", "Normale", "Difficile"};
     private int hour, minute;
 
@@ -83,7 +86,9 @@ public class AddItinerarioFragment extends Fragment {
 
         btnSfoglia = view.findViewById(R.id.btnSfoglia);
         btnSelectTime = view.findViewById(R.id.btnSelectTime);
+        textViewSelectedFile = view.findViewById(R.id.textView_File_AddItinerarioFragment);
         txtNameItinerario = view.findViewById(R.id.txtNameItinerario);
+        textViewTime = view.findViewById(R.id.textView_Time_AddItinerarioFragment);
         editTextTextMultiLineDescrizione = view.findViewById(R.id.editTextTextMultiLineDescrizione);
         btnAnnulla = view.findViewById(R.id.btnAnnulla);
         btnPubblica = view.findViewById(R.id.btnPubblica);
@@ -198,7 +203,8 @@ public class AddItinerarioFragment extends Fragment {
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 hour = selectedHour;
                 minute = selectedMinute;
-                btnSelectTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
+                //btnSelectTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
+                textViewTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
             }
         };
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), onTimeSetListener, hour, minute, true);
@@ -213,6 +219,7 @@ public class AddItinerarioFragment extends Fragment {
                 if (resultCode == RESULT_OK) {
 
                     Uri uri = data.getData();
+                    textViewSelectedFile.setText(uri.toString());
                     mapView.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(@NonNull GoogleMap googleMap) {
