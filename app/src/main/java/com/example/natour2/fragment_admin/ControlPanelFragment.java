@@ -43,6 +43,9 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctrl.setActivity(requireActivity());
+        ctrl.setContext(requireContext());
+        ctrl.setFragmentManager(requireFragmentManager());
     }
 
     @Override

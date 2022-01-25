@@ -32,26 +32,29 @@
 
                     <ImageView
                         android:id="@+id/imageView4"
-                        android:layout_width="409dp"
-                        android:layout_height="182dp"
+                        android:layout_width="0dp"
+                        android:layout_height="130dp"
                         android:scaleType="fitXY"
                         android:src="@drawable/top_background"
                         android:tint="#0d6e6a"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/imageViewProfile"
-                        android:layout_width="250dp"
-                        android:layout_height="250dp"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="50dp"
                         android:src="@drawable/profile"
                         app:civ_border_color="#0d6e6a"
                         app:civ_border_width="2dp"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.497"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/textViewNomeUtente"
@@ -96,20 +99,20 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imageView_LogOut_ProfileFragment"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:layout_marginEnd="16dp"
                         android:tint="#FFFFFF"
                         app:layout_constraintBottom_toBottomOf="@+id/textViewEmail"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.051"
+                        app:layout_constraintVertical_bias="0.048"
                         app:srcCompat="@drawable/ic_logout" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imageView_ChangeImageProfile_ProfileFragment"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:layout_marginStart="16dp"
                         android:tint="#FFFFFF"
                         app:layout_constraintBottom_toBottomOf="@+id/textViewEmail"

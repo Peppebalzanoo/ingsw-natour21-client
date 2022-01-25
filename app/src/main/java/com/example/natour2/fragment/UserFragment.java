@@ -53,6 +53,7 @@ public class UserFragment extends BaseFragment implements ConversionListener {
         conversations = new ArrayList<>();
         conversationsAdapter = new RecentConversationsAdapter(conversations, this);
         database = FirebaseFirestore.getInstance();
+
         listenConversations();
 
     }
@@ -62,18 +63,29 @@ public class UserFragment extends BaseFragment implements ConversionListener {
 
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
+        initComponentsView(view);
+
+        setListeners();
+
+        return view;
+    }
+
+
+    public void initComponentsView(View view){
         fabNewChat = view.findViewById(R.id.fabNewChat_UserFragment);
+        recyclerViewConversation = view.findViewById(R.id.recyclerview_UserFragment);
+        progressBarUserFragment = view.findViewById(R.id.progessBarUserFragment);
+
+        recyclerViewConversation.setAdapter(conversationsAdapter);
+    }
+
+    public void setListeners(){
         fabNewChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               ctrl.showSelectUserFragment();
+                ctrl.showSelectUserFragment();
             }
         });
-        recyclerViewConversation = view.findViewById(R.id.recyclerview_UserFragment);
-        recyclerViewConversation.setAdapter(conversationsAdapter);
-
-        progressBarUserFragment = view.findViewById(R.id.progessBarUserFragment);
-        return view;
     }
 
 

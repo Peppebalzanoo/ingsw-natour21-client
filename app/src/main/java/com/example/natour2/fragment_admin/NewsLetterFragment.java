@@ -46,6 +46,9 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctrl.setActivity(requireActivity());
+        ctrl.setContext(requireContext());
+        ctrl.setFragmentManager(requireFragmentManager());
     }
 
     @Override

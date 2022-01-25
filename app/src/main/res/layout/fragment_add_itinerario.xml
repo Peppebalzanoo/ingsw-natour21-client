@@ -15,9 +15,9 @@
         <com.example.natour2.utilities.MapViewCustom
             android:id="@+id/mapView2"
             android:layout_width="0dp"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
             android:background="#bbbbbb"
             android:clickable="true"
@@ -33,7 +33,7 @@
         <View
             android:id="@+id/headerBackground_AddItinerarioFragment"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:background="#0d6e6a"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -43,7 +43,7 @@
         <TextView
             android:id="@+id/textView_ConversazioniRecenti_UserFragment"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="60dp"
             android:gravity="center"
             android:text="Aggiungi Itinerario"
             android:textColor="#FFFFFF"
@@ -62,7 +62,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/mapView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +70,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
@@ -80,6 +79,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:paddingEnd="36dp"
                     android:text="Nome: "
                     android:textColor="#000"
@@ -89,7 +89,7 @@
                 <EditText
                     android:id="@+id/txtNameItinerario"
                     android:layout_width="250dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="35dp"
                     android:background="@drawable/forget"
                     android:hint="Nome Itinerario"
                     android:maxLines="1"
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:paddingEnd="8dp"
+                    android:paddingEnd="10dp"
                     android:text="Difficoltà: "
                     android:textColor="#000"
                     android:textSize="18sp"
@@ -207,7 +207,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:paddingEnd="10dp"
+                    android:paddingEnd="15dp"
                     android:text="Durata: "
                     android:textColor="#000"
                     android:textSize="18sp"
@@ -253,8 +253,8 @@
 
                 <Button
                     android:id="@+id/btnSfoglia"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:background="@drawable/ic_file"
                     android:backgroundTint="#0d6e6a" />
 
@@ -276,13 +276,11 @@
         <ScrollView
             android:id="@+id/scrollviewwwww"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="100dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="70dp"
             android:background="@drawable/forget"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -293,7 +291,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:hint="\nInserisci una descrizione..."
+                android:gravity="left"
+                android:hint="Inserisci una descrizione... \n"
                 android:inputType="textMultiLine"
                 android:paddingLeft="18dp"
                 android:paddingTop="2dp"

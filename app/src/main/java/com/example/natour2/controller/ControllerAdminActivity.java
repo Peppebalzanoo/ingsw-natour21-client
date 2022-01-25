@@ -1,5 +1,6 @@
 package com.example.natour2.controller;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -20,6 +21,9 @@ import java.util.Objects;
 public class ControllerAdminActivity {
 
     private static ControllerAdminActivity controllerInstance;
+    private FragmentManager fragmentManager;
+    private Context context;
+    private Activity activity;
 
     private ControllerAdminActivity(){ }
 
@@ -65,6 +69,19 @@ public class ControllerAdminActivity {
         }
     }
 
+    public void setActivity(Activity activity){
+        this.activity = activity;
+    }
+
+
+    public void setContext(Context context){
+        this.context = context;
+    }
+
+
+    public void setFragmentManager(FragmentManager fragmentManager){
+        this.fragmentManager = fragmentManager;
+    }
 
 
 }
