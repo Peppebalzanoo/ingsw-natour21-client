@@ -72,7 +72,7 @@ public class HomeFragment extends BaseFragment {
 
         recyclerView.setLayoutManager(linearLayoutManager);
         itineraryList = new ArrayList<>();
-        itinerarioAdapter = new ItinerarioAdapter(getContext(), itineraryList, savedInstanceState, recyclerView);
+        itinerarioAdapter = new ItinerarioAdapter(getActivity(), getContext(), itineraryList, savedInstanceState, recyclerView);
         recyclerView.setAdapter(itinerarioAdapter);
 
         readItinerari();

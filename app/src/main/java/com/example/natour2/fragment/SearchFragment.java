@@ -77,7 +77,7 @@ public class SearchFragment extends BaseFragment {
 
         initViewComponents(view);
 
-        itinerarioAdapter = new ItinerarioAdapter(getContext(), itineraryList, savedInstanceState, recyclerView);
+        itinerarioAdapter = new ItinerarioAdapter(getActivity(), getContext(), itineraryList, savedInstanceState, recyclerView);
         recyclerView.setAdapter(itinerarioAdapter);
 
         getAllItineraries();

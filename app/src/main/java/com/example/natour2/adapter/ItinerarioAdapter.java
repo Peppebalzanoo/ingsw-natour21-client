@@ -1,5 +1,6 @@
 package com.example.natour2.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -17,10 +18,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
-import com.example.natour2.controller.ControllerHomeActivity;
-import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.model.Itinerary;
 import com.example.natour2.utilities.MapViewCustom;
+import com.example.natour2.utilities.SharedPreferencesUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -32,12 +32,14 @@ import java.util.List;
 
 public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.ViewHolder> {
 
-    public Context mContext;
-    public List<Itinerary> mItinerary;
-    public Bundle savedInstanceState;
-    public RecyclerView recyclerView;
+    private Activity activity;
+    private Context mContext;
+    private List<Itinerary> mItinerary;
+    private Bundle savedInstanceState;
+    private RecyclerView recyclerView;
 
-    public ItinerarioAdapter(Context context, List<Itinerary> mItinerary, Bundle savedInstanceState, RecyclerView recyclerView){
+    public ItinerarioAdapter(Activity activity, Context context, List<Itinerary> mItinerary, Bundle savedInstanceState, RecyclerView recyclerView){
+        this.activity = activity;
         this.mContext = context;
         this.mItinerary = mItinerary;
         this.savedInstanceState = savedInstanceState;
@@ -54,7 +56,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Itinerary itr = mItinerary.get(position);
-        publisherInfo(holder.username, holder.name, holder.durata, holder.diff, holder.descrizione, holder.mapView, itr);
+        publisherInfo(holder.username, holder.name, holder.durata, holder.diff, holder.descrizione, holder.mapView, holder.imageViewPointOfInterest, itr);
     }
 
     @Override
@@ -64,8 +66,8 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView profileImage, infoDettaglio;
-        public TextView username, name, durata, diff, descrizione, segnala, dettaglio;
+        public ImageView profileImage, infoDettaglio, imageViewPointOfInterest;
+        public TextView username, name, durata, diff, descrizione, segnala;
         public MapViewCustom mapView;
 
 
@@ -85,16 +87,16 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
             durata = itemView.findViewById(R.id.durata);
             diff = itemView.findViewById(R.id.difficolta);
             descrizione = itemView.findViewById(R.id.descrizione);
-            segnala = itemView.findViewById(R.id.segnala);
-            dettaglio = itemView.findViewById(R.id.textViewDettaglio);
+            segnala = itemView.findViewById(R.id.textViewSegnala);
             mapView = itemView.findViewById(R.id.mapView);
             infoDettaglio = itemView.findViewById(R.id.imageViewDettaglio);
+            imageViewPointOfInterest = itemView.findViewById(R.id.imageViewPointOfInterest);
 
-            dettaglio.setOnClickListener(new View.OnClickListener() {
+            segnala.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //System.out.println("***************************************************+ Potition " + mItinerario.get(getAdapterPosition()).getName());
-                    //ControllerHomeActivity.getInstance().getActiveUser();
+
                 }
             });
 
@@ -105,19 +107,39 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                 }
             });
 
+            imageViewPointOfInterest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
 
         }
     }
 
 
 
-    private void publisherInfo(final TextView username, final TextView name, final TextView durata, final TextView diff, final TextView descrizione, final MapViewCustom mapView, Itinerary itr ){
+    private void publisherInfo(final TextView username, final TextView name, final TextView durata, final TextView diff, final TextView descrizione, final MapViewCustom mapView, ImageView imageViewPointOfInterest, Itinerary itr ){
 
         username.setText(itr.getAuthor().getUsername());
         name.setText(itr.getName());
-        durata.setText(itr.getDuration().toString());
-        diff.setText(itr.getDifficulty().toString());
+        durata.setText(setDuration(itr.getDuration()));
+        diff.setText(setDifficulty(itr.getDifficulty()));
         descrizione.setText(itr.getDescription());
+
+
+        String s1 = itr.getAuthor().getUsername();
+        String s2 = SharedPreferencesUtil.getStringPreference(activity, "USERNAME");
+        if(s1.equals(s2)){
+            imageViewPointOfInterest.setVisibility(View.VISIBLE);
+            imageViewPointOfInterest.setClickable(true);
+        } else {
+            imageViewPointOfInterest.setVisibility(View.INVISIBLE);
+            imageViewPointOfInterest.setClickable(false);
+        }
+
+
         mapView.getMapAsync(new OnMapReadyCallback() {
 
 
@@ -142,6 +164,26 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                 mapView.onEnterAmbient(null);
             }
         });
+    }
+
+    private String setDuration(int duration){
+        int hours = duration / 60;
+        int minutes = duration % 60;
+        String res = ""+minutes;
+        if(minutes < 10){
+            res = "0"+minutes;
+        }
+        return hours+":"+res;
+    }
+
+    private String setDifficulty(int difficuly){
+        if(difficuly == 1){
+            return "Facile";
+        } else if(difficuly == 2){
+            return "Normale";
+        } else {
+            return "Difficile";
+        }
     }
 
     private InputStream convertStringToInputStream(String string) {

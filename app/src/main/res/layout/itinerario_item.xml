@@ -46,6 +46,18 @@
                 app:layout_constraintStart_toEndOf="@+id/imageProfile"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+            <ImageView
+                android:id="@+id/imageViewPointOfInterest"
+                android:layout_width="41dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_add_point_of_interest"
+                />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -107,6 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
                 android:text="01:20"
                 android:textColor="#000"
                 android:textSize="16sp"
@@ -165,18 +178,18 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textViewDettaglio"
+                app:layout_constraintEnd_toStartOf="@+id/textViewSegnala"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@drawable/ic_info" />
 
             <TextView
-                android:id="@+id/textViewDettaglio"
+                android:id="@+id/textViewSegnala"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
-                android:text="Dettagli"
+                android:text="Segnala"
                 android:textColor="#000"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -223,7 +236,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="30dp"
-                android:text="Segnala"
+                android:text=""
+                android:visibility="invisible"
+                android:clickable="false"
                 android:textColor="#000"
                 android:textSize="16sp"
                 android:textStyle="bold" />

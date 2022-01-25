@@ -106,7 +106,7 @@ public class ProfileFragment extends BaseFragment {
         initViewComponents(view);
 
         itineraryList = new ArrayList<>();
-        itinerarioAdapter = new ItinerarioAdapter(getContext(), itineraryList, savedInstanceState, recyclerView);
+        itinerarioAdapter = new ItinerarioAdapter(getActivity(), getContext(), itineraryList, savedInstanceState, recyclerView);
         recyclerView.setAdapter(itinerarioAdapter);
 
         setListeners();

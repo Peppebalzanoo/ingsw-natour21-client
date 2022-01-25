@@ -69,9 +69,7 @@ public class ControllerUser {
                 Call<User> call = userDAO.setUser(token);
                 try {
                     result = call.execute().body();
-                    System.out.println("*************************************** " + result.toString());
-
-
+                    SharedPreferencesUtil.setStringPreference(activity, "USERNAME", result.getUsername());
                 } catch (IOException e) {
                     System.out.println("*************************************** errore!!!!");
                     e.printStackTrace();
