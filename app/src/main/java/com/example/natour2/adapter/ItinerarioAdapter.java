@@ -95,6 +95,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
             infoDettaglio = itemView.findViewById(R.id.imageViewDettaglio);
             imageViewPointOfInterest = itemView.findViewById(R.id.imageViewPointOfInterest);
 
+
             segnala.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -161,7 +162,13 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                 googleMap.addMarker(options);
 
                  */
+               System.out.println("**************** Stampo gpx.length(): " + itr.getGpx().length());
+
                 InputStream in = convertStringToInputStream(itr.getGpx());
+                System.out.println("**************** Stampo in: " + in);
+                System.out.println("**************** Stampo in.tostring(): " + in.toString());
+
+
                 mapView.getMap(googleMap, in);
                 mapView.onResume();
                 mapView.onEnterAmbient(null);

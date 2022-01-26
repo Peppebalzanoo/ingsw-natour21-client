@@ -18,7 +18,9 @@ import android.widget.ImageView;
 import com.example.natour2.R;
 import com.example.natour2.adapter.EmailAdapter;
 import com.example.natour2.controller.ControllerAdminActivity;
+import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.model.Email;
+import com.example.natour2.model.User;
 import com.example.natour2.utilities.SpacingItem;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
     private RecyclerView recyclerView;
 
     private ControllerAdminActivity ctrl = ControllerAdminActivity.getInstance();
+    private final ControllerUser ctrlUser = ControllerUser.getInstance();
 
     public NewsLetterFragment() {
         // Required empty public constructor
@@ -49,6 +52,9 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
         ctrl.setActivity(requireActivity());
         ctrl.setContext(requireContext());
         ctrl.setFragmentManager(requireFragmentManager());
+
+        ctrlUser.setActivity(requireActivity());
+        ctrlUser.setContext(requireContext());
     }
 
     @Override
@@ -57,15 +63,6 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
         initComponentsView(view);
 
         emailList = new ArrayList<>();
-
-        emailList.add(new Email("pippo@pluto.com"));
-        emailList.add(new Email("paperino@pluto.com"));
-        emailList.add(new Email("topolino@pluto.com"));
-        emailList.add(new Email("minnie@pluto.com"));
-        emailList.add(new Email("hulk@pluto.com"));
-        emailList.add(new Email("ronnie@pluto.com"));
-        emailList.add(new Email("spritz@pluto.com"));
-
 
         emailAdapter = new EmailAdapter(this, getContext(), emailList, savedInstanceState, recyclerView);
         recyclerView.setAdapter(emailAdapter);
@@ -79,10 +76,22 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
         recyclerView.addItemDecoration(horizontalDecoration);
 
         setListeners();
-
+        loadEmail();
         return view;
     }
 
+
+    public void loadEmail(){
+        List<User> list = ctrlUser.getAllUsers();
+        if(list == null){
+            return;
+        }
+        for(User u: list ){
+            emailList.add(new Email(u.getEmail()));
+        }
+        emailAdapter.notifyDataSetChanged();
+
+    }
 
 
     public void initComponentsView(View view){

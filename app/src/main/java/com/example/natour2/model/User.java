@@ -15,19 +15,26 @@ public class User{
     private long id;
     private String username;
     private String email;
-    //public String image;
-    //public String token;
-    private List<Object> itineraries;
+    private String imagePath;
+    private List<Itinerary> itineraries;
 
     public User(){
 
     }
 
-    public User(long id, String username, String email, List<Object> itineraries) {
+    public User(long id, String username, String email, String imagePath) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.imagePath = imagePath;
+    }
+
+    public User(long id, String username, String email, List<Itinerary> itineraries, String imagePath) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.itineraries = itineraries;
+        this.imagePath = imagePath;
     }
 
 
@@ -55,11 +62,19 @@ public class User{
         this.email = email;
     }
 
-    public List<Object> getItineraries() {
+    public List<Itinerary> getItineraries() {
         return itineraries;
     }
 
-    public void setItineraries(List<Object> itineraries) {
+    public void setItineraries(List<Itinerary> itineraries) {
         this.itineraries = itineraries;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import com.example.natour2.R;
 import com.example.natour2.adapter.SegnalazioneAdapter;
 import com.example.natour2.controller.ControllerAdminActivity;
+import com.example.natour2.controller.ControllerReport;
+import com.example.natour2.model.Report;
 import com.example.natour2.utilities.SpacingItem;
 
 import java.util.ArrayList;
@@ -27,12 +29,13 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
     private ImageView imageViewNewsLetters;
     private ImageView imageViewLogOut;
 
-    private List<String> fruitList;
+    private List<Report> reportList;
 
     private SegnalazioneAdapter customBaseAdapter;
     private RecyclerView recyclerView;
 
     private ControllerAdminActivity ctrl = ControllerAdminActivity.getInstance();
+    private ControllerReport ctrlReport = ControllerReport.getInstance();
 
 
     public ControlPanelFragment() {
@@ -46,6 +49,9 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
         ctrl.setActivity(requireActivity());
         ctrl.setContext(requireContext());
         ctrl.setFragmentManager(requireFragmentManager());
+
+        ctrlReport.setActivity(requireActivity());
+        ctrlReport.setContext(requireContext());
     }
 
     @Override
@@ -54,11 +60,9 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
 
         initComponentsView(view);
 
-        fruitList = new ArrayList<>();
+        reportList = new ArrayList<>();
 
-        addListItems();
-
-        customBaseAdapter = new SegnalazioneAdapter(this, getContext(), fruitList, savedInstanceState, recyclerView);
+        customBaseAdapter = new SegnalazioneAdapter(this, getContext(), reportList, savedInstanceState, recyclerView);
         recyclerView.setAdapter(customBaseAdapter);
         SpacingItem spacingItem = new SpacingItem(20);
         recyclerView.addItemDecoration(spacingItem);
@@ -70,6 +74,7 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
         recyclerView.addItemDecoration(horizontalDecoration);
 
         setListeners();
+        addListItems();
         return view;
     }
 
@@ -77,7 +82,6 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
     private void initComponentsView(View view){
         imageViewNewsLetters = view.findViewById(R.id.button_NewsLetters_ControlPanelFragment);
         imageViewLogOut = view.findViewById(R.id.imageView_LogOut_ControlPanelFragment);
-
         recyclerView = view.findViewById(R.id.recycler_view_ControlPanelFragment);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -88,18 +92,18 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
     }
 
     private void addListItems(){
-        fruitList.add("Banana");
-        fruitList.add("Melone");
-        fruitList.add("Mela");
-        fruitList.add("Prugna");
-        fruitList.add("Caffe");
-        fruitList.add("Arancia");
-
+        List<Report> list = ctrlReport.getAllReport();
+        if(list == null){
+            System.out.println("******************************************************** list.size(): " + list.size());
+            return;
+        }
+        reportList.addAll(list);
+        customBaseAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onDrawableClick(int position) {
-        ctrl.showSegnalazioneFragment(requireActivity().getSupportFragmentManager(), fruitList.get(position));
+        ctrl.showSegnalazioneFragment(requireActivity().getSupportFragmentManager(), reportList.get(position));
     }
 
     public void setListeners(){

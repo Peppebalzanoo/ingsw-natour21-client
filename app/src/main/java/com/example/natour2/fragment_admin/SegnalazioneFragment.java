@@ -15,17 +15,22 @@ import android.widget.TextView;
 
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerAdminActivity;
+import com.example.natour2.model.Report;
 
 
 public class SegnalazioneFragment extends Fragment {
 
-
+    private TextView textTitle;
+    private TextView textItineraryName;
+    private TextView textReporterName;
+    private TextView textUserName;
+    private TextView textReasonDescription;
+    private TextView textReplayReport;
     private Button buttonEliminaSegnalazione;
     private Button buttonRimuoviItinerario;
     private ImageView imageViewBack;
+    private Report report;
 
-    private String fruit;
-    private TextView textView;
 
     private ControllerAdminActivity ctrl = ControllerAdminActivity.getInstance();
 
@@ -34,8 +39,8 @@ public class SegnalazioneFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public SegnalazioneFragment(String fruit){
-        this.fruit = fruit;
+    public SegnalazioneFragment(Report report){
+        this.report = report;
     }
 
 
@@ -51,6 +56,7 @@ public class SegnalazioneFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_segnalazione, container, false);
         initComponentsView(view);
+        loadData();
         setListeners();
 
         return view;
@@ -61,11 +67,26 @@ public class SegnalazioneFragment extends Fragment {
         imageViewBack = view.findViewById(R.id.imageView_Back_NewsLetterFragment);
         buttonEliminaSegnalazione = view.findViewById(R.id.button_EliminaSegnalazione_SegnalazioneFragment);
         buttonRimuoviItinerario = view.findViewById(R.id.button_RimuoviItinerario_SegnalazioneFragment);
-        textView = view.findViewById(R.id.textView_Itinerario_SegnalazioneFragment);
 
-        textView.setText(fruit);
+        textTitle = view.findViewById(R.id.textView_Titolo_SegnalazioneFragment);
+        textItineraryName = view.findViewById(R.id.textView_Itinerario_SegnalazioneFragment);
+        textReporterName = view.findViewById(R.id.textView_Segnalatore_SegnalazioneFragment);
+        textUserName = view.findViewById(R.id.textView_Utente_SegnalazioneFragment);
+        textReasonDescription = view.findViewById(R.id.textView_Motivazione_SegnalazioneFragment);
+        textReplayReport = view.findViewById(R.id.textView_Risposta_SegnalazioneFragment);
+
     }
 
+
+    private void loadData(){
+        textTitle.setText(report.getReasonTitle());
+        textItineraryName.setText(report.getItinerary().getName());
+        textReporterName.setText(report.getReporter().getUsername());
+        textUserName.setText(report.getItinerary().getAuthor().getUsername());
+        textReasonDescription.setText(report.getReasonDescription());
+
+
+    }
 
     public void setListeners(){
 

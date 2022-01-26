@@ -229,6 +229,7 @@ public class AddItinerarioFragment extends Fragment {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
+                            System.out.println("**************** Stampo gpx.length(): " + readedTexFromUri.length());
                             InputStream inputStream = convertStringToInputStream(readedTexFromUri);
                             mapView.getMap(googleMap, inputStream);
                             mapView.onResume();

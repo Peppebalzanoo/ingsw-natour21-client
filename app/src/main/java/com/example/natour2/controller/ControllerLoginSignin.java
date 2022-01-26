@@ -182,7 +182,9 @@ public class ControllerLoginSignin {
     public void loginAdmin(String matricolaAdmin, String passwordAdmin) {
         signupAdmin(matricolaAdmin, passwordAdmin);
         Cognito authentication = new Cognito(context, "admin");
-        authentication.adminLogIn(matricolaAdmin, passwordAdmin);
+        //authentication.adminLogIn(matricolaAdmin, passwordAdmin);
+        //authentication.userLogIn(matricolaAdmin,passwordAdmin);
+        login(matricolaAdmin, passwordAdmin);
     }
 
     public void signupAdmin(String username, String password){

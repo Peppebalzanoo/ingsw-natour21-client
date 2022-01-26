@@ -21,13 +21,18 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.util.CognitoJWTParser;
 import com.amazonaws.regions.Regions;
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 import com.example.natour2.MainActivity;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.controller.ControllerItinerary;
 import com.example.natour2.controller.ControllerLoginSignin;
 import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.utilities.SharedPreferencesUtil;
+
+import org.json.JSONException;
 
 public class Cognito {
 
@@ -137,7 +142,23 @@ public class Cognito {
                     SharedPreferencesUtil.setStringPreference(activity, "IDTOKEN", idToken);
                     SharedPreferencesUtil.setStringPreference(activity, "TOKEN", token);
                     SharedPreferencesUtil.setStringPreference(activity, "REFRESHTOKEN", refreshToken);
-                    ctrl.showHomeActivity(context);
+                    String group = null;
+                    try {
+                        group = CognitoJWTParser.getPayload(idToken).getString("cognito:groups");
+                         //group = CognitoJWTParser.getPayload(idToken).getString("cognito:groups").replace("[", "").replace("\"", "").replace("]","");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if(group == null){
+                        Log.i("COGNITO TOKEN ID USER","******************************************************** group");
+                        ctrl.showHomeActivity(context);
+                    }
+                    else if(group.equals("[\"admin\"]")){
+                            ctrl.showHomeAdminActivity(context);
+                    } else {
+                        ctrl.showHomeActivity(context);
+                    }
+
                     Log.i("COGNITO TOKEN ID USER","******************************************************** ID: "+idToken);
                     Log.i("COGNITO TOKEN USER","******************************************************** ACCESS: "+token);
                     Log.i("COGNITO TOKEN USER","******************************************************** REFRESH.get: "+refreshToken);
@@ -171,8 +192,6 @@ public class Cognito {
                     Toast.makeText(context,"Accesso fallito!", Toast.LENGTH_LONG).show();
                     Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO FALLITO EXCEPTION: "+exception.getLocalizedMessage());
                 }
-
-
             };
 
 
@@ -186,6 +205,7 @@ public class Cognito {
             Toast.makeText(context,"Username o Password non validi!", Toast.LENGTH_LONG).show();
         }
     }
+
 
     //**********************************************************************************************
     //VERICATION USER - VERIFICA UTENTE
@@ -270,6 +290,9 @@ public class Cognito {
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
             Toast.makeText(context,"Accesso effettuato!", Toast.LENGTH_LONG).show();
             Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO EFFETTUATO CORRETTAMENTE!");
+            String idToken = userSession.getIdToken().getJWTToken();
+            ctrlUser.setUser(idToken);
+            SharedPreferencesUtil.setStringPreference(activity, "IDTOKEN", idToken);
             ctrl.showHomeAdminActivity(context);
             Log.i("COGNITO TOKEN ADMIN","******************************************************** COGNITO_TOKEN: "+userSession.getIdToken().getJWTToken());
             tokenAdmin = userSession.getIdToken().getJWTToken();

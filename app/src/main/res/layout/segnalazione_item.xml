@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView_CostumListView"
+            android:id="@+id/textViewNomeItinerario"
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:text="TextView"
@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView_CostumListView10"
+            android:id="@+id/textViewTitoloSegnalazione"
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:text="Titolo Segnalazione"
@@ -39,17 +39,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView_CostumListView8"
-            app:layout_constraintTop_toBottomOf="@+id/textView_CostumListView" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewNomeItinerario" />
 
         <TextView
-            android:id="@+id/textView_CostumListView12"
+            android:id="@+id/textViewReporter"
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:text="Utente 1"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView_CostumListView9"
-            app:layout_constraintTop_toBottomOf="@+id/textView_CostumListView10" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitoloSegnalazione" />
 
         <TextView
             android:id="@+id/textView_CostumListView5"
@@ -89,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView_CostumListView9" />
 
         <TextView
-            android:id="@+id/textView_CostumListView3"
+            android:id="@+id/textViewSegnalato"
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:text="Utente 2"
@@ -97,7 +97,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView_CostumListView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView_CostumListView12" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewReporter" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

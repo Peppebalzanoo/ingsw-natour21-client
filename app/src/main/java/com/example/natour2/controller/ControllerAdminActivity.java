@@ -15,6 +15,7 @@ import com.example.natour2.fragment_admin.ControlPanelFragment;
 import com.example.natour2.R;
 import com.example.natour2.fragment_admin.NewsLetterFragment;
 import com.example.natour2.fragment_admin.SegnalazioneFragment;
+import com.example.natour2.model.Report;
 
 import java.util.Objects;
 
@@ -42,9 +43,9 @@ public class ControllerAdminActivity {
         transaction.commit();
     }
 
-    public void showSegnalazioneFragment(FragmentManager fragmentManager, String string){
+    public void showSegnalazioneFragment(FragmentManager fragmentManager, Report report){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout_admin, new SegnalazioneFragment(string)); // give your fragment container id in first parameter
+        transaction.replace(R.id.frame_layout_admin, new SegnalazioneFragment(report)); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }

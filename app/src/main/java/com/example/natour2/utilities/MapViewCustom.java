@@ -77,6 +77,7 @@ public class MapViewCustom extends com.google.android.gms.maps.MapView{
 
     public void getMap(GoogleMap googleMap, InputStream in){
         GPXParser parser = new GPXParser(); // consider injection
+
         Gpx parsedGpx = null;
         try {
 

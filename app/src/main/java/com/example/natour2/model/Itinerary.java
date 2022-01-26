@@ -10,8 +10,8 @@ public class Itinerary {
     private Integer difficulty;
     private String description;
     private String gpx;
-    private User author; // Questo dovrebbe essere di tipo User
     private Boolean disabledAccess;
+    private User author; // Questo dovrebbe essere di tipo User
     private List<Report> reports;
 
     public Itinerary(){
