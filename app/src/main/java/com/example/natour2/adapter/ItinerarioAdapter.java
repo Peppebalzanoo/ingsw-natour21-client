@@ -3,6 +3,7 @@ package com.example.natour2.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.model.Itinerary;
+import com.example.natour2.model.User;
 import com.example.natour2.utilities.MapViewCustom;
 import com.example.natour2.utilities.SharedPreferencesUtil;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,8 +30,13 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
+
+import retrofit2.Call;
 
 public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.ViewHolder> {
 
@@ -59,7 +66,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Itinerary itr = mItinerary.get(position);
-        publisherInfo(holder.username, holder.name, holder.durata, holder.diff, holder.descrizione, holder.mapView, holder.imageViewPointOfInterest, itr);
+        publisherInfo(holder.username, holder.name, holder.durata, holder.diff, holder.descrizione, holder.mapView, holder.imageViewPointOfInterest, holder.profileImage, itr);
     }
 
     @Override
@@ -124,13 +131,39 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
 
 
 
-    private void publisherInfo(final TextView username, final TextView name, final TextView durata, final TextView diff, final TextView descrizione, final MapViewCustom mapView, ImageView imageViewPointOfInterest, Itinerary itr ){
+    private void publisherInfo(final TextView username, final TextView name, final TextView durata, final TextView diff, final TextView descrizione, final MapViewCustom mapView, ImageView imageViewPointOfInterest, ImageView imageProfile,  Itinerary itr ){
 
         username.setText(itr.getAuthor().getUsername());
         name.setText(itr.getName());
         durata.setText(setDuration(itr.getDuration()));
         diff.setText(setDifficulty(itr.getDifficulty()));
         descrizione.setText(itr.getDescription());
+
+        final String s = itr.getAuthor().getProfileImagePath();
+        System.out.println("****************************** s : " + s);
+
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = null;
+                    url = new URL(s);
+                    Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    imageProfile.setImageBitmap(bmp);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
         String s1 = itr.getAuthor().getUsername();

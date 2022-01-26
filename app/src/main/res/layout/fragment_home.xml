@@ -83,5 +83,17 @@ tools:context=".fragment.HomeFragment">
         android:layout_height="wrap_content"
         android:layout_below="@+id/bar" />
 
+    <ProgressBar
+        android:id="@+id/progessBar_SHomeFragment"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_below="@+id/recycler_view"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="190dp"
+        android:layout_marginTop="101dp"
+        android:layout_marginEnd="189dp" />
+
 
 </RelativeLayout>

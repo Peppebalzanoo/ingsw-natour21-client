@@ -1,40 +1,33 @@
 package com.example.natour2.model;
 
-import com.example.natour2.dao.UserDao;
-import com.example.natour2.utilities.RetrofitInstance;
-import com.example.natour2.utilities.SharedPreferencesUtil;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.io.IOException;
 import java.util.List;
 
-import retrofit2.Call;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class User{
     private long id;
     private String username;
     private String email;
-    private String imagePath;
+    private String profileImagePath;
     private List<Itinerary> itineraries;
 
     public User(){
 
     }
 
-    public User(long id, String username, String email, String imagePath) {
+    public User(long id, String username, String email, String profileImagePath) {
         this.id = id;
         this.username = username;
         this.email = email;
-        this.imagePath = imagePath;
+        this.profileImagePath = profileImagePath;
     }
 
-    public User(long id, String username, String email, List<Itinerary> itineraries, String imagePath) {
+    public User(long id, String username, String email, String profileImagePath, List<Itinerary> itineraries) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.itineraries = itineraries;
-        this.imagePath = imagePath;
+        this.profileImagePath = profileImagePath;
     }
 
 
@@ -70,11 +63,11 @@ public class User{
         this.itineraries = itineraries;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getProfileImagePath() {
+        return profileImagePath;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setProfileImagePath(String profileImagePath) {
+        this.profileImagePath = profileImagePath;
     }
 }

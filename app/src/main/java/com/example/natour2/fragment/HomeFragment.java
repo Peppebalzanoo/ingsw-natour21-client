@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +29,7 @@ public class HomeFragment extends BaseFragment {
     private List<Itinerary> itineraryList;
     private ImageView addItinerario;
     private ImageView notification;
+    private ProgressBar progessBar_SHomeFragment;
 
     private final ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
     private final ControllerItinerary ctrlItinerary = ControllerItinerary.getInstance();
@@ -87,22 +89,21 @@ public class HomeFragment extends BaseFragment {
         itinerarioList.add(itr2);
 */
 
-
+        loading(true);
         List<Itinerary> list = ctrlItinerary.getAllItineraries();
         if(list == null){
             return;
         }
         itineraryList.addAll(list);
         itinerarioAdapter.notifyDataSetChanged();
-
-
-
+        loading(false);
     }
 
     private void initViewComponents(View view){
 
         addItinerario = view.findViewById(R.id.addItinerario);
         notification = view.findViewById(R.id.notification);
+        progessBar_SHomeFragment = view.findViewById(R.id.progessBar_SHomeFragment);
 
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +117,16 @@ public class HomeFragment extends BaseFragment {
                 ctrl.showAddItinerarioFragment();
             }
         });
+    }
+
+
+    private void loading(Boolean isLoading){
+        if(isLoading){
+            progessBar_SHomeFragment.setVisibility(View.VISIBLE);
+        }
+        else{
+            progessBar_SHomeFragment.setVisibility(View.INVISIBLE);
+        }
     }
 
     /* ****************************************************************************************** */
