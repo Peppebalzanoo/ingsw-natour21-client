@@ -23,12 +23,13 @@ public class PushNotificationService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage){
+
         int notificationId = new Random().nextInt();
         String channelId = "naTour21Id";
         Notification notification = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(remoteMessage.getNotification().getTitle())
-                .setContentText(remoteMessage.getNotification().getBody())
+                //.setContentTitle(remoteMessage.getNotification().getTitle())
+                //.setContentText(remoteMessage.getNotification().getBody())
                 .setGroup("FIRST_GROUP_ID")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)

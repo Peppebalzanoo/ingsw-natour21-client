@@ -1,6 +1,7 @@
 package com.example.natour2.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,9 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,10 +20,34 @@ import com.example.natour2.adapter.ChatAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.User;
+import com.example.natour2.network.ApiClient;
+import com.example.natour2.network.ApiService;
+import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class ChatFragment extends BaseFragment{
@@ -63,9 +90,9 @@ public class ChatFragment extends BaseFragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         initViewComponent(view);
-        //loadReceiverDetails();
-        //init();
-        //listenMessage();
+        loadReceiverDetails();
+        init();
+        listenMessage();
         return view;
     }
 
@@ -84,7 +111,7 @@ public class ChatFragment extends BaseFragment{
             }
         });
 
-       // layoutSend.setOnClickListener(v -> sendMessage());
+        layoutSend.setOnClickListener(v -> sendMessage());
 
     }
 
@@ -97,7 +124,7 @@ public class ChatFragment extends BaseFragment{
         textNameChat.setText(receiverUser.getUsername());
     }
 
-    /*private void init() {
+    private void init() {
         preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         chatMessages = new ArrayList<>();
         chatAdapter = new ChatAdapter(chatMessages, preferanceManager.getString(Constants.KEY_USER_ID));
@@ -108,15 +135,15 @@ public class ChatFragment extends BaseFragment{
     private void sendMessage() {
         HashMap<String, Object> message = new HashMap<>();
         message.put(Constants.KEY_SENDER_ID, preferanceManager.getString(Constants.KEY_USER_ID));
-        message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+        message.put(Constants.KEY_RECEIVER_ID, receiverUser.getUsername());
         message.put(Constants.KEY_MESSAGE, inputMessage.getText().toString());
         message.put(Constants.KEY_TIMESTAMP, new Date());
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
         if(conversionId != null){
             updateConversion(inputMessage.getText().toString(),
                     preferanceManager.getString(Constants.KEY_NAME),
-                    receiverUser.name,
-                    receiverUser.id,
+                    receiverUser.getUsername(),
+                    receiverUser.getUsername(),
                     preferanceManager.getString(Constants.KEY_USER_ID));
         }
         else{
@@ -125,8 +152,8 @@ public class ChatFragment extends BaseFragment{
             conversion.put(Constants.KEY_SENDER_NAME, preferanceManager.getString(Constants.KEY_NAME));
             //conversion.put(Constants.KEY_SENDER_IMAGE, preferanceManager.getString(Constants.KEY_IMAGE));
 
-            conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
+            conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.getUsername());
+            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.getUsername());
             //conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
 
             conversion.put(Constants.KEY_LAST_MESSAGE, inputMessage.getText().toString());
@@ -136,7 +163,11 @@ public class ChatFragment extends BaseFragment{
         //if(!isReceiverAvailable){
             try{
                 JSONArray tokens = new JSONArray();
-                tokens.put(receiverUser.token);
+                //tokens.put(receiverUser.token);
+                //tokens.put("fzMrZc_yQPSXSLPCc-yQV3:APA91bF8khGGiZX_je0Lx51bliBy6wLYB7jRxOuiAYMuNJVUhPK3Um_qJNJa4lVVPPsF7wlylbFHkMi4A2h3PR0nF8Fo_7q2I3ZmRaSgopvItT2IXhcNWmzeHDkNQBlWQI__7SLkQn7a");
+                //tokens.put(preferanceManager.getString(Constants.KEY_FCM_TOKEN));
+
+                System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" + preferanceManager.getString(Constants.KEY_FCM_TOKEN));
 
                 JSONObject data = new JSONObject();
                 data.put(Constants.KEY_USER_ID, preferanceManager.getString(Constants.KEY_USER_ID));
@@ -196,10 +227,103 @@ public class ChatFragment extends BaseFragment{
         });
     }
 
-*/
-    /*private void listenAvailabilityOfReceiver(){
-        /*database.collection(Constants.KEY_COLLECTION_USERS)
-                .document(receiverUser.id)
+    private void updateConversion(String message, String senderName, String receiverName, String receiverId, String senderId) {
+        DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
+        documentReference.update(Constants.KEY_SENDER_NAME, senderName,
+                Constants.KEY_RECEIVER_NAME, receiverName,
+                Constants.KEY_RECEIVER_ID, receiverId,
+                Constants.KEY_SENDER_ID, senderId,
+                Constants.KEY_LAST_MESSAGE, message,
+                Constants.KEY_TIMESTAMP, new Date());
+    }
+
+    private void addConversion(HashMap<String, Object> conversion){
+        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .add(conversion)
+                .addOnSuccessListener(documentReference -> conversionId = documentReference.getId());
+    }
+
+    private void listenMessage() {
+        database.collection(Constants.KEY_COLLECTION_CHAT)
+                .whereEqualTo(Constants.KEY_SENDER_ID, preferanceManager.getString(Constants.KEY_USER_ID))
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUser.getUsername())
+                .addSnapshotListener(eventListener);
+
+        database.collection(Constants.KEY_COLLECTION_CHAT)
+                .whereEqualTo(Constants.KEY_SENDER_ID, receiverUser.getUsername())
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, preferanceManager.getString(Constants.KEY_USER_ID))
+                .addSnapshotListener(eventListener);
+    }
+
+    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
+        if (error != null) {
+            return;
+        }
+        if (value != null) {
+            int count = chatMessages.size();
+            for (DocumentChange documentChange : value.getDocumentChanges()) {
+                if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                    ChatMessage chatMessage = new ChatMessage();
+                    chatMessage.setSenderId(documentChange.getDocument().getString(Constants.KEY_SENDER_ID));
+                    chatMessage.setReceiverId(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
+                    chatMessage.setMessage(documentChange.getDocument().getString(Constants.KEY_MESSAGE));
+                    chatMessage.setDataTime(getReadableDateTime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
+                    chatMessage.setDateObject(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
+                    chatMessages.add(chatMessage);
+                }
+            }
+            Collections.sort(chatMessages, (obj1, obj2) -> obj1.getDateObject().compareTo(obj2.getDateObject()));
+            if (count == 0) {
+                chatAdapter.notifyDataSetChanged();
+            } else {
+                chatAdapter.notifyItemRangeInserted(chatMessages.size(), chatMessages.size());
+                chatRecyclerView.smoothScrollToPosition(chatMessages.size() - 1);
+            }
+            chatRecyclerView.setVisibility(View.VISIBLE);
+        }
+        progressBar.setVisibility(View.GONE);
+        if(conversionId == null){
+            checkForConversion();
+        }
+    };
+
+    private String getReadableDateTime(Date date) {
+        return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
+    }
+
+    private void checkForConversion() {
+        if (chatMessages.size() != 0) {
+            checkForConversionRemotely(
+                    preferanceManager.getString(Constants.KEY_USER_ID),
+                    receiverUser.getUsername()
+            );
+
+            checkForConversionRemotely(
+                    receiverUser.getUsername(),
+                    preferanceManager.getString(Constants.KEY_USER_ID)
+            );
+        }
+    }
+
+    private void checkForConversionRemotely(String senderId, String receiverId) {
+        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
+                .get()
+                .addOnCompleteListener(conversionOnCompleteListener);
+    }
+
+    private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener = task -> {
+        if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
+            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+            conversionId = documentSnapshot.getId();
+        }
+    };
+
+    /*
+    private void listenAvailabilityOfReceiver(){
+        database.collection(Constants.KEY_COLLECTION_USERS)
+                .document(receiverUser.getUsername())
                 .addSnapshotListener(
                         getActivity(),
                         (value, error) ->
@@ -221,20 +345,20 @@ public class ChatFragment extends BaseFragment{
                                     textAvaibility.setVisibility(View.GONE);
                                 }
                             }
-                );*/
-    /*
+                );
+
         database.collection(Constants.KEY_COLLECTION_USERS)
-                .document(receiverUser.id)
+                .document(receiverUser.getUsername())
                 .addSnapshotListener((value, error) -> {
                     if(error != null) {
                         return;
                     }
                     if(value != null){
-                        receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
+                        //receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
                     }
                 });
-    }*/
-
+    }
+*/
 
 
 
@@ -294,14 +418,8 @@ public class ChatFragment extends BaseFragment{
                 .addOnSuccessListener(documentReference -> conversionId = documentReference.getId());
     }
 
-    private void updateConversion(String message, String senderName, String receiverName, String receiverId, String senderId){
-        DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
-        documentReference.update (Constants.KEY_SENDER_NAME, senderName,
-                                  Constants.KEY_RECEIVER_NAME, receiverName,
-                                  Constants.KEY_RECEIVER_ID, receiverId,
-                                  Constants.KEY_SENDER_ID , senderId,
-                                  Constants.KEY_LAST_MESSAGE, message,
-                                  Constants.KEY_TIMESTAMP, new Date());
+
+
     }*/
 
 
@@ -339,10 +457,12 @@ public class ChatFragment extends BaseFragment{
         }
     };
 
+
+
     @Override
     public void onResume() {
         super.onResume();
         listenAvailabilityOfReceiver();
     }
-     */
+*/
 }

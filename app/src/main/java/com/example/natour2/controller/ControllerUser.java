@@ -6,6 +6,8 @@ import android.content.Context;
 import com.example.natour2.dao.UserDao;
 import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.User;
+import com.example.natour2.utilities.Constants;
+import com.example.natour2.utilities.PreferanceManager;
 import com.example.natour2.utilities.RetrofitInstance;
 import com.example.natour2.utilities.SharedPreferencesUtil;
 
@@ -70,6 +72,10 @@ public class ControllerUser {
                 try {
                     result = call.execute().body();
                     SharedPreferencesUtil.setStringPreference(activity, "USERNAME", result.getUsername());
+
+                    PreferanceManager preferanceManager = new PreferanceManager(context);
+                    preferanceManager.putString(Constants.KEY_USER_ID, result.getUsername());
+                    preferanceManager.putString(Constants.KEY_NAME, result.getUsername());
                 } catch (IOException e) {
                     System.out.println("*************************************** errore!!!!");
                     e.printStackTrace();

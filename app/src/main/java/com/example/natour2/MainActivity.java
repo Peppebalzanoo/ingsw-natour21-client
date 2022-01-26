@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.natour2.controller.ControllerLoginSignin;
+import com.example.natour2.utilities.Constants;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         ctrl.showLoginFragment();
         //ctrl.showHomeActivity(getApplicationContext());
 
-
+/*
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("FIREBASETOKEN", "******************************************* FIREBASE_TOKEN: " + Firebasetoken);
                     }
                 });
-
+*/
 
 
         /* ************************************************************************************** */

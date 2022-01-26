@@ -129,17 +129,21 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
 
          */
 
+        loading(true);
+
         List<User> list = ctrlUser.getAllUsers();
         if(list == null){
             return;
         }
         users.addAll(list);
         userAdapter.notifyDataSetChanged();
+        loading(false);
+
 
     }
 
 
-    /*
+
     private void loading(Boolean isLoading){
         if(isLoading){
             progressBar.setVisibility(View.VISIBLE);
@@ -148,7 +152,7 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
-
+/*
     private void showErrorMessage(){
        textErrorMessage.setText(String.format("%s", "No user aviable"));
        textErrorMessage.setVisibility(View.VISIBLE);

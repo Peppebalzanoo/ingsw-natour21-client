@@ -1,6 +1,7 @@
 package com.example.natour2.fragment.loginSignin;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,17 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerLoginSignin;
+import com.example.natour2.utilities.Constants;
+import com.example.natour2.utilities.PreferanceManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 public class LoginFragment extends Fragment {
@@ -28,6 +35,7 @@ public class LoginFragment extends Fragment {
 
     private final ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
     private FirebaseAnalytics analytics;
+    private PreferanceManager preferanceManager;
 
 
     public LoginFragment() { }
@@ -40,7 +48,7 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //*****************************************************************************************
-        //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
+        preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         //*****************************************************************************************
 
         ctrl.setActivity(getActivity());
@@ -68,6 +76,22 @@ public class LoginFragment extends Fragment {
         etPassword = view.findViewById(R.id.etPasswordLogin);
         progressBar = view.findViewById(R.id.progessBarLogIn);
         bntAccessoAdmin = view.findViewById(R.id.buttonAdminLoginFragment);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        // Get new FCM registration token
+                       // Firebasetoken = task.getResult();
+                        preferanceManager.putString(Constants.KEY_FCM_TOKEN, task.getResult());
+                        Log.i("FIREBASETOKEN", "******************************************* FIREBASE_TOKEN: " + task.getResult());
+                    }
+                });
+
 
         bntAccessoAdmin.setOnClickListener(new View.OnClickListener() {
             @Override

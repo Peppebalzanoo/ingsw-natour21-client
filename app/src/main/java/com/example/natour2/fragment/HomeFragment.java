@@ -86,13 +86,15 @@ public class HomeFragment extends BaseFragment {
         itinerarioList.add(itr1);
         itinerarioList.add(itr2);
 */
-
+/*
         List<Itinerary> list = ctrlItinerary.getAllItineraries();
         if(list == null){
             return;
         }
         itineraryList.addAll(list);
         itinerarioAdapter.notifyDataSetChanged();
+
+ */
     }
 
     private void initViewComponents(View view){

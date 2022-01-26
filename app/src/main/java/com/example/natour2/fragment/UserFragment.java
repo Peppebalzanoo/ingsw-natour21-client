@@ -14,11 +14,16 @@ import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.listeners.ConversionListener;
 import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.User;
+import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -44,7 +49,7 @@ public class UserFragment extends BaseFragment implements ConversionListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
+        preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
 
         ctrl.setActivity(getActivity());
         ctrl.setContext(getActivity().getApplicationContext());
@@ -89,7 +94,7 @@ public class UserFragment extends BaseFragment implements ConversionListener {
     }
 
 
-    /*private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
+    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if(error != null){
             return;
         }
@@ -98,59 +103,55 @@ public class UserFragment extends BaseFragment implements ConversionListener {
                 if(documentChange.getType() == DocumentChange.Type.ADDED){
                     String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                     String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                    System.out.println("çççççççççççççççççççççççççççççççççççççççççççççççç senderId: " + senderId);
+                    System.out.println("çççççççççççççççççççççççççççççççççççççççççççççççç receiverId: " + receiverId);
                     ChatMessage chatMessage = new ChatMessage();
-                    chatMessage.senderId = senderId;
-                    chatMessage.receiverId = receiverId;
+                    chatMessage.setSenderId(senderId);
+                    chatMessage.setReceiverId(receiverId);
                     if(preferanceManager.getString(Constants.KEY_USER_ID).equals(senderId)){
                         //chatMessage.conversionImage = documentChange.getDocument().getString(Constants.KEY_RECEIVER_IMAGE);
-                        chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);
-                        chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                        chatMessage.setConversionName(documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME));
+                        chatMessage.setConversionId(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
                     }
                     else{
                         //chatMessage.conversionImage = documentChange.getDocument().getString(Constants.KEY_SENDER_IMAGE);
-                        chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_SENDER_NAME);
-                        chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                        chatMessage.setConversionName(documentChange.getDocument().getString(Constants.KEY_SENDER_NAME));
+                        chatMessage.setConversionId(documentChange.getDocument().getString(Constants.KEY_SENDER_ID));
                     }
-                    chatMessage.message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
-                    chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                    chatMessage.setMessage(documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE));
+                    chatMessage.setDateObject(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
                     conversations.add(chatMessage);
                 }
                 else if(documentChange.getType() == DocumentChange.Type.MODIFIED){
                     for(int i = 0; i < conversations.size(); i++){
                         String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                         String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
-                        if(conversations.get(i).senderId.equals(senderId) && conversations.get(i).receiverId.equals(receiverId)){
-                            conversations.get(i).message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
-                            conversations.get(i).dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                        if(conversations.get(i).getSenderId().equals(senderId) && conversations.get(i).getReceiverId().equals(receiverId)){
+                            conversations.get(i).setMessage(documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE));
+                            conversations.get(i).setDateObject(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
                             break;
                         }
                     }
                 }
             }
-            Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
+            Collections.sort(conversations, (obj1, obj2) -> obj2.getDateObject().compareTo(obj1.getDateObject()));
             conversationsAdapter.notifyDataSetChanged();
             recyclerViewConversation.smoothScrollToPosition(0);
             recyclerViewConversation.setVisibility(View.VISIBLE);
             progressBarUserFragment.setVisibility(View.GONE);
         }
     };
-    */
+
 
 
     private void listenConversations(){
-       /*
+
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
                 .whereEqualTo(Constants.KEY_SENDER_ID, preferanceManager.getString(Constants.KEY_USER_ID))
                 .addSnapshotListener(eventListener);
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, preferanceManager.getString(Constants.KEY_USER_ID))
                 .addSnapshotListener(eventListener);
-         */
-        ChatMessage chat1 = new ChatMessage("Antonio", "Peppe", "Ciao Peppe da Antonio", "Peppe");
-        ChatMessage chat2 = new ChatMessage("Antonio", "Simone", "Ciao Simone da Antonio", "Simone");
-
-        conversations.add(chat1);
-        conversations.add(chat2);
     }
 
     @Override

@@ -17,7 +17,6 @@ public class User{
     private String email;
     //public String image;
     //public String token;
-    private  String idString;
     private List<Object> itineraries;
 
     public User(){
@@ -54,14 +53,6 @@ public class User{
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getIdString() {
-        return idString;
-    }
-
-    public void setIdString(String idString) {
-        this.idString = idString;
     }
 
     public List<Object> getItineraries() {
