@@ -85,9 +85,7 @@ public class ChatFragment extends BaseFragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         initViewComponent(view);
         loadReceiverDetails();
@@ -106,7 +104,6 @@ public class ChatFragment extends BaseFragment{
         imageBackChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //getActivity().onBackPressed();
                 ctrl.showUserFragment();
             }
         });
@@ -150,46 +147,40 @@ public class ChatFragment extends BaseFragment{
             HashMap<String, Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID, preferanceManager.getString(Constants.KEY_USER_ID));
             conversion.put(Constants.KEY_SENDER_NAME, preferanceManager.getString(Constants.KEY_NAME));
-            //conversion.put(Constants.KEY_SENDER_IMAGE, preferanceManager.getString(Constants.KEY_IMAGE));
 
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUser.getUsername());
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUser.getUsername());
-            //conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
 
             conversion.put(Constants.KEY_LAST_MESSAGE, inputMessage.getText().toString());
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             addConversion(conversion);
         }
-        //if(!isReceiverAvailable){
-            try{
-                JSONArray tokens = new JSONArray();
-                //tokens.put(receiverUser.token);
-                //tokens.put("fzMrZc_yQPSXSLPCc-yQV3:APA91bF8khGGiZX_je0Lx51bliBy6wLYB7jRxOuiAYMuNJVUhPK3Um_qJNJa4lVVPPsF7wlylbFHkMi4A2h3PR0nF8Fo_7q2I3ZmRaSgopvItT2IXhcNWmzeHDkNQBlWQI__7SLkQn7a");
-                //tokens.put(preferanceManager.getString(Constants.KEY_FCM_TOKEN));
+        try{
+            JSONArray tokens = new JSONArray();
 
-                System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" + preferanceManager.getString(Constants.KEY_FCM_TOKEN));
+            //FCM Token del/dei destinatario/destinatari ---> user.getToken()/users.getTokens();
+            //tokens.put("");
 
-                JSONObject data = new JSONObject();
-                data.put(Constants.KEY_USER_ID, preferanceManager.getString(Constants.KEY_USER_ID));
-                data.put(Constants.KEY_NAME, preferanceManager.getString(Constants.KEY_NAME));
-                data.put(Constants.KEY_FCM_TOKEN, preferanceManager.getString(Constants.KEY_FCM_TOKEN));
-                data.put(Constants.KEY_MESSAGE, inputMessage.getText().toString());
+            JSONObject data = new JSONObject();
+            data.put(Constants.KEY_USER_ID, preferanceManager.getString(Constants.KEY_USER_ID));
+            data.put(Constants.KEY_NAME, preferanceManager.getString(Constants.KEY_NAME));
+            data.put(Constants.KEY_FCM_TOKEN, preferanceManager.getString(Constants.KEY_FCM_TOKEN));
+            data.put(Constants.KEY_MESSAGE, inputMessage.getText().toString());
 
-                JSONObject body = new JSONObject();
-                body.put(Constants.REMOTE_MSG_DATA, data);
-                body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
+            JSONObject body = new JSONObject();
+            body.put(Constants.REMOTE_MSG_DATA, data);
+            body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
 
-                sendNotificaiton(body.toString());
+            sendNotificaiton(body.toString());
 
-            }catch(Exception e){
-                showToast(e.getMessage());
-            }
-        //}
+        }catch(Exception e){
+            showToast(e.getMessage());
+        }
         inputMessage.setText(null);
     }
 
     private void showToast(String message){
-        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private void sendNotificaiton(String messageBody){
