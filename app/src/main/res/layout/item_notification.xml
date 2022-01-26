@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImageView_itemNotification"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_Testo_ItemNotification"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="5dp"
+        android:text="Un tuo itinerario ha ricevuto una segnalazione"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/circleImageView_itemNotification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/circleImageView_itemNotification"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView_ItinerarioSX_ItemNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="5dp"
+        android:text="Itinerario:"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/circleImageView_itemNotification"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Testo_ItemNotification" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="5dp"
+        android:text="Segnalatore:"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/circleImageView_itemNotification"
+        app:layout_constraintTop_toBottomOf="@+id/textView_ItinerarioSX_ItemNotification" />
+
+    <TextView
+        android:id="@+id/textView_Itinerario_ItemNotification"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:paddingLeft="5dp"
+        android:text="Il Sentiero degli Dei"
+        android:textColor="@color/main"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView_ItinerarioSX_ItemNotification"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Testo_ItemNotification" />
+
+    <TextView
+        android:id="@+id/textView_Segnalatore_ItemNotification"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:text="Utente 1"
+        android:textColor="@color/main"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Itinerario_ItemNotification" />
+</androidx.constraintlayout.widget.ConstraintLayout>
