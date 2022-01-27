@@ -63,7 +63,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Itinerary itr = mItinerary.get(position);
-        publisherInfo(holder.username, holder.name, holder.durata, holder.diff, holder.descrizione, holder.mapView, holder.imageViewPointOfInterest, holder.profileImage, itr);
+        publisherInfo(holder.username, holder.name, holder.durata, holder.diff, holder.descrizione, holder.mapView, holder.imageViewPointOfInterest, holder.profileImage, holder.segnala, holder.infoDettaglio, itr);
     }
 
     @Override
@@ -99,7 +99,6 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
             infoDettaglio = itemView.findViewById(R.id.imageViewDettaglio);
             imageViewPointOfInterest = itemView.findViewById(R.id.imageViewPointOfInterest);
 
-
             segnala.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -128,7 +127,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
 
 
 
-    private void publisherInfo(final TextView username, final TextView name, final TextView durata, final TextView diff, final TextView descrizione, final MapViewCustom mapView, ImageView imageViewPointOfInterest, ImageView imageProfile,  Itinerary itr ){
+    private void publisherInfo(final TextView username, final TextView name, final TextView durata, final TextView diff, final TextView descrizione, final MapViewCustom mapView, ImageView imageViewPointOfInterest, ImageView imageProfile, final TextView segnala, ImageView infoDettaglio, Itinerary itr ){
 
         username.setText(itr.getAuthor().getUsername());
         name.setText(itr.getName());
@@ -138,7 +137,9 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
 
         showImage(itr.getAuthor().getProfileImagePath(), imageProfile);
 
-        showPoitOfInterest(itr, imageViewPointOfInterest);
+        showPoitOfInterest(itr, imageViewPointOfInterest, segnala);
+
+        showWarning(itr, infoDettaglio);
 
         mapView.getMapAsync(new OnMapReadyCallback() {
 
@@ -172,6 +173,14 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
         });
     }
 
+    private void showWarning(Itinerary itinerary, ImageView infoDettaglio){
+        if(itinerary.getReports().size() == 0){
+            infoDettaglio.setVisibility(View.INVISIBLE);
+            return;
+        }
+        infoDettaglio.setVisibility(View.VISIBLE);
+    }
+
     private void showImage(String imagePath, ImageView imageProfile){
         Thread t1 = new Thread(new Runnable() {
             @Override
@@ -196,15 +205,19 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
         }
     }
 
-    private void showPoitOfInterest(Itinerary itr, ImageView imageViewPointOfInterest){
+    private void showPoitOfInterest(Itinerary itr, ImageView imageViewPointOfInterest, TextView segnala){
         String s1 = itr.getAuthor().getUsername();
         String s2 = SharedPreferencesUtil.getStringPreference(activity, "USERNAME");
         if(s1.equals(s2)){
             imageViewPointOfInterest.setVisibility(View.VISIBLE);
             imageViewPointOfInterest.setClickable(true);
+            segnala.setVisibility(View.INVISIBLE);
+            segnala.setClickable(false);
         } else {
             imageViewPointOfInterest.setVisibility(View.INVISIBLE);
             imageViewPointOfInterest.setClickable(false);
+            segnala.setVisibility(View.VISIBLE);
+            segnala.setClickable(true);
         }
     }
 
