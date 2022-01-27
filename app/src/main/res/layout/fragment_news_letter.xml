@@ -20,12 +20,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_AdminPanelTop_NewsLetterFragment" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/textView_AdminPanelTop_NewsLetterFragment"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:background="#0d6e6a"
             android:gravity="center"
             android:text="Admin NewsLetter Panel"
@@ -43,6 +44,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -65,14 +68,61 @@
             android:id="@+id/imageView_Send_NewsLetterFragment"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="10dp"
+
             android:tint="#0d6e6a"
-            app:layout_constraintBottom_toTopOf="@+id/recycler_view_NewsLetterFragment"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.995"
             app:layout_constraintStart_toEndOf="@+id/checkBox_NewsLetterFragment"
             app:layout_constraintTop_toTopOf="@+id/textView_AdminPanelTop_NewsLetterFragment"
-            app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/ic_send" />
+
+        <EditText
+            android:id="@+id/editText_Oggetto_NewsLetterFragment"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="100dp"
+            android:hint="Oggetto:"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_AdminPanelTop_NewsLetterFragment"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_Oggetto_NewsLetterFragment">
+
+            <ScrollView
+                android:id="@+id/scrollView3"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/editText_Contenuto_NewsLetterFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Contenuto:"
+                    android:textSize="18sp"
+                    tools:ignore="TouchTargetSizeCheck" />
+            </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

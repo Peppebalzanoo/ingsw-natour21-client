@@ -15,7 +15,7 @@
         <TextView
             android:id="@+id/textView_AdminPanelTop_ControlPanelFragment"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:background="#0d6e6a"
             android:gravity="center"
             android:text="Admin Control Panel"
@@ -36,8 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_AdminPanelTop_ControlPanelFragment"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_AdminPanelTop_ControlPanelFragment" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/button_NewsLetters_ControlPanelFragment"
@@ -47,24 +46,24 @@
             android:tint="#0d6e6a"
             app:layout_constraintBottom_toTopOf="@+id/recycler_view_ControlPanelFragment"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.826"
+            app:layout_constraintHorizontal_bias="0.85"
             app:layout_constraintStart_toEndOf="@+id/imageView_ControlPanelFragment"
-            app:layout_constraintTop_toTopOf="@+id/textView_AdminPanelTop_ControlPanelFragment"
-            app:layout_constraintVertical_bias="0.636"
+            app:layout_constraintTop_toBottomOf="@+id/textView_AdminPanelTop_ControlPanelFragment"
+            app:layout_constraintVertical_bias="0.428"
             app:srcCompat="@android:drawable/ic_dialog_email" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageView_LogOut_ControlPanelFragment"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="20dp"
             android:tint="#0d6e6a"
             app:layout_constraintBottom_toTopOf="@+id/recycler_view_ControlPanelFragment"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.89"
+            app:layout_constraintHorizontal_bias="0.982"
             app:layout_constraintStart_toEndOf="@+id/button_NewsLetters_ControlPanelFragment"
-            app:layout_constraintTop_toTopOf="@+id/textView_AdminPanelTop_ControlPanelFragment"
-            app:layout_constraintVertical_bias="0.636"
+            app:layout_constraintTop_toBottomOf="@+id/textView_AdminPanelTop_ControlPanelFragment"
+            app:layout_constraintVertical_bias="0.428"
             app:srcCompat="@drawable/ic_logout" />
 
         <androidx.recyclerview.widget.RecyclerView

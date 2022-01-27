@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.natour2.R;
@@ -31,6 +32,8 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
 
     private ImageView imageViewBack;
     private ImageView imageViewSend;
+    private EditText editTextOggetto;
+    private EditText editTextContenuto;
     private CheckBox checkBoxAll;
 
     private List<Email> emailList;
@@ -98,6 +101,8 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
         imageViewBack = view.findViewById(R.id.imageView_Back_NewsLetterFragment);
         imageViewSend = view.findViewById(R.id.imageView_Send_NewsLetterFragment);
         checkBoxAll = view.findViewById(R.id.checkBox_NewsLetterFragment);
+        editTextOggetto = view.findViewById(R.id.editText_Oggetto_NewsLetterFragment);
+        editTextContenuto = view.findViewById(R.id.editText_Contenuto_NewsLetterFragment);
 
         recyclerView = view.findViewById(R.id.recycler_view_NewsLetterFragment);
         recyclerView.setHasFixedSize(true);
@@ -113,6 +118,8 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
             @Override
             public void onClick(View v) {
                 /* Codice per inviare le NewsLetters */
+                String oggetto = editTextOggetto.getText().toString();
+                String contenuto = editTextContenuto.getText().toString();
             }
         });
 
