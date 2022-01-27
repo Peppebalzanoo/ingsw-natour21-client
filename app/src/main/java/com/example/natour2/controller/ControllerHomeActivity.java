@@ -20,6 +20,7 @@ import com.example.natour2.fragment.ProfileFragment;
 import com.example.natour2.fragment.SearchFragment;
 import com.example.natour2.fragment.SelectUsersFragment;
 import com.example.natour2.fragment.UserFragment;
+import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.User;
 
 
@@ -121,9 +122,9 @@ public class ControllerHomeActivity {
         transaction.commit();
     }
 
-    public void showInviaSegnalazioneFragment(){
+    public void showInviaSegnalazioneFragment(Itinerary itinerary){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout_home, new InviaSegnalazioneFragment()); // give your fragment container id in first parameter
+        transaction.replace(R.id.frame_layout_home, new InviaSegnalazioneFragment(itinerary)); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }

@@ -18,6 +18,19 @@ public class Itinerary {
 
     }
 
+
+
+    public Itinerary(String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser){
+        this.name = name;
+        this.duration = duration;
+        this.difficulty = difficulty;
+        this.description = description;
+        this.gpx = gpx;
+        this.disabledAccess = disabledAccessUser;
+    }
+
+
+
     public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser, User author, List<Report> reports){
         this.id = id;
         this.name = name;
@@ -30,13 +43,16 @@ public class Itinerary {
         this.reports = reports;
     }
 
-    public Itinerary(String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser){
+
+    public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccess, List<Report> reports) {
+        this.id = id;
         this.name = name;
         this.duration = duration;
         this.difficulty = difficulty;
         this.description = description;
         this.gpx = gpx;
-        this.disabledAccess = disabledAccessUser;
+        this.disabledAccess = disabledAccess;
+        this.reports = reports;
     }
 
     public long getId() {
@@ -109,5 +125,20 @@ public class Itinerary {
 
     public void setReports(List<Report> reports) {
         this.reports = reports;
+    }
+
+    @Override
+    public String toString() {
+        return "Itinerary{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", duration=" + duration +
+                ", difficulty=" + difficulty +
+                ", description='" + description + '\'' +
+               // ", gpx='" + gpx + '\'' +
+                ", disabledAccess=" + disabledAccess +
+                ", author=" + author +
+                ", reports=" + reports +
+                '}';
     }
 }

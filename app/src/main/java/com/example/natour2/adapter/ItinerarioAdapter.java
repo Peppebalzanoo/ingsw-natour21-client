@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.model.Itinerary;
-import com.example.natour2.model.User;
 import com.example.natour2.utilities.MapViewCustom;
 import com.example.natour2.utilities.SharedPreferencesUtil;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,8 +34,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-
-import retrofit2.Call;
 
 public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.ViewHolder> {
 
@@ -107,7 +104,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                 @Override
                 public void onClick(View view) {
                     //System.out.println("***************************************************+ Potition " + mItinerario.get(getAdapterPosition()).getName());
-
+                    ctrl.showInviaSegnalazioneFragment(mItinerary.get(getAdapterPosition()));
                 }
             });
 
@@ -139,43 +136,9 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
         diff.setText(setDifficulty(itr.getDifficulty()));
         descrizione.setText(itr.getDescription());
 
-        final String s = itr.getAuthor().getProfileImagePath();
-        System.out.println("****************************** s : " + s);
+        showImage(itr.getAuthor().getProfileImagePath(), imageProfile);
 
-
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = null;
-                    url = new URL(s);
-                    Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                    imageProfile.setImageBitmap(bmp);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        t1.start();
-        try {
-            t1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-        String s1 = itr.getAuthor().getUsername();
-        String s2 = SharedPreferencesUtil.getStringPreference(activity, "USERNAME");
-        if(s1.equals(s2)){
-            imageViewPointOfInterest.setVisibility(View.VISIBLE);
-            imageViewPointOfInterest.setClickable(true);
-        } else {
-            imageViewPointOfInterest.setVisibility(View.INVISIBLE);
-            imageViewPointOfInterest.setClickable(false);
-        }
-
+        showPoitOfInterest(itr, imageViewPointOfInterest);
 
         mapView.getMapAsync(new OnMapReadyCallback() {
 
@@ -207,6 +170,42 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                 mapView.onEnterAmbient(null);
             }
         });
+    }
+
+    private void showImage(String imagePath, ImageView imageProfile){
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = null;
+                    url = new URL(imagePath);
+                    Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    imageProfile.setImageBitmap(bmp);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showPoitOfInterest(Itinerary itr, ImageView imageViewPointOfInterest){
+        String s1 = itr.getAuthor().getUsername();
+        String s2 = SharedPreferencesUtil.getStringPreference(activity, "USERNAME");
+        if(s1.equals(s2)){
+            imageViewPointOfInterest.setVisibility(View.VISIBLE);
+            imageViewPointOfInterest.setClickable(true);
+        } else {
+            imageViewPointOfInterest.setVisibility(View.INVISIBLE);
+            imageViewPointOfInterest.setClickable(false);
+        }
     }
 
     private String setDuration(int duration){

@@ -15,6 +15,8 @@ import android.widget.ImageView;
 
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerReport;
+import com.example.natour2.model.Itinerary;
 
 public class InviaSegnalazioneFragment extends Fragment {
 
@@ -23,8 +25,10 @@ public class InviaSegnalazioneFragment extends Fragment {
     private Button buttonInvia;
     private Button buttonAzzera;
     private ImageView imageViewBack;
+    private Itinerary itinerary;
 
     private ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
+    private final ControllerReport ctrlReport = ControllerReport.getInstance();
 
 
 
@@ -32,6 +36,9 @@ public class InviaSegnalazioneFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public InviaSegnalazioneFragment(Itinerary itinerary) {
+        this.itinerary = itinerary;
+    }
 
 
     @Override
@@ -40,6 +47,9 @@ public class InviaSegnalazioneFragment extends Fragment {
         ctrl.setActivity(requireActivity());
         ctrl.setContext(requireContext());
         ctrl.setFragmentManager(requireFragmentManager());
+
+        ctrlReport.setActivity(requireActivity());
+        ctrlReport.setContext(requireContext());
     }
 
     @Override
@@ -71,26 +81,36 @@ public class InviaSegnalazioneFragment extends Fragment {
        buttonInvia.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-               builder.setCancelable(true);
-               builder.setTitle("Attenzione");
-               builder.setMessage("Sei sicuro di voler inviare la segnalazione?");
-               builder.setPositiveButton("Conferma",
-                       new DialogInterface.OnClickListener() {
-                           @Override
-                           public void onClick(DialogInterface dialog, int which) {
-                               String titolo = editTextTitolo.getText().toString();
-                               String motivazione = editTextMotivazione.getText().toString();
-                               /* Codice per inviare la segnalazione */
-                           }
-                       });
-               builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int which) {
-                   }
-               });
-               AlertDialog dialog = builder.create();
-               dialog.show();
+               String titolo = editTextTitolo.getText().toString();
+               String motivazione = editTextMotivazione.getText().toString();
+
+               if(isAviableReport(titolo, motivazione)){
+                   AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                   builder.setCancelable(true);
+                   builder.setTitle("Attenzione");
+                   builder.setMessage("Sei sicuro di voler inviare la segnalazione?");
+                   builder.setPositiveButton("Conferma",
+                           new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog, int which) {
+                                   /* Codice per inviare la segnalazione */
+                                    ctrlReport.setReport(itinerary, titolo, motivazione);
+                                    ctrl.printToast("Segnalazione inviata con successo.");
+                                    ctrl.showHomeFragment();
+                               }
+                           });
+                   builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                       }
+                   });
+                   AlertDialog dialog = builder.create();
+                   dialog.show();
+               } else {
+                   ctrl.printToast("Inserire tutti i campi obbligatori.");
+               }
+
+
            }
        });
 
@@ -120,6 +140,12 @@ public class InviaSegnalazioneFragment extends Fragment {
 
     }
 
+    private boolean isAviableReport(String titolo, String motivazione){
+        if(titolo == null || titolo.equals("") || motivazione == null || motivazione.equals("")){
+            return false;
+        }
+        return true;
+    }
 
     public void clearAll(){
         editTextTitolo.setText("");
