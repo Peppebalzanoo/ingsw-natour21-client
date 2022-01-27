@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,23 +12,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
-import com.example.natour2.model.Notification;
+import com.example.natour2.model.Report;
 
 import java.util.List;
 
 public class NotificationAdapter extends  RecyclerView.Adapter<NotificationAdapter.ViewHolder>{
 
     private Context context;
-    private List<Notification> notificationList;
+    private List<Report> reportList;
 
     public Bundle savedInstanceState;
     public RecyclerView recyclerView;
 
     private OnNotificationListener mOnNotificationListener;
 
-    public NotificationAdapter(OnNotificationListener onNotificationListener, Context context, List<Notification> notificationList, Bundle savedInstanceState, RecyclerView recyclerView){
+    public NotificationAdapter(OnNotificationListener onNotificationListener, Context context, List<Report> reportList, Bundle savedInstanceState, RecyclerView recyclerView){
         this.context = context;
-        this.notificationList = notificationList;
+        this.reportList = reportList;
         this.savedInstanceState = savedInstanceState;
         this.recyclerView = recyclerView;
         this.mOnNotificationListener = onNotificationListener;
@@ -45,16 +44,19 @@ public class NotificationAdapter extends  RecyclerView.Adapter<NotificationAdapt
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Notification currentNotification = notificationList.get(position);
+        Report currenReport = reportList.get(position);
 
-        holder.textItinerario.setText(currentNotification.getItinerario());
-        holder.textUserSegnalatore.setText(currentNotification.getUtenteSegnalatore());
+        /* Momentanea */
+        holder.textItinerario.setText(currenReport.getReasonTitle());
+
+        //holder.textItinerario.setText(currenReport.getItinerary().getName());
+        holder.textUserSegnalatore.setText(currenReport.getReporter().getUsername());
         //holder.imageProfileSegnalatore.setImageDrawable("Immagine del segnalatore");
     }
 
     @Override
     public int getItemCount() {
-        return notificationList.size();
+        return reportList.size();
     }
 
 

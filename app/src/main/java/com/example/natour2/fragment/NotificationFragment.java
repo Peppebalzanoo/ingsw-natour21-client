@@ -17,7 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.natour2.R;
 import com.example.natour2.adapter.NotificationAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
-import com.example.natour2.model.Notification;
+import com.example.natour2.model.Report;
+import com.example.natour2.model.User;
 import com.example.natour2.utilities.SpacingItem;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class NotificationFragment extends Fragment implements NotificationAdapter.OnNotificationListener {
 
-    private List<Notification> notificationList;
+    private List<Report> reportList;
 
     private NotificationAdapter notificationAdapter;
     private RecyclerView recyclerView;
@@ -51,15 +52,16 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
         initViewComponent(view);
 
-        notificationList = new ArrayList<>();
+        reportList = new ArrayList<>();
 
-        notificationList.add(new Notification("Il sentiero degli Dei", "Utente 1"));
-        notificationList.add(new Notification("Il sentiero degli Inferi", "Utente 2"));
-        notificationList.add(new Notification("Il sentiero degli Angeli", "Utente 3"));
-        notificationList.add(new Notification("Il sentiero degli Zombie", "Utente 4"));
-        notificationList.add(new Notification("Il sentiero degli Animali", "Utente 5"));
+        reportList.add(new Report(0, "Il sentiero degli Dei", "Dichiara il falso", null, null, new User(0, "Utente 1", null, null)));
+        reportList.add(new Report(0, "Il sentiero degli Zombie", "Dichiara il falso", null, null, new User(0, "Utente 2", null, null)));
+        reportList.add(new Report(0, "Il sentiero degli Animali", "Dichiara il falso", null, null, new User(0, "Utente 3", null, null)));
+        reportList.add(new Report(0, "Il sentiero degli Schiavi", "Dichiara il falso", null, null, new User(0, "Utente 4", null, null)));
+        reportList.add(new Report(0, "Il sentiero degli Italiani", "Dichiara il falso", null, null, new User(0, "Utente 5", null, null)));
 
-        notificationAdapter = new NotificationAdapter(this, getContext(), notificationList, savedInstanceState, recyclerView);
+
+        notificationAdapter = new NotificationAdapter(this, getContext(), reportList, savedInstanceState, recyclerView);
         recyclerView.setAdapter(notificationAdapter);
         SpacingItem spacingItem = new SpacingItem(20);
         recyclerView.addItemDecoration(spacingItem);
@@ -97,9 +99,8 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
 
     @Override
     public void onNotificationClick(int position) {
-        Notification not = notificationList.get(position);
+        Report report = reportList.get(position);
         /* Codice per potare l'utente alla visualizzazione della segnalazione */
-        Toast.makeText(requireContext(), "Hai cliccato sulla notifica dell'itinerario: "+not.getItinerario(), Toast.LENGTH_SHORT).show();
         notificationAdapter.notifyItemChanged(position);
     }
 }
