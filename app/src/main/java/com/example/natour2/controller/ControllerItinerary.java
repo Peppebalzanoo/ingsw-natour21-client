@@ -90,7 +90,7 @@ public class ControllerItinerary {
                 try {
                     listItineraries = call.execute().body();
                 } catch (IOException e) {
-                    System.out.println("*************************************** errore!!!!");
+                    System.out.println("*************************************** errore getItinerary");
                     e.printStackTrace();
                 }
             }
@@ -127,6 +127,22 @@ public class ControllerItinerary {
         return listItineraries;
     }
 
+    public void deleteItinerary(Long id){
+        System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° ok: " + id);
+        Call<Void> call = itineraryDao.deleteItinerary(id, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° ok: " +  response.code());
+
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++ error");
+
+            }
+        });
+    }
 
 
     public Activity getActivity() {

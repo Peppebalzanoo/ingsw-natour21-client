@@ -13,6 +13,7 @@ public class Itinerary {
     private Boolean disabledAccess;
     private User author; // Questo dovrebbe essere di tipo User
     private List<Report> reports;
+    private List<PointOfInterest> pointsOfInterest;
 
     public Itinerary(){
 
@@ -20,18 +21,19 @@ public class Itinerary {
 
 
 
-    public Itinerary(String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser){
+    public Itinerary(String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser, List<PointOfInterest> pointsOfInterest){
         this.name = name;
         this.duration = duration;
         this.difficulty = difficulty;
         this.description = description;
         this.gpx = gpx;
         this.disabledAccess = disabledAccessUser;
+        this.pointsOfInterest = pointsOfInterest;
     }
 
 
 
-    public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser, User author, List<Report> reports){
+    public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccessUser, User author, List<Report> reports, List<PointOfInterest> pointsOfInterest){
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -41,10 +43,11 @@ public class Itinerary {
         this.author = author;
         this.disabledAccess = disabledAccessUser;
         this.reports = reports;
+        this.pointsOfInterest = pointsOfInterest;
     }
 
 
-    public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccess, List<Report> reports) {
+    public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccess, List<Report> reports, List<PointOfInterest> pointsOfInterest) {
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -53,6 +56,7 @@ public class Itinerary {
         this.gpx = gpx;
         this.disabledAccess = disabledAccess;
         this.reports = reports;
+        this.pointsOfInterest = pointsOfInterest;
     }
 
     public long getId() {
@@ -125,6 +129,14 @@ public class Itinerary {
 
     public void setReports(List<Report> reports) {
         this.reports = reports;
+    }
+
+    public List<PointOfInterest> getPointsOfInterest() {
+        return pointsOfInterest;
+    }
+
+    public void setPointsOfInterest(List<PointOfInterest> pointsOfInterest) {
+        this.pointsOfInterest = pointsOfInterest;
     }
 
     @Override

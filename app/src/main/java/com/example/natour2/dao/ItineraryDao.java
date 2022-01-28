@@ -7,6 +7,7 @@ import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -32,5 +33,8 @@ public interface ItineraryDao {
                                                     @Query("disabledAccess") Boolean disabledAccess,
                                                     @Query("sort") Integer sort,
                                                     @Header("Authorization") String token);
+
+    @DELETE("itinerary/id/{id}")
+    public Call<Void> deleteItinerary(@Query("id") Long id, @Header("Authorization") String token);
 
 }

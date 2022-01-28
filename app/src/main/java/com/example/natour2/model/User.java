@@ -10,6 +10,7 @@ public class User{
     private String email;
     private String profileImagePath;
     private List<Itinerary> itineraries;
+    private String FCMToken;
 
     public User(){
 
@@ -22,12 +23,13 @@ public class User{
         this.profileImagePath = profileImagePath;
     }
 
-    public User(long id, String username, String email, String profileImagePath, List<Itinerary> itineraries) {
+    public User(long id, String username, String email, String profileImagePath, List<Itinerary> itineraries, String FCMToken) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.itineraries = itineraries;
         this.profileImagePath = profileImagePath;
+        this.FCMToken = FCMToken;
     }
 
 
@@ -70,4 +72,13 @@ public class User{
     public void setProfileImagePath(String profileImagePath) {
         this.profileImagePath = profileImagePath;
     }
+
+    public String getFCMToken() {
+        return FCMToken;
+    }
+
+    public void setFCMToken(String FCMToken) {
+        this.FCMToken = FCMToken;
+    }
+
 }

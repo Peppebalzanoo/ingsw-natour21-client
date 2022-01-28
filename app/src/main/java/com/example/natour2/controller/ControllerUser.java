@@ -68,7 +68,8 @@ public class ControllerUser {
             @Override
             public void run() {
                 User result;
-                Call<User> call = userDAO.setUser(token);
+                System.out.println("éééééééééééééééééééééééééééééééééééééééééééééééééééééééé fmcToken: " + new PreferanceManager(context).getString(Constants.KEY_FCM_TOKEN));
+                Call<User> call = userDAO.setUser(token, new PreferanceManager(context).getString(Constants.KEY_FCM_TOKEN));
                 try {
                     result = call.execute().body();
                     SharedPreferencesUtil.setStringPreference(activity, "USERNAME", result.getUsername());
@@ -77,7 +78,7 @@ public class ControllerUser {
                     preferanceManager.putString(Constants.KEY_USER_ID, result.getUsername());
                     preferanceManager.putString(Constants.KEY_NAME, result.getUsername());
                 } catch (IOException e) {
-                    System.out.println("*************************************** errore!!!!");
+                    System.out.println("*************************************** errore!!");
                     e.printStackTrace();
                 }
             }

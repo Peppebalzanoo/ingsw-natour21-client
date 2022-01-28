@@ -140,7 +140,7 @@ public class AddItinerarioFragment extends Fragment {
             ctrl.printToast("Errore! Inserisci campi obbligatori");
             return;
         }
-        Itinerary itinerary  = new Itinerary(name, duration, difficulty, description, readedTexFromUri, true);
+        Itinerary itinerary  = new Itinerary(name, duration, difficulty, description, readedTexFromUri, true, null);
         ctrlItinerary.uploadItinerary(itinerary);
         ctrl.printToast("Itinerario pubblicato correttamente.");
         ctrl.showHomeFragment();

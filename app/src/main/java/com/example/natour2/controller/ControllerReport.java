@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.example.natour2.dao.ReportDao;
-import com.example.natour2.dao.UserDao;
 import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.Report;
-import com.example.natour2.model.User;
 import com.example.natour2.utilities.RetrofitInstance;
 import com.example.natour2.utilities.SharedPreferencesUtil;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -69,7 +66,7 @@ public class ControllerReport {
         System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° itinerary: " +  itinerary.toString());
         System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° title: " +  title);
         System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° motivation: " +  motivationReport);
-        Itinerary itr = new Itinerary(itinerary.getId(), itinerary.getName(), itinerary.getDuration(), itinerary.getDifficulty(), itinerary.getDescription(), itinerary.getGpx(), itinerary.getDisabledAccess(), itinerary.getReports());
+        Itinerary itr = new Itinerary(itinerary.getId(), itinerary.getName(), itinerary.getDuration(), itinerary.getDifficulty(), itinerary.getDescription(), itinerary.getGpx(), itinerary.getDisabledAccess(), itinerary.getReports(), itinerary.getPointsOfInterest());
         Call<Report> call =reportDAO.setReport(itr, title, motivationReport, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
         call.enqueue(new Callback<Report>() {
             @Override
