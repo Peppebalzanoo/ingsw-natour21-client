@@ -82,6 +82,29 @@ public class ControllerReport {
 
     }
 
+    public void deleteReport(Long id){
+        Call<Void> call = reportDAO.deleteReport(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"), id);
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    call.execute().body();
+
+
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore delete Report");
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public Activity getActivity() {
         return activity;

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerAdminActivity;
 import com.example.natour2.controller.ControllerItinerary;
+import com.example.natour2.controller.ControllerReport;
 import com.example.natour2.model.Report;
 
 
@@ -36,6 +37,7 @@ public class SegnalazioneFragment extends Fragment {
 
     private ControllerAdminActivity ctrl = ControllerAdminActivity.getInstance();
     private ControllerItinerary ctrlItinerary = ControllerItinerary.getInstance();
+    private ControllerReport ctrlReport = ControllerReport.getInstance();
 
 
     public SegnalazioneFragment() {
@@ -56,6 +58,9 @@ public class SegnalazioneFragment extends Fragment {
 
         ctrlItinerary.setActivity(requireActivity());
         ctrlItinerary.setContext(requireContext());
+
+        ctrlReport.setActivity(requireActivity());
+        ctrlReport.setContext(requireContext());
     }
 
     @Override
@@ -141,6 +146,8 @@ public class SegnalazioneFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 /* Codice per eliminare la segnalazione */
+                                ctrlReport.deleteReport(report.getId());
+                                ctrl.showControlPanelFragment();
                             }
                         });
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
