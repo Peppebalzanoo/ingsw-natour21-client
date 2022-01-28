@@ -48,6 +48,7 @@ public class NotificationAdapter extends  RecyclerView.Adapter<NotificationAdapt
 
         /* Momentanea */
         holder.textItinerario.setText(currenReport.getReasonTitle());
+        /* ********** */
 
         //holder.textItinerario.setText(currenReport.getItinerary().getName());
         holder.textUserSegnalatore.setText(currenReport.getReporter().getUsername());

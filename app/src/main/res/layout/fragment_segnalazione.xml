@@ -73,7 +73,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/textView_Itinerario_SX_SegnalazioneFragment"
-            app:layout_constraintTop_toBottomOf="@+id/textView_Titolo_SegnalazioneFragment" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_Titolo_ShowSegnalazioneFragment" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
@@ -131,7 +131,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView_AdminPanelTop_SegnalazioneFragment" />
 
         <TextView
-            android:id="@+id/textView_Titolo_SegnalazioneFragment"
+            android:id="@+id/textView_Titolo_ShowSegnalazioneFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="70dp"

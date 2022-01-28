@@ -73,7 +73,7 @@ public class SegnalazioneFragment extends Fragment {
         buttonEliminaSegnalazione = view.findViewById(R.id.button_EliminaSegnalazione_SegnalazioneFragment);
         buttonRimuoviItinerario = view.findViewById(R.id.button_RimuoviItinerario_SegnalazioneFragment);
 
-        textTitle = view.findViewById(R.id.textView_Titolo_SegnalazioneFragment);
+        textTitle = view.findViewById(R.id.textView_Titolo_ShowSegnalazioneFragment);
         textItineraryName = view.findViewById(R.id.textView_Itinerario_SegnalazioneFragment);
         textReporterName = view.findViewById(R.id.textView_Segnalatore_SegnalazioneFragment);
         textUserName = view.findViewById(R.id.textView_Utente_SegnalazioneFragment);

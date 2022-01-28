@@ -16,9 +16,9 @@
             android:id="@+id/mapView2"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="60dp"
             android:background="#bbbbbb"
             android:clickable="true"
             app:layout_constraintBottom_toTopOf="@+id/scrollviewwwww"
@@ -207,7 +207,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:paddingEnd="15dp"
+                    android:paddingEnd="5dp"
                     android:text="Durata: "
                     android:textColor="#000"
                     android:textSize="18sp"
@@ -245,7 +245,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:paddingEnd="10dp"
+                    android:paddingEnd="5dp"
                     android:text="File GPX:"
                     android:textColor="#000"
                     android:textSize="18sp"
@@ -253,8 +253,8 @@
 
                 <Button
                     android:id="@+id/btnSfoglia"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="37dp"
+                    android:layout_height="35dp"
                     android:background="@drawable/ic_file"
                     android:backgroundTint="#0d6e6a" />
 
@@ -278,7 +278,7 @@
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/forget"
             app:layout_constraintEnd_toEndOf="parent"
@@ -310,20 +310,20 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="56dp"
+            android:layout_marginEnd="60dp"
             android:background="@drawable/button"
             android:text="pubblica"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scrollviewwwww"
-            app:layout_constraintVertical_bias="0.441" />
+            app:layout_constraintVertical_bias="0.065" />
 
         <Button
             android:id="@+id/btnAnnulla"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/button"
             android:text="Annulla"
@@ -333,7 +333,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scrollviewwwww"
-            app:layout_constraintVertical_bias="0.441" />
+            app:layout_constraintVertical_bias="0.062" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

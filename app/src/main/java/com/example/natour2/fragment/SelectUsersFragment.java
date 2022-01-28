@@ -8,7 +8,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +16,6 @@ import com.example.natour2.adapter.UserAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.listeners.UserListener;
-import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.User;
 import com.example.natour2.utilities.PreferanceManager;
 
@@ -83,7 +81,7 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
         userRecyclerView.setAdapter(userAdapter);
         userRecyclerView.setVisibility(View.VISIBLE);
 
-        imageBackSelectUser = view.findViewById(R.id.imageBack_SelectUserFragment);
+        imageBackSelectUser = view.findViewById(R.id.imageView_Back_ShowSegnalazioneFragment);
         imageBackSelectUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
