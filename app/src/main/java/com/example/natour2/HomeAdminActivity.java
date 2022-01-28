@@ -21,8 +21,8 @@ public class HomeAdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_admin);
         this.getSupportActionBar().hide();
-
-        ctrl.showControlPanelFragment(getSupportFragmentManager());
+        ctrl.setFragmentManager(getSupportFragmentManager());
+        ctrl.showControlPanelFragment();
     }
 
 

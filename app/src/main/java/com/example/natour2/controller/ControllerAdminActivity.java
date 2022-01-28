@@ -36,28 +36,28 @@ public class ControllerAdminActivity {
     }
 
 
-    public void showControlPanelFragment(FragmentManager fragmentManager){
+    public void showControlPanelFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_admin, new ControlPanelFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
 
-    public void showSegnalazioneFragment(FragmentManager fragmentManager, Report report){
+    public void showSegnalazioneFragment(Report report){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_admin, new SegnalazioneFragment(report)); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
 
-    public void showNewsLettersFragment(FragmentManager fragmentManager){
+    public void showNewsLettersFragment(){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_admin, new NewsLetterFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
         transaction.commit();
     }
 
-    public void showMainActivityAndClearBackStack(FragmentManager fragmentManager, Context c){
+    public void showMainActivityAndClearBackStack( Context c){
         clearBackStack(fragmentManager);
         Intent i = new Intent(c, MainActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

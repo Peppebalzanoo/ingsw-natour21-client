@@ -48,7 +48,7 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
         super.onCreate(savedInstanceState);
         ctrl.setActivity(requireActivity());
         ctrl.setContext(requireContext());
-        ctrl.setFragmentManager(requireFragmentManager());
+        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
 
         ctrlReport.setActivity(requireActivity());
         ctrlReport.setContext(requireContext());
@@ -94,7 +94,7 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
     private void addListItems(){
         List<Report> list = ctrlReport.getAllReport();
         if(list == null){
-            System.out.println("******************************************************** list.size(): " + list.size());
+            //System.out.println("******************************************************** list.size(): " + list.size());
             return;
         }
         reportList.addAll(list);
@@ -103,7 +103,7 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
 
     @Override
     public void onDrawableClick(int position) {
-        ctrl.showSegnalazioneFragment(requireActivity().getSupportFragmentManager(), reportList.get(position));
+        ctrl.showSegnalazioneFragment(reportList.get(position));
     }
 
     public void setListeners(){
@@ -111,14 +111,14 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
         imageViewNewsLetters.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ctrl.showNewsLettersFragment(requireActivity().getSupportFragmentManager());
+                ctrl.showNewsLettersFragment();
             }
         });
 
         imageViewLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ctrl.showMainActivityAndClearBackStack(requireActivity().getSupportFragmentManager(), getContext());
+                ctrl.showMainActivityAndClearBackStack( getContext());
             }
         });
     }

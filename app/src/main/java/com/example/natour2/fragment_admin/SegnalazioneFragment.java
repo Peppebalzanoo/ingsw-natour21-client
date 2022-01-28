@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,7 @@ public class SegnalazioneFragment extends Fragment {
         super.onCreate(savedInstanceState);
         ctrl.setActivity(requireActivity());
         ctrl.setContext(requireContext());
-        ctrl.setFragmentManager(requireFragmentManager());
+        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
 
         ctrlItinerary.setActivity(requireActivity());
         ctrlItinerary.setContext(requireContext());
@@ -99,7 +100,7 @@ public class SegnalazioneFragment extends Fragment {
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ctrl.showControlPanelFragment(requireActivity().getSupportFragmentManager());
+                ctrl.showControlPanelFragment();
             }
         });
         buttonRimuoviItinerario.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +116,7 @@ public class SegnalazioneFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 /* Codice per eliminare l'itinerario */
                                 ctrlItinerary.deleteItinerary(report.getItinerary().getId());
+                                ctrl.showControlPanelFragment();
                             }
                         });
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {

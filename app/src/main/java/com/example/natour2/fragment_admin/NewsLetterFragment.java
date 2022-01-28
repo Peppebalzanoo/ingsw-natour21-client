@@ -54,7 +54,7 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
         super.onCreate(savedInstanceState);
         ctrl.setActivity(requireActivity());
         ctrl.setContext(requireContext());
-        ctrl.setFragmentManager(requireFragmentManager());
+        ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
 
         ctrlUser.setActivity(requireActivity());
         ctrlUser.setContext(requireContext());
@@ -126,7 +126,7 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ctrl.showControlPanelFragment(requireActivity().getSupportFragmentManager());
+                ctrl.showControlPanelFragment();
             }
         });
 
