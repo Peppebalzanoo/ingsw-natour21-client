@@ -66,18 +66,23 @@ public class ControllerItinerary {
 
     public void uploadItinerary(Itinerary itinerary){
         Call<Itinerary> call = itineraryDao.uploadItinerary(itinerary, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
-        call.enqueue(new Callback<Itinerary>() {
+        Thread t1 = new Thread(new Runnable() {
             @Override
-            public void onResponse(Call<Itinerary> call, Response<Itinerary> response) {
-                System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° ok: " +  response.code());
-
-            }
-            @Override
-            public void onFailure(Call<Itinerary> call, Throwable t) {
-                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++ error");
-
+            public void run() {
+                try {
+                    call.execute().body();
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore!!!!");
+                    e.printStackTrace();
+                }
             }
         });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -128,20 +133,25 @@ public class ControllerItinerary {
     }
 
     public void deleteItinerary(Long id){
-        System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° ok: " + id);
-        Call<Void> call = itineraryDao.deleteItinerary(id, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
-        call.enqueue(new Callback<Void>() {
+        //System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° ok: " + id);
+        Call<Void> call = itineraryDao.deleteItinerary(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"), id);
+        Thread t1 = new Thread(new Runnable() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° ok: " +  response.code());
-
-            }
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++ error");
-
+            public void run() {
+                try {
+                    call.execute().body();
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore!!!!");
+                    e.printStackTrace();
+                }
             }
         });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 

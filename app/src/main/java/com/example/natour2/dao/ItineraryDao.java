@@ -11,6 +11,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 
@@ -35,6 +36,6 @@ public interface ItineraryDao {
                                                     @Header("Authorization") String token);
 
     @DELETE("itinerary/id/{id}")
-    public Call<Void> deleteItinerary(@Query("id") Long id, @Header("Authorization") String token);
+    public Call<Void> deleteItinerary(@Header("Authorization") String token, @Path("id") Long id);
 
 }

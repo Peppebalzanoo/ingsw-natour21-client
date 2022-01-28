@@ -45,7 +45,7 @@ public class ControllerReport {
                 try {
                     listReports = call.execute().body();
 
-                        System.out.println("*************************************** size: " + listReports.size());
+                        //System.out.println("*************************************** size: " + listReports.size());
 
                 } catch (IOException e) {
                     System.out.println("*************************************** errore");
@@ -67,7 +67,7 @@ public class ControllerReport {
         System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° title: " +  title);
         System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° motivation: " +  motivationReport);
         Itinerary itr = new Itinerary(itinerary.getId(), itinerary.getName(), itinerary.getDuration(), itinerary.getDifficulty(), itinerary.getDescription(), itinerary.getGpx(), itinerary.getDisabledAccess(), itinerary.getReports(), itinerary.getPointsOfInterest());
-        Call<Report> call =reportDAO.setReport(itr, title, motivationReport, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        Call<Report> call = reportDAO.setReport(itr, title, motivationReport, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
         call.enqueue(new Callback<Report>() {
             @Override
             public void onResponse(Call<Report> call, Response<Report> response) {
