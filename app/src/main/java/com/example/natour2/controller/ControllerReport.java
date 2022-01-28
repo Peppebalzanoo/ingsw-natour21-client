@@ -89,8 +89,6 @@ public class ControllerReport {
             public void run() {
                 try {
                     call.execute().body();
-
-
                 } catch (IOException e) {
                     System.out.println("*************************************** errore delete Report");
                     e.printStackTrace();
@@ -104,6 +102,46 @@ public class ControllerReport {
             e.printStackTrace();
         }
     }
+
+    public void provideExplanation(Report report,String explanation){
+        Call<Void> call = reportDAO.provideExplanation(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"), report,explanation);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                System.out.println("************************************************************ mezzo : " + response.code());
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+       /*
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    call.execute().body();
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore provideExplanation");
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        */
+    }
+
+
+
+
 
 
     public Activity getActivity() {

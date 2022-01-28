@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ControllerUser {
 
@@ -113,6 +115,45 @@ public class ControllerUser {
             e.printStackTrace();
         }
         return listUsers;
+    }
+
+
+    public void updateProfileImage(String url){
+        Call<Void> call = userDAO.updateProfilePic(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"), url);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                System.out.println("************************************************************ mezzo : " + response.code());
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+       /*
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String s = call.execute().body();
+                    System.out.println("************************************************************ mezzo : " + s);
+
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore update profile Image");
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        */
     }
 
 

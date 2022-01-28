@@ -17,8 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.natour2.R;
 import com.example.natour2.adapter.NotificationAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerItinerary;
+import com.example.natour2.controller.ControllerReport;
+import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.Report;
 import com.example.natour2.model.User;
+import com.example.natour2.utilities.SharedPreferencesUtil;
 import com.example.natour2.utilities.SpacingItem;
 
 import java.util.ArrayList;
@@ -33,6 +37,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
     private ImageView imageBack;
 
     private ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
+    private ControllerItinerary ctrlItinerary = ControllerItinerary.getInstance();
 
 
     public NotificationFragment() {
@@ -45,6 +50,8 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         ctrl.setActivity(requireActivity());
         ctrl.setContext(requireContext());
         ctrl.setFragmentManager(requireFragmentManager());
+        ctrlItinerary.setActivity(requireActivity());
+        ctrlItinerary.setContext(requireContext());
     }
 
     @Override
@@ -53,13 +60,15 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         initViewComponent(view);
 
         reportList = new ArrayList<>();
-
+/*
         reportList.add(new Report(0, "Il sentiero degli Dei non è degli Dei", "Dichiara il falso 1", null, null, new User(0, "Utente 1", null, null)));
         reportList.add(new Report(1, "Il sentiero degli Zombie non è degli Zombie", "Dichiara il falso 2", null, null, new User(1, "Utente 2", null, null)));
         reportList.add(new Report(2, "Il sentiero degli Animali non è degli Animali", "Dichiara il falso 3", null, null, new User(2, "Utente 3", null, null)));
         reportList.add(new Report(3, "Il sentiero degli Schiavi non è degli Schiavi", "Dichiara il falso 4", null, null, new User(3, "Utente 4", null, null)));
         reportList.add(new Report(4, "Il sentiero degli Italiani non è degli Italiani", "Dichiara il falso 5", null, null, new User(4, "Utente 5", null, null)));
 
+
+ */
 
         notificationAdapter = new NotificationAdapter(this, getContext(), reportList, savedInstanceState, recyclerView);
         recyclerView.setAdapter(notificationAdapter);
@@ -73,7 +82,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         recyclerView.addItemDecoration(horizontalDecoration);
 
         setListeners();
-
+        setReports();
         return view;
     }
 
@@ -105,4 +114,20 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         notificationAdapter.notifyItemChanged(position);
     }
 
+
+    private void setReports(){
+        List<Itinerary> list = ctrlItinerary.getAllItineraries();
+       // reportList.removeAll(reportList);
+        if(list == null){
+            return;
+        }
+        for(Itinerary itr: list){
+            if(itr.getAuthor().getUsername().equals(SharedPreferencesUtil.getStringPreference(getActivity(), "USERNAME"))){
+               for(Report r: itr.getReports()) {
+                   reportList.add(r);
+               }
+            }
+        }
+        notificationAdapter.notifyDataSetChanged();
+    }
 }

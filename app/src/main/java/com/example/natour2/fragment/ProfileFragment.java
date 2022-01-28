@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -36,13 +37,20 @@ import com.example.natour2.controller.ControllerLoginSignin;
 import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.User;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -132,6 +140,7 @@ public class ProfileFragment extends BaseFragment {
         User u = ctrlUser.getActiveUser();
         email.setText(u.getEmail());
         username.setText(u.getUsername());
+        showImage(u.getProfileImagePath(), profileImage);
     }
 
 
@@ -140,7 +149,8 @@ public class ProfileFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if(checkPermission()){
-                    selectImageFromGallery();
+                    //selectImageFromGallery();
+                    selectProfileImage();
                 }else {
                     requestPermission();
                 }
@@ -211,12 +221,18 @@ public class ProfileFragment extends BaseFragment {
         }
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == REQUEST_GALLERY) {
+        if(resultCode == RESULT_OK && requestCode == 90) {
             try {
                 Uri selectedImageUri = data.getData();
+
+                System.out.println("************************************************************ prima");
+                ctrlUser.updateProfileImage(selectedImageUri.toString());
+                System.out.println("************************************************************ dopo");
+
                 profileImage.setImageURI(selectedImageUri);
                 bitmapApp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), selectedImageUri);
                 arrayBytesOfImageProfile = convertBitmapToArrayOfByte(bitmapApp);
@@ -275,7 +291,52 @@ public class ProfileFragment extends BaseFragment {
         return byteOutStream.toByteArray();
     }
 
+    private void selectProfileImage(){
+        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.setType("image/jpeg");
+        chooseFile = Intent.createChooser(chooseFile, "Choose a file");
+        startActivityForResult(chooseFile, 90);
+    }
 
+    private String readTextFromUri(Uri uri) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        try (InputStream inputStream =
+                     getActivity().getContentResolver().openInputStream(uri);
+             BufferedReader reader = new BufferedReader(
+                     new InputStreamReader(Objects.requireNonNull(inputStream)))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+
+
+    private void showImage(String imagePath, ImageView imageProfile){
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = null;
+                    url = new URL(imagePath);
+                    Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    imageProfile.setImageBitmap(bmp);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     /* ****************************************************************************************** */

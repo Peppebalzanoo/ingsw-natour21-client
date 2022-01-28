@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerReport;
 import com.example.natour2.model.Report;
 
 public class MostraSegnalazioneFragment extends Fragment {
@@ -30,6 +31,7 @@ public class MostraSegnalazioneFragment extends Fragment {
     private TextView textViewMotivazione;
     private EditText editTextRisposta;
     private ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
+    private ControllerReport cgtrlReport = ControllerReport.getInstance();
 
 
 
@@ -48,6 +50,8 @@ public class MostraSegnalazioneFragment extends Fragment {
         ctrl.setActivity(requireActivity());
         ctrl.setContext(requireContext());
         ctrl.setFragmentManager(requireFragmentManager());
+        cgtrlReport.setActivity(requireActivity());
+        cgtrlReport.setContext(requireContext());
     }
 
     @Override
@@ -96,6 +100,8 @@ public class MostraSegnalazioneFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 /* Codice per inviare la risposta */
+                                cgtrlReport.provideExplanation(report,editTextRisposta.getText().toString());
+                                ctrl.showHomeFragment();
                             }
                         });
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {

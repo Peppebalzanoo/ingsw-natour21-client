@@ -5,8 +5,10 @@ import com.example.natour2.model.User;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -20,5 +22,8 @@ public interface UserDao {
 
     @GET("user/all/")
     public Call<List<User>> getAllUsers(@Header("Authorization") String token);
+
+    @PATCH("user/updateProfilePic")
+    public Call<Void> updateProfilePic(@Header("Authorization") String token, @Query("image") String image);
 
 }
