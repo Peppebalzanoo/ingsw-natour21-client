@@ -37,25 +37,10 @@ public class ControllerPointOfInterest {
 
 
 
-    public void uploadPointOfInterest(Itinerary itr, String type, Double coordX, Double coordY){
+    public void uploadPointOfInterest(Itinerary itr, String type, Double coordY, Double coordX){
         Itinerary itinerary = new Itinerary(itr.getId(), itr.getName(), itr.getDuration(), itr.getDifficulty(), itr.getDescription(), itr.getGpx(), itr.getDisabledAccess(), new User(itr.getAuthor().getId(), itr.getAuthor().getUsername(), itr.getAuthor().getEmail(), itr.getAuthor().getProfileImagePath(), itr.getAuthor().getFCMToken()));
-        Call<PointOfInterest> call = pointOfInterestDao.uploadPointOfInterest(itinerary, coordX, coordY, type, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
-        call.enqueue(new Callback<PointOfInterest>() {
-            @Override
-            public void onResponse(Call<PointOfInterest> call, Response<PointOfInterest> response) {
-                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++ code : " + response.code());
-            }
+        Call<PointOfInterest> call = pointOfInterestDao.uploadPointOfInterest(itinerary, coordY, coordX, type, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
 
-            @Override
-            public void onFailure(Call<PointOfInterest> call, Throwable t) {
-
-            }
-        });
-
-
-
-
-        /*
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -74,7 +59,6 @@ public class ControllerPointOfInterest {
             e.printStackTrace();
         }
 
-         */
     }
 
 

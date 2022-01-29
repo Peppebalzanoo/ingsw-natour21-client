@@ -21,12 +21,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.model.Itinerary;
+import com.example.natour2.model.PointOfInterest;
 import com.example.natour2.utilities.MapViewCustom;
 import com.example.natour2.utilities.SharedPreferencesUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -159,14 +162,18 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                 googleMap.addMarker(options);
 
                  */
-               System.out.println("**************** Stampo gpx.length(): " + itr.getGpx().length());
 
                 InputStream in = convertStringToInputStream(itr.getGpx());
-                System.out.println("**************** Stampo in: " + in);
-                System.out.println("**************** Stampo in.tostring(): " + in.toString());
-
-
                 mapView.getMap(googleMap, in);
+                if(itr.getPointsOfInterest()!=null && itr.getPointsOfInterest().size() > 0){
+                    for(PointOfInterest pointOfInterest: itr.getPointsOfInterest()){
+                        LatLng start = new LatLng(pointOfInterest.getCoordY(), pointOfInterest.getCoordX());
+                        MarkerOptions options = new MarkerOptions();
+                        options.position(start);
+                        options.icon(bitmapDescriptorFromVector(mContext, R.drawable.ic_home));
+                        googleMap.addMarker(options);
+                    }
+                }
                 mapView.onResume();
                 mapView.onEnterAmbient(null);
             }

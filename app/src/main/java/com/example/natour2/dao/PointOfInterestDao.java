@@ -12,6 +12,6 @@ import retrofit2.http.Query;
 public interface PointOfInterestDao {
 
     @POST("pointOfInterest/")
-    public Call<PointOfInterest> uploadPointOfInterest(@Body Itinerary itinerary, @Query("coord_x") Double coord_x, @Query("coord_y") Double coord_y, @Query("type") String type, @Header("Authorization") String token);
+    public Call<PointOfInterest> uploadPointOfInterest(@Body Itinerary itinerary, @Query("coord_y") Double coord_y, @Query("coord_x") Double coord_x, @Query("type") String type, @Header("Authorization") String token);
 
 }

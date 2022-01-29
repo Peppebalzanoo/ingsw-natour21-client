@@ -99,26 +99,19 @@ public class AddPointOfInterestFragment extends Fragment {
 
     private void publishPointOfInterest(){
 
-        String type = getNameFilter();
-        Double coordX = getDurataFilter();
-        Double coordY = getDifficultyFilter();
+        String type = getType();
+        Double coordY = getLatitudine();
+        Double coordX = getLongitudice();
+
 
         if(type == null || coordX == null || coordY == null){
             return;
         }
-        ctrlPOI.uploadPointOfInterest(itr, type, coordX, coordY);
+        ctrlPOI.uploadPointOfInterest(itr, type,coordY, coordX );
 
     }
 
-    private Double getDifficultyFilter() {
-        String s = editTextNumberDecimalLongitude.getText().toString();
-        if(s == null){
-            return null;
-        }
-        return Double.parseDouble(editTextNumberDecimalLongitude.getText().toString());
-    }
-
-    private Double getDurataFilter() {
+    private Double getLatitudine() {
         String s = editTextNumberDecimalLatitude.getText().toString();
         if(s == null){
             return null;
@@ -126,7 +119,15 @@ public class AddPointOfInterestFragment extends Fragment {
         return Double.parseDouble(editTextNumberDecimalLatitude.getText().toString());
     }
 
-    private String getNameFilter() {
+    private Double getLongitudice() {
+        String s = editTextNumberDecimalLongitude.getText().toString();
+        if(s == null){
+            return null;
+        }
+        return Double.parseDouble(editTextNumberDecimalLongitude.getText().toString());
+    }
+
+    private String getType() {
         String type = spinner.getSelectedItem().toString();
         if(type == null || type.equals("")){
             return null;
