@@ -37,6 +37,7 @@ import com.example.natour2.controller.ControllerLoginSignin;
 import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.User;
+import com.example.natour2.utilities.FileUtils;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
@@ -56,6 +57,9 @@ import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class ProfileFragment extends BaseFragment {
 
@@ -230,14 +234,26 @@ public class ProfileFragment extends BaseFragment {
                 Uri selectedImageUri = data.getData();
 
                 System.out.println("************************************************************ prima");
-                ctrlUser.updateProfileImage(selectedImageUri.toString());
+
+                File file = FileUtils.from(getContext(), selectedImageUri);
+                //File file = new File(selectedImageUri.getPath());
+                // creates RequestBody instance from file
+                RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
+                // MultipartBody.Part is used to send also the actual filename
+                MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+
+                ctrlUser.updateProfileImage(body);
+
                 System.out.println("************************************************************ dopo");
 
                 profileImage.setImageURI(selectedImageUri);
-                bitmapApp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), selectedImageUri);
-                arrayBytesOfImageProfile = convertBitmapToArrayOfByte(bitmapApp);
-                createDirectoryAndSaveFile(convertByteToBitmap(arrayBytesOfImageProfile),  "NaTour21_IMG");
+                //bitmapApp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), selectedImageUri);
+                //arrayBytesOfImageProfile = convertBitmapToArrayOfByte(bitmapApp);
+                //createDirectoryAndSaveFile(convertByteToBitmap(arrayBytesOfImageProfile),  "NaTour21_IMG");
+                ctrlHomeActivity.showProfileFragment();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -293,7 +309,7 @@ public class ProfileFragment extends BaseFragment {
 
     private void selectProfileImage(){
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-        chooseFile.setType("image/jpeg");
+        chooseFile.setType("image/*");
         chooseFile = Intent.createChooser(chooseFile, "Choose a file");
         startActivityForResult(chooseFile, 90);
     }

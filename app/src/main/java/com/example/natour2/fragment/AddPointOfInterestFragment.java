@@ -7,12 +7,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
+
+import java.util.ArrayList;
 
 public class AddPointOfInterestFragment extends Fragment {
 
@@ -51,6 +55,16 @@ public class AddPointOfInterestFragment extends Fragment {
 
     private void initViewComponents(View view){
         spinner = view.findViewById(R.id.planets_spinner);
+
+
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("First");
+        list.add("Second");
+        ArrayAdapter adapter= new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+
         editTextNumberDecimalLatitude = view.findViewById(R.id.editTextNumberDecimalLatitude);
         editTextNumberDecimalLongitude = view.findViewById(R.id.editTextNumberDecimalLongitude);
         buttonPublishPointOfInterest = view.findViewById(R.id.buttonPublishPointOfInterest);
@@ -72,6 +86,8 @@ public class AddPointOfInterestFragment extends Fragment {
     }
 
 
+    private void publishPointOfInterest(){
 
+    }
 
 }

@@ -14,6 +14,8 @@ import com.example.natour2.utilities.SharedPreferencesUtil;
 import java.io.IOException;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -118,27 +120,15 @@ public class ControllerUser {
     }
 
 
-    public void updateProfileImage(String url){
-        Call<Void> call = userDAO.updateProfilePic(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"), url);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                System.out.println("************************************************************ mezzo : " + response.code());
+    public void updateProfileImage(MultipartBody.Part image){
+        Call<Void> call = userDAO.updateProfilePic(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"), image);
 
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
-            }
-        });
-       /*
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    String s = call.execute().body();
-                    System.out.println("************************************************************ mezzo : " + s);
+                    call.execute().body();
+                    System.out.println("************************************************************ mezzo : " );
 
                 } catch (IOException e) {
                     System.out.println("*************************************** errore update profile Image");
@@ -153,7 +143,6 @@ public class ControllerUser {
             e.printStackTrace();
         }
 
-        */
     }
 
 
