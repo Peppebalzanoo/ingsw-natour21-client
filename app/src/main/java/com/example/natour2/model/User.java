@@ -32,6 +32,14 @@ public class User{
         this.FCMToken = FCMToken;
     }
 
+    public User(long id, String username, String email, String profileImagePath, String fcmToken) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.profileImagePath = profileImagePath;
+        this.FCMToken = fcmToken;
+    }
+
 
     public long getId() {
         return id;

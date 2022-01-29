@@ -117,6 +117,13 @@ public class ControllerHomeActivity {
         transaction.commit();
     }
 
+    public void showAddPointOfInterestFragment(Itinerary itinerary){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame_layout_home, new AddPointOfInterestFragment(itinerary)); // give your fragment container id in first parameter
+        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+        transaction.commit();
+    }
+
     public void showChatFragment(FragmentManager fragmentManager, ChatFragment c){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, c); // give your fragment container id in first parameter

@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +14,8 @@ import android.widget.Spinner;
 
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerPointOfInterest;
+import com.example.natour2.model.Itinerary;
 
 import java.util.ArrayList;
 
@@ -25,12 +26,18 @@ public class AddPointOfInterestFragment extends Fragment {
     private EditText editTextNumberDecimalLongitude;
     private Button buttonPublishPointOfInterest;
     private Button buttonHomePointOfInterest;
+    private Itinerary itr;
 
     private ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
+    private ControllerPointOfInterest ctrlPOI = ControllerPointOfInterest.getInstance();
 
 
     public AddPointOfInterestFragment() {
         // Required empty public constructor
+    }
+
+    public AddPointOfInterestFragment(Itinerary itr) {
+        this.itr = itr;
     }
 
 
@@ -40,6 +47,9 @@ public class AddPointOfInterestFragment extends Fragment {
         ctrl.setActivity(getActivity());
         ctrl.setContext(getActivity().getApplicationContext());
         ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
+
+        ctrlPOI.setActivity(getActivity());
+        ctrlPOI.setContext(getActivity().getApplicationContext());
     }
 
     @Override
@@ -58,8 +68,8 @@ public class AddPointOfInterestFragment extends Fragment {
 
 
         ArrayList<String> list = new ArrayList<String>();
-        list.add("First");
-        list.add("Second");
+        list.add("SORGENTE");
+        list.add("BAITA");
         ArrayAdapter adapter= new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -73,7 +83,8 @@ public class AddPointOfInterestFragment extends Fragment {
         buttonPublishPointOfInterest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                publishPointOfInterest();
+                ctrl.showHomeFragment();
             }
         });
 
@@ -88,6 +99,39 @@ public class AddPointOfInterestFragment extends Fragment {
 
     private void publishPointOfInterest(){
 
+        String type = getNameFilter();
+        Double coordX = getDurataFilter();
+        Double coordY = getDifficultyFilter();
+
+        if(type == null || coordX == null || coordY == null){
+            return;
+        }
+        ctrlPOI.uploadPointOfInterest(itr, type, coordX, coordY);
+
+    }
+
+    private Double getDifficultyFilter() {
+        String s = editTextNumberDecimalLongitude.getText().toString();
+        if(s == null){
+            return null;
+        }
+        return Double.parseDouble(editTextNumberDecimalLongitude.getText().toString());
+    }
+
+    private Double getDurataFilter() {
+        String s = editTextNumberDecimalLatitude.getText().toString();
+        if(s == null){
+            return null;
+        }
+        return Double.parseDouble(editTextNumberDecimalLatitude.getText().toString());
+    }
+
+    private String getNameFilter() {
+        String type = spinner.getSelectedItem().toString();
+        if(type == null || type.equals("")){
+            return null;
+        }
+        return type;
     }
 
 }

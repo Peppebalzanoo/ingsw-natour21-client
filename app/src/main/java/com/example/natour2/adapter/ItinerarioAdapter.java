@@ -117,7 +117,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
             imageViewPointOfInterest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ctrl.showAddPointOfInterestFragment();
+                    ctrl.showAddPointOfInterestFragment(mItinerary.get(getAdapterPosition()));
                 }
             });
 

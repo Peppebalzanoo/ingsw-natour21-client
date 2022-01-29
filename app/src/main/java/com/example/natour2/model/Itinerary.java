@@ -59,6 +59,17 @@ public class Itinerary {
         this.pointsOfInterest = pointsOfInterest;
     }
 
+    public Itinerary(long id, String name, Integer duration, Integer difficulty, String description, String gpx, Boolean disabledAccess, User author) {
+        this.id = id;
+        this.name = name;
+        this.duration = duration;
+        this.difficulty = difficulty;
+        this.description = description;
+        this.gpx = gpx;
+        this.disabledAccess = disabledAccess;
+        this.author = author;
+    }
+
     public long getId() {
         return id;
     }

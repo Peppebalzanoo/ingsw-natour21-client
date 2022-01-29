@@ -12,6 +12,10 @@ public class PointOfInterest {
     private Double coordY;
     private Itinerary itinerary;
 
+    public PointOfInterest(){
+
+    }
+
     public PointOfInterest(Integer id, String type, Double coordX, Double coordY, Itinerary itinerary) {
         this.id = id;
         this.type = type;
