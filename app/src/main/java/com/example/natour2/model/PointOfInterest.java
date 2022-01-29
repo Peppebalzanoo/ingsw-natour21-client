@@ -8,6 +8,8 @@ public class PointOfInterest {
 
     private Integer id;
     private String type;
+    private String typeName;
+    private String typeIcon;
     private Double coordX;
     private Double coordY;
     private Itinerary itinerary;
@@ -16,9 +18,11 @@ public class PointOfInterest {
 
     }
 
-    public PointOfInterest(Integer id, String type, Double coordX, Double coordY, Itinerary itinerary) {
+    public PointOfInterest(Integer id, String type, Double coordX, Double coordY, String typeName, String typeIcon, Itinerary itinerary) {
         this.id = id;
         this.type = type;
+        this.typeName = typeName;
+        this.typeIcon = typeIcon;
         this.coordX = coordX;
         this.coordY = coordY;
         this.itinerary = itinerary;
@@ -68,5 +72,21 @@ public class PointOfInterest {
 
     public void setCoordX(Double coordX) {
         this.coordX = coordX;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getTypeIcon() {
+        return typeIcon;
+    }
+
+    public void setTypeIcon(String typeIcon) {
+        this.typeIcon = typeIcon;
     }
 }

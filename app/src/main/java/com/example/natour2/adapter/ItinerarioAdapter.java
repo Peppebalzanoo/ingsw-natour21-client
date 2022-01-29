@@ -22,6 +22,7 @@ import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.PointOfInterest;
+import com.example.natour2.utilities.FileUtils;
 import com.example.natour2.utilities.MapViewCustom;
 import com.example.natour2.utilities.SharedPreferencesUtil;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -170,7 +172,9 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                         LatLng start = new LatLng(pointOfInterest.getCoordY(), pointOfInterest.getCoordX());
                         MarkerOptions options = new MarkerOptions();
                         options.position(start);
-                        options.icon(bitmapDescriptorFromVector(mContext, R.drawable.ic_home));
+                       // options.icon(bitmapDescriptorFromVector(mContext, R.drawable.ic_home));
+                        retrievePointOfInterest(options, pointOfInterest);
+
                         googleMap.addMarker(options);
                     }
                 }
@@ -179,6 +183,34 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
             }
         });
     }
+
+
+    private void retrievePointOfInterest(MarkerOptions options, PointOfInterest pointOfInterest){
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = null;
+                    url = new URL(pointOfInterest.getTypeIcon());
+                    Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(bmp, 50, 50, false);
+                    options.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     private void showWarning(Itinerary itinerary, ImageView infoDettaglio){
         if(itinerary.getReports().size() == 0){
