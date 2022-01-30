@@ -16,8 +16,11 @@ import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.controller.ControllerPointOfInterest;
 import com.example.natour2.model.Itinerary;
+import com.example.natour2.model.PointOfInterest;
+import com.example.natour2.utilities.POITypeMapper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddPointOfInterestFragment extends Fragment {
 
@@ -67,10 +70,10 @@ public class AddPointOfInterestFragment extends Fragment {
         spinner = view.findViewById(R.id.planets_spinner);
 
 
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("SORGENTE");
-        list.add("BAITA");
-        ArrayAdapter adapter= new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, list);
+        List<POITypeMapper> list = new ArrayList<>();
+        list =  ctrlPOI.getAllType();
+        //getAllType(list);
+        ArrayAdapter adapter= new ArrayAdapter<POITypeMapper>(getActivity(),android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -97,6 +100,13 @@ public class AddPointOfInterestFragment extends Fragment {
     }
 
 
+    private void getAllType(List<String> listPOI){
+        List<POITypeMapper> list = ctrlPOI.getAllType();
+        for(POITypeMapper p: list){
+            listPOI.add(p.getTypeName());
+        }
+    }
+
     private void publishPointOfInterest(){
 
         String type = getType();
@@ -107,7 +117,7 @@ public class AddPointOfInterestFragment extends Fragment {
         if(type == null || coordX == null || coordY == null){
             return;
         }
-        ctrlPOI.uploadPointOfInterest(itr, type,coordY, coordX );
+        ctrlPOI.uploadPointOfInterest(itr, type, coordY, coordX );
 
     }
 
@@ -128,7 +138,8 @@ public class AddPointOfInterestFragment extends Fragment {
     }
 
     private String getType() {
-        String type = spinner.getSelectedItem().toString();
+        POITypeMapper poi =(POITypeMapper) spinner.getSelectedItem();
+        String type = poi.getType();
         if(type == null || type.equals("")){
             return null;
         }

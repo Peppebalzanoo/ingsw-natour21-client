@@ -8,10 +8,13 @@ import com.example.natour2.dao.UserDao;
 import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.PointOfInterest;
 import com.example.natour2.model.User;
+import com.example.natour2.utilities.POITypeMapper;
 import com.example.natour2.utilities.RetrofitInstance;
 import com.example.natour2.utilities.SharedPreferencesUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,6 +25,7 @@ public class ControllerPointOfInterest {
     private static ControllerPointOfInterest  ctrlInstance;
     private Activity activity;
     private Context context;
+    private List<POITypeMapper> poiTypeMappers;
 
     private ControllerPointOfInterest (){
     }
@@ -38,6 +42,7 @@ public class ControllerPointOfInterest {
 
 
     public void uploadPointOfInterest(Itinerary itr, String type, Double coordY, Double coordX){
+
         Itinerary itinerary = new Itinerary(itr.getId(), itr.getName(), itr.getDuration(), itr.getDifficulty(), itr.getDescription(), itr.getGpx(), itr.getDisabledAccess(), new User(itr.getAuthor().getId(), itr.getAuthor().getUsername(), itr.getAuthor().getEmail(), itr.getAuthor().getProfileImagePath(), itr.getAuthor().getFCMToken()));
         Call<PointOfInterest> call = pointOfInterestDao.uploadPointOfInterest(itinerary, coordY, coordX, type, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
 
@@ -59,6 +64,31 @@ public class ControllerPointOfInterest {
             e.printStackTrace();
         }
 
+    }
+
+
+    public List<POITypeMapper> getAllType(){
+        Call<List<POITypeMapper>> call = pointOfInterestDao.getAllType(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                   poiTypeMappers = call.execute().body();
+
+                } catch (IOException e) {
+                    System.out.println("*************************************** error alltype");
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+         return poiTypeMappers;
     }
 
 

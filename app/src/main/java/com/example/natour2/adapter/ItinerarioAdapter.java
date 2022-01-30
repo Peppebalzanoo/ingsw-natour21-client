@@ -193,7 +193,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
                     URL url = null;
                     url = new URL(pointOfInterest.getTypeIcon());
                     Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                    Bitmap smallMarker = Bitmap.createScaledBitmap(bmp, 50, 50, false);
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(bmp, 70, 70, false);
                     options.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
