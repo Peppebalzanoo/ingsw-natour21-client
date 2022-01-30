@@ -138,10 +138,11 @@ public class Cognito {
                     String token = userSession.getAccessToken().getJWTToken();
                     String idToken = userSession.getIdToken().getJWTToken();
                     String refreshToken = userSession.getRefreshToken().getToken();
-                    ctrlUser.setUser(idToken);
                     SharedPreferencesUtil.setStringPreference(activity, "IDTOKEN", idToken);
                     SharedPreferencesUtil.setStringPreference(activity, "TOKEN", token);
                     SharedPreferencesUtil.setStringPreference(activity, "REFRESHTOKEN", refreshToken);
+                    ctrlUser.setUser(idToken);
+                    ctrlUser.setSubscribe();
                     String group = null;
                     try {
                         group = CognitoJWTParser.getPayload(idToken).getString("cognito:groups");

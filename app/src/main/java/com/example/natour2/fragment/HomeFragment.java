@@ -95,6 +95,7 @@ public class HomeFragment extends BaseFragment {
             return;
         }
         itineraryList.addAll(list);
+
         itinerarioAdapter.notifyDataSetChanged();
         loading(false);
     }
@@ -118,6 +119,7 @@ public class HomeFragment extends BaseFragment {
             }
         });
     }
+
 
 
     private void loading(Boolean isLoading){

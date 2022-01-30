@@ -31,4 +31,10 @@ public interface UserDao {
     @PATCH("user/updateProfilePic")
     public Call<Void> updateProfilePic(@Header("Authorization") String token, @Part MultipartBody.Part image);
 
+    @POST("newsletter/subscribe/")
+    public Call<Void> setSubscribe(@Header("Authorization") String token);
+
+    @POST("newsletter/sendEmailToAll/")
+    public Call<Void> sendEmailToAll(@Query("subject") String subject, @Query("message") String message, @Header("Authorization") String token);
+
 }

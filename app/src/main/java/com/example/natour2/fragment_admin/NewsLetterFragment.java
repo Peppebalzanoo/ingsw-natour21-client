@@ -120,6 +120,8 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
                 /* Codice per inviare le NewsLetters */
                 String oggetto = editTextOggetto.getText().toString();
                 String contenuto = editTextContenuto.getText().toString();
+                ctrlUser.sendEmailToAll(oggetto, contenuto);
+                ctrl.showControlPanelFragment();
             }
         });
 

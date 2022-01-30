@@ -116,7 +116,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
 
 
     private void setReports(){
-        List<Itinerary> list = ctrlItinerary.getAllItineraries();
+        List<Itinerary> list = ctrlItinerary.getActiveUserItineraries();
        // reportList.removeAll(reportList);
         if(list == null){
             return;
@@ -124,7 +124,9 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         for(Itinerary itr: list){
             if(itr.getAuthor().getUsername().equals(SharedPreferencesUtil.getStringPreference(getActivity(), "USERNAME"))){
                for(Report r: itr.getReports()) {
-                   reportList.add(r);
+                   if(r.getProvidedExplanation() == null || r.getProvidedExplanation().equals("")){
+                       reportList.add(r);
+                   }
                }
             }
         }

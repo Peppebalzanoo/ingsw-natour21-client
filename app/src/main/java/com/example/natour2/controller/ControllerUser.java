@@ -142,8 +142,41 @@ public class ControllerUser {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
+
+
+    public void setSubscribe(){
+        Call<Void> call = userDAO.setSubscribe(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+               System.out.println("************************************************** code : " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    public void sendEmailToAll(String subject, String message){
+        Call<Void> call = userDAO.sendEmailToAll(subject, message, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                System.out.println("************************************************** code : " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+
 
 
     public Activity getActivity() {
