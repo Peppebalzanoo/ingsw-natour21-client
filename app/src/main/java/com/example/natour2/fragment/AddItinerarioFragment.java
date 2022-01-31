@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -48,6 +49,7 @@ public class AddItinerarioFragment extends Fragment {
     private Button btnPubblica;
     private TextView textViewTime;
     private TextView textViewSelectedFile;
+    private CheckBox checkBox;
     private String[] items = {"Facile", "Normale", "Difficile"};
     private int hour, minute;
 
@@ -93,7 +95,7 @@ public class AddItinerarioFragment extends Fragment {
         btnAnnulla = view.findViewById(R.id.btnAnnulla);
         btnPubblica = view.findViewById(R.id.btnPubblica);
         chipGroupDiffAddItinerario = view.findViewById(R.id.chipGroupDiffAddItinerario);
-
+        checkBox = view.findViewById(R.id.checkBox);
 
         btnSfoglia.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,14 +135,14 @@ public class AddItinerarioFragment extends Fragment {
         String name = getNameFilter();
         Integer duration = getDurataFilter();
         Integer difficulty = getDifficultyFilter();
-        //Boolean disabledAcces =  getDisabledAccesFilter();
+        Boolean disabledAcces =  getDisabledAccesFilter();
         String description = getDescriptionFilter();
 
         if(name == null || name.equals("") || duration == null || difficulty == null || readedTexFromUri == null || readedTexFromUri.equals("")){
             ctrl.printToast("Errore! Inserisci campi obbligatori");
             return;
         }
-        Itinerary itinerary  = new Itinerary(name, duration, difficulty, description, readedTexFromUri, true, null);
+        Itinerary itinerary  = new Itinerary(name, duration, difficulty, description, readedTexFromUri, disabledAcces, null);
         ctrlItinerary.uploadItinerary(itinerary);
         ctrl.printToast("Itinerario pubblicato correttamente.");
         ctrl.showHomeFragment();
@@ -179,14 +181,14 @@ public class AddItinerarioFragment extends Fragment {
         }
         return i;
     }
-/*
+
     private Boolean getDisabledAccesFilter(){
-        if(checkBox_Accessibilità_BottomDialog.isChecked()){
+        if(checkBox.isChecked()){
             return true;
         }
         return null;
     }
-    */
+
 
     private String getDescriptionFilter(){
         String description = editTextTextMultiLineDescrizione.getText().toString();

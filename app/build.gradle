@@ -109,6 +109,7 @@ dependencies {
 
     implementation 'com.auth0.android:jwtdecode:2.0.1'
 
+    testImplementation "org.mockito:mockito-core:3.+"
 
 }
 apply plugin: 'com.android.application'

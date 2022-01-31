@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.example.natour2.dao.UserDao;
-import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.User;
 import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.util.List;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,7 +44,7 @@ public class ControllerUser {
             @Override
             public void run() {
 
-                Call<User> call = userDAO.getUserByUsername(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+                Call<User> call = userDAO.getActiveUser(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
                 try {
                     result[0] = call.execute().body();
                 } catch (IOException e) {
@@ -174,6 +172,32 @@ public class ControllerUser {
 
             }
         });
+    }
+
+
+    public User getUserByUsername(String username){
+        Call<User> call = userDAO.getUserByUsername(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"), username);
+        final User[] user = new User[1];
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    user[0] = call.execute().body();
+                    System.out.println("************************************************************ mezzo : " );
+
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore update profile Image");
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return user[0];
     }
 
 

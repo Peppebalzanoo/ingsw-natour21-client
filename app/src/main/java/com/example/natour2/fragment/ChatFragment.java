@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.natour2.R;
 import com.example.natour2.adapter.ChatAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.model.ChatMessage;
 import com.example.natour2.model.User;
 import com.example.natour2.network.ApiClient;
@@ -70,6 +71,8 @@ public class ChatFragment extends BaseFragment{
 
     private static User user = null;
     private ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
+    private ControllerUser ctrlUser = ControllerUser.getInstance();
+
 
     public ChatFragment() {
         // Required empty public constructor
@@ -82,6 +85,8 @@ public class ChatFragment extends BaseFragment{
         ctrl.setActivity(getActivity());
         ctrl.setContext(getActivity().getApplicationContext());
         ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
+        ctrlUser.setActivity(getActivity());
+        ctrlUser.setContext(getActivity().getApplicationContext());
     }
 
     @Override
@@ -160,6 +165,12 @@ public class ChatFragment extends BaseFragment{
 
             //FCM Token del/dei destinatario/destinatari ---> user.getToken()/users.getTokens();
             //tokens.put("");
+
+            user = ctrlUser.getUserByUsername(user.getUsername());
+
+            tokens.put(user.getFCMToken());
+
+
 
             JSONObject data = new JSONObject();
             data.put(Constants.KEY_USER_ID, preferanceManager.getString(Constants.KEY_USER_ID));
