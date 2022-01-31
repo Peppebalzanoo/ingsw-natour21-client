@@ -22,7 +22,6 @@ import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.PointOfInterest;
-import com.example.natour2.utilities.FileUtils;
 import com.example.natour2.utilities.MapViewCustom;
 import com.example.natour2.utilities.SharedPreferencesUtil;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,7 +32,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -93,7 +91,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
 
         private void initViewComponents(View itemView) {
 
-            profileImage = itemView.findViewById(R.id.imageProfile);
+            profileImage = itemView.findViewById(R.id.imageProfileRecentConversation);
             username = itemView.findViewById(R.id.username);
             name = itemView.findViewById(R.id.name);
             durata = itemView.findViewById(R.id.durata);

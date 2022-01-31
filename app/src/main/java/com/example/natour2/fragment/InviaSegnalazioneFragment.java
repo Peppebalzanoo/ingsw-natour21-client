@@ -95,6 +95,7 @@ public class InviaSegnalazioneFragment extends Fragment {
                                public void onClick(DialogInterface dialog, int which) {
                                    /* Codice per inviare la segnalazione */
                                     ctrlReport.setReport(itinerary, titolo, motivazione);
+
                                     ctrl.printToast("Segnalazione inviata con successo.");
                                     ctrl.showHomeFragment();
                                }

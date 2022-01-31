@@ -23,7 +23,10 @@ public interface UserDao {
     public Call<User> getActiveUser(@Header("Authorization") String token);
 
     @POST("user/signup/")
-    public Call<User> setUser(@Header("Authorization") String token, @Query("fcm_token") String fcm_token);
+    public Call<User> signUp(@Header("Authorization") String token);
+
+    @PATCH("user/updateFmcToken/")
+    public Call<User> setUser(@Header("Authorization") String token, @Query("fmc_token") String fcm_token);
 
     @GET("user/all/")
     public Call<List<User>> getAllUsers(@Header("Authorization") String token);

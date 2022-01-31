@@ -19,7 +19,7 @@
 
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageProfile"
+                android:id="@+id/imageProfileRecentConversation"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="0dp"
@@ -43,7 +43,7 @@
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageProfile"
+                app:layout_constraintStart_toEndOf="@+id/imageProfileRecentConversation"
                 app:layout_constraintTop_toTopOf="parent" />
 
 

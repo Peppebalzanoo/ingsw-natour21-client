@@ -1,21 +1,30 @@
 package com.example.natour2.adapter;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.databinding.ItemContainerUserBinding;
 import com.example.natour2.listeners.UserListener;
 import com.example.natour2.model.User;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
     private final List<User> users;
     private final UserListener userListener;
+    private final ControllerUser ctrlUser = ControllerUser.getInstance();
+
 
     public UserAdapter(List<User> users, UserListener userListener) {
         this.users = users;
@@ -55,10 +64,47 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         void setUserData(User user){
             binding.textName.setText(user.getUsername());
             binding.textEmail.setText(user.getEmail());
-            //binding.imageProfile.setImageBitmap(getUserImage(user.image));
+            showImage(user.getUsername(), binding.imageProfileRecentConversation);
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
         }
     }
+
+
+
+
+
+    private void showImage(String username, ImageView imageProfile){
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    String imagePath = ctrlUser.getUserByUsername(username).getProfileImagePath();
+
+                    URL url = null;
+                    url = new URL(imagePath);
+                    Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    imageProfile.setImageBitmap(bmp);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
     /* ****************************************************************************************** */
 
 

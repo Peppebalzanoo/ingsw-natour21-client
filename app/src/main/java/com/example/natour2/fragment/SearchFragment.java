@@ -173,6 +173,9 @@ public class SearchFragment extends BaseFragment {
         //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ duration : " + duration);
         //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ difficulty : " + difficulty);
         //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ disabled : " + disabledAcces);
+        if(name == null || name.equals("")){
+            name = null;
+        }
         List<Itinerary> list = ctrlItinerary.getAllItinerariesByFilters(name, null, duration, null, difficulty, null, null, disabledAcces, null);
 
         if(list == null){

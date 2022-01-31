@@ -63,15 +63,42 @@ public class ControllerUser {
         return result[0];
     }
 
+    public void userSignUp(){
+        Call<User> call = userDAO.signUp(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                User result;
+                //System.out.println("éééééééééééééééééééééééééééééééééééééééééééééééééééééééé fmcToken: " + new PreferanceManager(context).getString(Constants.KEY_FCM_TOKEN));
+                try {
+                    result = call.execute().body();
+                    SharedPreferencesUtil.setStringPreference(activity, "USERNAME", result.getUsername());
+
+                    PreferanceManager preferanceManager = new PreferanceManager(context);
+                    preferanceManager.putString(Constants.KEY_USER_ID, result.getUsername());
+                    preferanceManager.putString(Constants.KEY_NAME, result.getUsername());
+                } catch (IOException e) {
+                    System.out.println("*************************************** errore!!");
+                    e.printStackTrace();
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void setUser(String token){
-
+        Call<User> call = userDAO.setUser(token, new PreferanceManager(context).getString(Constants.KEY_FCM_TOKEN));
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 User result;
                 System.out.println("éééééééééééééééééééééééééééééééééééééééééééééééééééééééé fmcToken: " + new PreferanceManager(context).getString(Constants.KEY_FCM_TOKEN));
-                Call<User> call = userDAO.setUser(token, new PreferanceManager(context).getString(Constants.KEY_FCM_TOKEN));
                 try {
                     result = call.execute().body();
                     SharedPreferencesUtil.setStringPreference(activity, "USERNAME", result.getUsername());

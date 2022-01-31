@@ -39,7 +39,7 @@ public class ControllerLoginSignin {
     private String username;
     private String email;
     private String matricolaAdim;
-
+    private String password;
 
     private FirebaseAnalytics analytics;
 
@@ -72,6 +72,7 @@ public class ControllerLoginSignin {
 
         this.username = username;
         this.email = email;
+        this.password = password;
 
         Cognito authentication = new Cognito(context, activity);
         authentication.addAttributes("name", username);
@@ -209,13 +210,16 @@ public class ControllerLoginSignin {
     }
 
 
-
     public void setAnalytics(FirebaseAnalytics analytics) {
         this.analytics = analytics;
     }
 
 
+    public void firstLogin() {
+        Cognito authentication = new Cognito(context, activity);
+        authentication.firstUserLogIn(username, password);
 
+    }
 }
 
 

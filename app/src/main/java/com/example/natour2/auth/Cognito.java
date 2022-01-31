@@ -141,8 +141,12 @@ public class Cognito {
                     SharedPreferencesUtil.setStringPreference(activity, "IDTOKEN", idToken);
                     SharedPreferencesUtil.setStringPreference(activity, "TOKEN", token);
                     SharedPreferencesUtil.setStringPreference(activity, "REFRESHTOKEN", refreshToken);
+                    Log.i("COGNITO TOKEN ID USER","******************************************************** ID: "+idToken);
+                    Log.i("COGNITO TOKEN USER","******************************************************** ACCESS: "+token);
+                    Log.i("COGNITO TOKEN USER","******************************************************** REFRESH.get: "+refreshToken);
+
                     ctrlUser.setUser(idToken);
-                    ctrlUser.setSubscribe();
+                    //ctrlUser.setSubscribe();
                     String group = null;
                     try {
                         group = CognitoJWTParser.getPayload(idToken).getString("cognito:groups");
@@ -156,6 +160,94 @@ public class Cognito {
                     }
                     else if(group.equals("[\"admin\"]")){
                             ctrl.showHomeAdminActivity(context);
+                    } else {
+                        ctrl.showHomeActivity(context);
+                    }
+
+
+                    tokenUser = userSession.getIdToken().getJWTToken();
+
+                }
+
+                @Override
+                public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
+                    // The API needs user sign-in credentials to continue
+                    AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, userPassword, null);
+
+                    // Pass the user sign-in credentials to the continuation
+                    authenticationContinuation.setAuthenticationDetails(authenticationDetails);
+
+                    // Allow the sign-in to continue
+                    authenticationContinuation.continueTask();
+                }
+
+                @Override
+                public void getMFACode(MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation) {
+                    // Multi-factor authentication is required; get the verification code from user
+                    //multiFactorAuthenticationContinuation.setMfaCode(mfaVerificationCode);
+                    // Allow the sign-in process to continue
+                    //multiFactorAuthenticationContinuation.continueTask();
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    // Sign-in failed, check exception for the cause
+                    Toast.makeText(context,"Accesso fallito!", Toast.LENGTH_LONG).show();
+                    Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO FALLITO EXCEPTION: "+exception.getLocalizedMessage());
+                }
+            };
+
+
+
+
+            CognitoUser cognitoUser = userPoolUsers.getUser(userId);
+            this.userPassword = password;
+            cognitoUser.getSessionInBackground(authenticationHandler);
+
+        }else{
+            Toast.makeText(context,"Username o Password non validi!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+
+
+
+
+    public void firstUserLogIn(String userId, String password){
+        if(!userId.isEmpty() && !password.isEmpty()) {
+
+            // Callback handler for the sign-in process
+            AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
+                @Override
+                public void authenticationChallenge(ChallengeContinuation continuation) { }
+
+                @Override
+                public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+                    Toast.makeText(context,"Accesso effettuato!", Toast.LENGTH_LONG).show();
+                    Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO EFFETTUATO CORRETTAMENTE!");
+                    String token = userSession.getAccessToken().getJWTToken();
+                    String idToken = userSession.getIdToken().getJWTToken();
+                    String refreshToken = userSession.getRefreshToken().getToken();
+                    SharedPreferencesUtil.setStringPreference(activity, "IDTOKEN", idToken);
+                    SharedPreferencesUtil.setStringPreference(activity, "TOKEN", token);
+                    SharedPreferencesUtil.setStringPreference(activity, "REFRESHTOKEN", refreshToken);
+                    ctrlUser.userSignUp();
+                    ctrlUser.setUser(idToken);
+                    ctrlUser.setSubscribe();
+                    String group = null;
+                    try {
+                        group = CognitoJWTParser.getPayload(idToken).getString("cognito:groups");
+                        //group = CognitoJWTParser.getPayload(idToken).getString("cognito:groups").replace("[", "").replace("\"", "").replace("]","");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if(group == null){
+                        Log.i("COGNITO TOKEN ID USER","******************************************************** group");
+                        ctrl.showHomeActivity(context);
+                    }
+                    else if(group.equals("[\"admin\"]")){
+                        ctrl.showHomeAdminActivity(context);
                     } else {
                         ctrl.showHomeActivity(context);
                     }
@@ -208,6 +300,11 @@ public class Cognito {
     }
 
 
+
+
+
+
+
     //**********************************************************************************************
     //VERICATION USER - VERIFICA UTENTE
     public void confirmVerificationCodeUser(String userId, String codiceDiVerifica){
@@ -219,7 +316,8 @@ public class Cognito {
         @Override
         public void onSuccess() {
             // User was successfully confirmed
-            ctrl.showLoginFragment();
+            //ctrl.showLoginFragment();
+            ctrl.firstLogin();
             Toast.makeText(context,"Verificata Completata!", Toast.LENGTH_LONG).show();
             Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: VERIFICA CODICE EFFETTUATA CORRETTAMENTE");
 
