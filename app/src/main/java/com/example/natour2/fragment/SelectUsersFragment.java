@@ -1,5 +1,6 @@
 package com.example.natour2.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -80,6 +83,7 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
         userAdapter = new UserAdapter(this);
         userRecyclerView.setAdapter(userAdapter);
         userRecyclerView.setVisibility(View.VISIBLE);
+
 
         imageBackSelectUser = view.findViewById(R.id.imageView_Back_ShowSegnalazioneFragment);
         imageBackSelectUser.setOnClickListener(new View.OnClickListener() {

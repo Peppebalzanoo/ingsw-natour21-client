@@ -1,11 +1,14 @@
 package com.example.natour2.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
@@ -82,6 +85,7 @@ public class UserFragment extends BaseFragment implements ConversionListener {
         progressBarUserFragment = view.findViewById(R.id.progessBarUserFragment);
 
         recyclerViewConversation.setAdapter(conversationsAdapter);
+
     }
 
     public void setListeners(){
