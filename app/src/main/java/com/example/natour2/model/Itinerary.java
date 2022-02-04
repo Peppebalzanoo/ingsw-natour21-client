@@ -70,6 +70,15 @@ public class Itinerary {
         this.author = author;
     }
 
+    public Itinerary(String name, Integer duration, Integer difficulty, String gpx, Boolean disabledAccessUser, String description){
+        this.name = name;
+        this.duration = duration;
+        this.difficulty = difficulty;
+        this.description = description;
+        this.gpx = gpx;
+        this.disabledAccess = disabledAccessUser;
+    }
+
     public long getId() {
         return id;
     }

@@ -30,7 +30,7 @@ import java.util.List;
 
 public class NotificationFragment extends Fragment implements NotificationAdapter.OnNotificationListener {
 
-    private List<Report> reportList;
+    //private List<Report> reportList;
 
     private NotificationAdapter notificationAdapter;
     private RecyclerView recyclerView;
@@ -59,7 +59,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
         initViewComponent(view);
 
-        reportList = new ArrayList<>();
+       // reportList = new ArrayList<>();
 /*
         reportList.add(new Report(0, "Il sentiero degli Dei non è degli Dei", "Dichiara il falso 1", null, null, new User(0, "Utente 1", null, null)));
         reportList.add(new Report(1, "Il sentiero degli Zombie non è degli Zombie", "Dichiara il falso 2", null, null, new User(1, "Utente 2", null, null)));
@@ -70,7 +70,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
 
  */
 
-        notificationAdapter = new NotificationAdapter(this, getContext(), reportList, savedInstanceState, recyclerView);
+        notificationAdapter = new NotificationAdapter(this, getContext(), getActivity(), savedInstanceState, recyclerView);
         recyclerView.setAdapter(notificationAdapter);
         SpacingItem spacingItem = new SpacingItem(20);
         recyclerView.addItemDecoration(spacingItem);
@@ -108,28 +108,22 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
 
     @Override
     public void onNotificationClick(int position) {
-        Report report = reportList.get(position);
-        Toast.makeText(requireContext(), "Hai cliccato il report "+report.getReasonTitle(), Toast.LENGTH_SHORT).show();
-        ctrl.showShowSegnalazioneFragment(report);
-        notificationAdapter.notifyItemChanged(position);
+        //Report report = reportList.get(position);
+        //Toast.makeText(requireContext(), "Hai cliccato il report "+report.getReasonTitle(), Toast.LENGTH_SHORT).show();
+        notificationAdapter.showReplayReport(ctrl, position);
     }
 
 
     private void setReports(){
-        List<Itinerary> list = ctrlItinerary.getActiveUserItineraries();
+        ctrlItinerary.getActiveUserItineraries2(notificationAdapter);
        // reportList.removeAll(reportList);
+       /*
         if(list == null){
             return;
         }
-        for(Itinerary itr: list){
-            if(itr.getAuthor().getUsername().equals(SharedPreferencesUtil.getStringPreference(getActivity(), "USERNAME"))){
-               for(Report r: itr.getReports()) {
-                   if(r.getProvidedExplanation() == null || r.getProvidedExplanation().equals("")){
-                       reportList.add(r);
-                   }
-               }
-            }
-        }
+
         notificationAdapter.notifyDataSetChanged();
+
+        */
     }
 }

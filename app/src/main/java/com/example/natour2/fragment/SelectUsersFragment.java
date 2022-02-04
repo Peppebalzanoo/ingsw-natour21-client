@@ -30,7 +30,7 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
     private TextView textErrorMessage;
     private RecyclerView userRecyclerView;
     private AppCompatImageView imageBackSelectUser;
-    private List<User> users;
+    //private List<User> users;
     private UserAdapter userAdapter;
 
     private final ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
@@ -76,8 +76,8 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
         //linearLayoutManager.setStackFromEnd(true);
         userRecyclerView.setLayoutManager(linearLayoutManager);
 
-        users = new ArrayList<>();
-        userAdapter = new UserAdapter(users, this);
+        //users = new ArrayList<>();
+        userAdapter = new UserAdapter(this);
         userRecyclerView.setAdapter(userAdapter);
         userRecyclerView.setVisibility(View.VISIBLE);
 
@@ -128,13 +128,16 @@ public class SelectUsersFragment extends BaseFragment implements UserListener {
          */
 
         loading(true);
-
+/*
         List<User> list = ctrlUser.getAllUsers();
         if(list == null){
             return;
         }
         users.addAll(list);
         userAdapter.notifyDataSetChanged();
+
+ */
+        ctrlUser.getAllUsers1(userAdapter);
         loading(false);
 
 

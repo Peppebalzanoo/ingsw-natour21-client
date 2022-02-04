@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.natour2.R;
 import com.example.natour2.model.Email;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> {
@@ -30,6 +31,14 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> 
     public EmailAdapter(OnEmailListener onEmailListener, Context context, List<Email> emailList, Bundle savedInstanceState, RecyclerView recyclerView){
         this.context = context;
         this.emailList = emailList;
+        this.savedInstanceState = savedInstanceState;
+        this.recyclerView = recyclerView;
+        this.mOnEmailListener = onEmailListener;
+    }
+
+    public EmailAdapter(OnEmailListener onEmailListener, Context context, Bundle savedInstanceState, RecyclerView recyclerView){
+        this.context = context;
+        this.emailList = new ArrayList<>();
         this.savedInstanceState = savedInstanceState;
         this.recyclerView = recyclerView;
         this.mOnEmailListener = onEmailListener;

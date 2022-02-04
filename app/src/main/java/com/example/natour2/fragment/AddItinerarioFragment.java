@@ -125,29 +125,37 @@ public class AddItinerarioFragment extends Fragment {
         btnPubblica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                publishItinerary();
+                String name = getNameFilter();
+                Integer duration = getDurataFilter();
+                Integer difficulty = getDifficultyFilter();
+                Boolean disabledAcces =  getDisabledAccesFilter();
+                String description = getDescriptionFilter();
+                try {
+                    publishItinerary(ctrlItinerary, name, duration, difficulty, readedTexFromUri, disabledAcces, description);
+
+                } catch (IllegalAccessException e) {
+                    ctrl.printToast("Errore! Inserisci campi obbligatori");
+                }
             }
         });
     }
 
 
-    private void publishItinerary(){
-        String name = getNameFilter();
-        Integer duration = getDurataFilter();
-        Integer difficulty = getDifficultyFilter();
-        Boolean disabledAcces =  getDisabledAccesFilter();
-        String description = getDescriptionFilter();
+    public void publishItinerary(ControllerItinerary ctrlItinerary, String name, Integer duration, Integer difficulty, String readedTexFromUri, Boolean disabledAcces, String description) throws IllegalAccessException {
 
-        if(name == null || name.equals("") || duration == null || difficulty == null || readedTexFromUri == null || readedTexFromUri.equals("")){
-            ctrl.printToast("Errore! Inserisci campi obbligatori");
-            return;
+        if(name == null || name.equals("") || duration == null || duration <= 0 || difficulty == null || difficulty <= 0 || difficulty >=4 || readedTexFromUri == null || readedTexFromUri.equals("") || disabledAcces == null){
+            throw new IllegalAccessException();
         }
-        Itinerary itinerary  = new Itinerary(name, duration, difficulty, description, readedTexFromUri, disabledAcces, null);
-        ctrlItinerary.uploadItinerary(itinerary);
+
+        //Itinerary itinerary  = new Itinerary(name, duration, difficulty, description, readedTexFromUri, disabledAcces, null);
+        ctrlItinerary.uploadItinerary1(this, name, duration, difficulty, readedTexFromUri, disabledAcces, description);
+
+    }
+
+    public void callback(){
         ctrl.printToast("Itinerario pubblicato correttamente.");
         ctrl.showHomeFragment();
     }
-
 
     private String getNameFilter(){
         String name = txtNameItinerario.getText().toString();
@@ -159,7 +167,7 @@ public class AddItinerarioFragment extends Fragment {
 
     private Integer getDurataFilter(){
         Integer durata = (hour*60)+minute;
-        if(durata == 0){
+        if(durata <= 0){
             return null;
         }
         return durata;
@@ -186,7 +194,7 @@ public class AddItinerarioFragment extends Fragment {
         if(checkBox.isChecked()){
             return true;
         }
-        return null;
+        return false;
     }
 
 

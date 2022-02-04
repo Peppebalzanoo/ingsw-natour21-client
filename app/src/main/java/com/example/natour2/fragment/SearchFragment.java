@@ -37,7 +37,7 @@ public class SearchFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
     private ItinerarioAdapter itinerarioAdapter;
-    private List<Itinerary> itineraryList;
+
     /* ****************************************************************************************** */
     private FloatingActionButton buttonFiltersFloating;
     private Button buttonApply;
@@ -77,7 +77,7 @@ public class SearchFragment extends BaseFragment {
 
         initViewComponents(view);
 
-        itinerarioAdapter = new ItinerarioAdapter(getActivity(), getContext(), itineraryList, savedInstanceState, recyclerView);
+        itinerarioAdapter = new ItinerarioAdapter(getActivity(), getContext(), savedInstanceState, recyclerView);
         recyclerView.setAdapter(itinerarioAdapter);
 
         getAllItineraries();
@@ -94,7 +94,7 @@ public class SearchFragment extends BaseFragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        itineraryList = new ArrayList<>();
+
         editTextSearch = view.findViewById(R.id.editTextSearch);
         searchItineraryIcon = view.findViewById(R.id.searchItineraryIcon);
 
@@ -102,7 +102,7 @@ public class SearchFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 System.out.println("ù§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ Sto in icon");
-                getItinerariesByFilters();
+                searchItineraryByFilters();
             }
         });
 
@@ -137,7 +137,7 @@ public class SearchFragment extends BaseFragment {
         buttonApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getItinerariesByFilters();
+                searchItineraryByFilters();
                 dialog.dismiss();
             }
         });
@@ -154,37 +154,39 @@ public class SearchFragment extends BaseFragment {
 
 
     private void getAllItineraries(){
-
+/*
         List<Itinerary> list = ctrlItinerary.getAllItinerariesByFilters(null, null, null, null, null, null, null, null, null);
         if(list == null){
             return;
         }
         itineraryList.addAll(list);
         itinerarioAdapter.notifyDataSetChanged();
+
+ */
+        ctrlItinerary.getAllItinerariesByFilters1(this, itinerarioAdapter,null, null, null, null, null, null, null, null, null);
     }
 
-    private void getItinerariesByFilters(){
 
+    private void searchItineraryByFilters(){
         String name = getNameFilter();
         Integer duration = getDurataFilter();
         Integer difficulty = getDifficultyFilter();
         Boolean disabledAcces =  getDisabledAccesFilter();
-        //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ name : " + name);
-        //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ duration : " + duration);
-        //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ difficulty : " + difficulty);
-        //System.out.println("§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ disabled : " + disabledAcces);
-        if(name == null || name.equals("")){
-            name = null;
+        try {
+            getItinerariesByFilters(ctrlItinerary, name, duration, difficulty, disabledAcces);
+        } catch (IllegalArgumentException e) {
+            ctrl.printToast("Oops! Qualcosa è andato storto");
         }
-        List<Itinerary> list = ctrlItinerary.getAllItinerariesByFilters(name, null, duration, null, difficulty, null, null, disabledAcces, null);
+    }
 
-        if(list == null){
-            ctrl.printToast("Nessun risultato per questi filtri.");
-            return;
-        }
-        itineraryList.removeAll(itineraryList);
-        itineraryList.addAll(list);
-        itinerarioAdapter.notifyDataSetChanged();
+    public void getItinerariesByFilters(ControllerItinerary ctrlItinerary, String name, Integer duration, Integer difficulty, Boolean disabledAcces) throws IllegalArgumentException{
+
+        ctrlItinerary.getAllItinerariesByFilters1(this, itinerarioAdapter, name, null, duration, null, difficulty, null, null, disabledAcces, null);
+
+    }
+
+    public void noResult(){
+        ctrl.printToast("Nessun risultato per questi filtri.");
     }
 
     private String getNameFilter(){

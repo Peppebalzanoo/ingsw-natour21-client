@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,7 +66,7 @@ public class ProfileFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
     private ItinerarioAdapter itinerarioAdapter;
-    private List<Itinerary> itineraryList;
+
     private TextView email;
     private TextView username;
     private CircleImageView profileImage;
@@ -74,6 +75,7 @@ public class ProfileFragment extends BaseFragment {
     private static final int REQUEST_GALLERY = 1000;
     private ImageView imageViewLogOut;
     private ImageView imageViewChangeProfileImage;
+    private ProgressBar progessBarProfileFragment;
 
 
     private final ControllerHomeActivity ctrlHomeActivity = ControllerHomeActivity.getInstance();
@@ -105,6 +107,7 @@ public class ProfileFragment extends BaseFragment {
         ctrlUser.setContext(getContext());
         ctrlItinerary.setActivity(getActivity());
         ctrlItinerary.setContext(getContext());
+
         /* ************************************************************************************** */
         //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
         /* ************************************************************************************** */
@@ -115,15 +118,16 @@ public class ProfileFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        progessBarProfileFragment = view.findViewById(R.id.progressBarProfileFragment);
+        loading(true);
         initViewComponents(view);
 
-        itineraryList = new ArrayList<>();
-        itinerarioAdapter = new ItinerarioAdapter(getActivity(), getContext(), itineraryList, savedInstanceState, recyclerView);
+        itinerarioAdapter = new ItinerarioAdapter(getActivity(), getContext(), savedInstanceState, recyclerView);
         recyclerView.setAdapter(itinerarioAdapter);
 
         setListeners();
-
         readItinerari();
+        loading(false);
 
         return view;
     }
@@ -141,12 +145,15 @@ public class ProfileFragment extends BaseFragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        User u = ctrlUser.getActiveUser();
-        email.setText(u.getEmail());
-        username.setText(u.getUsername());
-        showImage(u.getProfileImagePath(), profileImage);
+        ctrlUser.getActiveUser1(this);
     }
 
+
+    public void setUserInformation(String usernameText, String emailText, String imagePath){
+        email.setText(emailText);
+        username.setText(usernameText);
+        showImage(imagePath, profileImage);
+    }
 
     public void setListeners(){
         imageViewChangeProfileImage.setOnClickListener(new View.OnClickListener() {
@@ -171,12 +178,8 @@ public class ProfileFragment extends BaseFragment {
     }
 
     private void readItinerari(){
-        List<Itinerary> list = ctrlItinerary.getActiveUserItineraries();
-        if(list == null){
-            return;
-        }
-        itineraryList.addAll(list);
-        itinerarioAdapter.notifyDataSetChanged();
+        ctrlItinerary.getActiveUserItineraries1(itinerarioAdapter);
+       // itinerarioAdapter.notifyDataSetChanged();
     }
 
     public boolean checkPermission(){
@@ -354,6 +357,14 @@ public class ProfileFragment extends BaseFragment {
         }
     }
 
+    private void loading(Boolean isLoading){
+        if(isLoading){
+            progessBarProfileFragment.setVisibility(View.VISIBLE);
+        }
+        else{
+            progessBarProfileFragment.setVisibility(View.INVISIBLE);
+        }
+    }
 
     /* ****************************************************************************************** */
 //    private PreferanceManager preferanceManager;

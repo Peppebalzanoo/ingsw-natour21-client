@@ -1,16 +1,22 @@
 package com.example.natour2.adapter;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.natour2.controller.ControllerUser;
 import com.example.natour2.databinding.ItemContainerReceivedMessageBinding;
 import com.example.natour2.databinding.ItemContainerSentMessageBinding;
 import com.example.natour2.model.ChatMessage;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -20,6 +26,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public static final int VIEW_TYPE_SENT = 1;
     public static final int VIEW_TYPE_RECEIVED = 2;
+
 
 
 
@@ -111,11 +118,43 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         void setData(ChatMessage chatMessage){
             binding.textMessage.setText(chatMessage.getMessage());
             binding.textDataTime.setText(chatMessage.getDataTime());
+            showImage(chatMessage.getSenderId(), binding.imageProfileRecentConversation);
         }
+
+        void showImage(String username, ImageView imageProfile){
+            final ControllerUser ctrlUser = ControllerUser.getInstance();
+            Thread t1 = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+
+                        String imagePath = ctrlUser.getUserByUsername(username).getProfileImagePath();
+
+                        URL url = null;
+                        url = new URL(imagePath);
+                        Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                        imageProfile.setImageBitmap(bmp);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            t1.start();
+            try {
+                t1.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         /*void setData(ChatMessage chatMessage, Bitmap receiverProfileImage){
             binding.textMessage.setText(chatMessage.message);
             binding.textDataTime.setText(chatMessage.dataTime);
             binding.imageProfile.setImageBitmap(receiverProfileImage);
         }*/
     }
+
+
 }

@@ -181,7 +181,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/textViewSegnala"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/ic_info" />
+                app:srcCompat="@drawable/ic_warning" />
 
             <TextView
                 android:id="@+id/textViewSegnala"

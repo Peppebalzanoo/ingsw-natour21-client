@@ -17,17 +17,24 @@ import com.example.natour2.model.User;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
-    private final List<User> users;
+    private List<User> users;
     private final UserListener userListener;
     private final ControllerUser ctrlUser = ControllerUser.getInstance();
 
 
     public UserAdapter(List<User> users, UserListener userListener) {
         this.users = users;
+        this.userListener = userListener;
+    }
+
+
+    public UserAdapter(UserListener userListener) {
+        this.users = new ArrayList<>();
         this.userListener = userListener;
     }
 
@@ -63,7 +70,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         void setUserData(User user){
             binding.textName.setText(user.getUsername());
-            binding.textEmail.setText(user.getEmail());
+            //binding.textEmail.setText(user.getEmail());
             showImage(user.getUsername(), binding.imageProfileRecentConversation);
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
         }
@@ -101,6 +108,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
 
+    public void setUsers(List<User> users){
+        this.users = users;
+        notifyDataSetChanged();
+    }
 
 
 

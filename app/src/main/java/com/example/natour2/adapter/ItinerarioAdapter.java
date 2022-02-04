@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
+import com.example.natour2.controller.ControllerItinerary;
 import com.example.natour2.model.Itinerary;
 import com.example.natour2.model.PointOfInterest;
 import com.example.natour2.utilities.MapViewCustom;
@@ -36,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.ViewHolder> {
@@ -47,6 +49,8 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
     private RecyclerView recyclerView;
 
     private final ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
+    private final ControllerItinerary ctrlItinerary = ControllerItinerary.getInstance();
+
 
     public ItinerarioAdapter(Activity activity, Context context, List<Itinerary> mItinerary, Bundle savedInstanceState, RecyclerView recyclerView){
         this.activity = activity;
@@ -54,6 +58,17 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
         this.mItinerary = mItinerary;
         this.savedInstanceState = savedInstanceState;
         this.recyclerView = recyclerView;
+
+        ctrlItinerary.setActivity(activity);
+        ctrlItinerary.setContext(context);
+    }
+
+    public ItinerarioAdapter(Activity activity, Context context, Bundle savedInstanceState, RecyclerView recyclerView){
+        this.activity = activity;
+        this.mContext = context;
+        this.savedInstanceState = savedInstanceState;
+        this.recyclerView = recyclerView;
+        mItinerary = new ArrayList<>();
     }
 
     @NonNull
@@ -293,6 +308,12 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
         background.draw(canvas);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+
+    public void setItineraryList(List<Itinerary> itineraryList){
+        this.mItinerary = itineraryList;
+        notifyDataSetChanged();
     }
 
 }

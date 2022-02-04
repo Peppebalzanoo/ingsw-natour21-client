@@ -77,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             }
             case 4: {
+
                 ctrl.showProfileFragment();
                 break;
             }

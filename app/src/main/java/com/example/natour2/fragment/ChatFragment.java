@@ -215,7 +215,7 @@ public class ChatFragment extends BaseFragment{
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
-                    showToast("Notification sent successfully");
+                    //showToast("Notification sent successfully");
                 }
                 else{
                     showToast("Error: "+ response.code());

@@ -26,7 +26,6 @@ public class HomeFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
     private ItinerarioAdapter itinerarioAdapter;
-    private List<Itinerary> itineraryList;
     private ImageView addItinerario;
     private ImageView notification;
     private ProgressBar progessBar_SHomeFragment;
@@ -73,22 +72,16 @@ public class HomeFragment extends BaseFragment {
         linearLayoutManager.setStackFromEnd(true);
 
         recyclerView.setLayoutManager(linearLayoutManager);
-        itineraryList = new ArrayList<>();
-        itinerarioAdapter = new ItinerarioAdapter(getActivity(), getContext(), itineraryList, savedInstanceState, recyclerView);
+        itinerarioAdapter = new ItinerarioAdapter(getActivity(), getContext(), savedInstanceState, recyclerView);
         recyclerView.setAdapter(itinerarioAdapter);
+
 
         readItinerari();
         return view;
     }
 
     private void readItinerari(){
-        /*
-        Itinerario itr1 = new Itinerario("sentiero", "01:14", "facile", "bello il sentiero", "antonio", "pippo");
-        Itinerario itr2 = new Itinerario("sentiero2", "01:48", "difficile", "brutto il sentiero", "Peppe", "pippo2");
-        itinerarioList.add(itr1);
-        itinerarioList.add(itr2);
-*/
-
+/*
         loading(true);
         List<Itinerary> list = ctrlItinerary.getAllItineraries();
         if(list == null){
@@ -98,6 +91,10 @@ public class HomeFragment extends BaseFragment {
 
         itinerarioAdapter.notifyDataSetChanged();
         loading(false);
+
+ */
+        ctrlItinerary.getAllItineraries1(itinerarioAdapter);
+
     }
 
     private void initViewComponents(View view){

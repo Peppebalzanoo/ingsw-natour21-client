@@ -3,7 +3,9 @@ package com.example.natour2.controller;
 import android.app.Activity;
 import android.content.Context;
 
+import com.example.natour2.adapter.UserAdapter;
 import com.example.natour2.dao.UserDao;
+import com.example.natour2.fragment.ProfileFragment;
 import com.example.natour2.model.User;
 import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
@@ -63,6 +65,26 @@ public class ControllerUser {
         return result[0];
     }
 
+
+
+    public void getActiveUser1(ProfileFragment fragment){
+        Call<User> call = userDAO.getActiveUser(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User u = response.body();
+                fragment.setUserInformation(u.getUsername(), u.getEmail(), u.getProfileImagePath());
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+
     public void userSignUp(){
         Call<User> call = userDAO.signUp(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
         Thread t1 = new Thread(new Runnable() {
@@ -119,6 +141,25 @@ public class ControllerUser {
             e.printStackTrace();
         }
     }
+
+
+
+
+    public void getAllUsers1(UserAdapter adapter){
+        Call<List<User>> call = userDAO.getAllUsers(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                adapter.setUsers(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+
+            }
+        });
+    }
+
 
 
     public List<User> getAllUsers(){
