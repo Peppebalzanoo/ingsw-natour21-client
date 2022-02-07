@@ -273,7 +273,10 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
         }
     }
 
-    private String setDuration(int duration){
+    public String setDuration(int duration){
+        if(duration <= 0 || duration > 1439){
+            throw new IllegalArgumentException();
+        }
         int hours = duration / 60;
         int minutes = duration % 60;
         String res = ""+minutes;

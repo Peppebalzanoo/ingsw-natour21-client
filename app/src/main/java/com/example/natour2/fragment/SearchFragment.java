@@ -170,9 +170,9 @@ public class SearchFragment extends BaseFragment {
     private void searchItineraryByFilters(){
         String name = getNameFilter();
         Integer duration = getDurataFilter();
-        Integer difficulty = getDifficultyFilter();
         Boolean disabledAcces =  getDisabledAccesFilter();
         try {
+            Integer difficulty = getDifficultyFilter(chipGroup_Difficoltà_BottomDialog.getChildCount());
             getItinerariesByFilters(ctrlItinerary, name, duration, difficulty, disabledAcces);
         } catch (IllegalArgumentException e) {
             ctrl.printToast("Oops! Qualcosa è andato storto");
@@ -205,12 +205,14 @@ public class SearchFragment extends BaseFragment {
         return durata;
     }
 
-    private Integer getDifficultyFilter(){
-        int chipsCount =  chipGroup_Difficoltà_BottomDialog.getChildCount();
+    public Integer getDifficultyFilter(Integer chipsCount) throws IllegalArgumentException{
+
+        if(chipsCount == null || chipsCount <= 0 ){
+            throw new IllegalArgumentException();
+        }
         int i = 0;
         while (i < chipsCount) {
-            Chip chip = (Chip)  chipGroup_Difficoltà_BottomDialog.getChildAt(i);
-            if (chip.isChecked() ) {
+            if (verifyChipValidity(i)) {
                 break;
             }
             i++;
@@ -219,8 +221,15 @@ public class SearchFragment extends BaseFragment {
         if(i<=0 || i>=4){
             return null;
         }
-
         return i;
+    }
+
+    public boolean verifyChipValidity(int i){
+        Chip chip = (Chip) chipGroup_Difficoltà_BottomDialog.getChildAt(i);
+        if (chip.isChecked()) {
+            return true;
+        }
+        return false;
     }
 
     private Boolean getDisabledAccesFilter(){
