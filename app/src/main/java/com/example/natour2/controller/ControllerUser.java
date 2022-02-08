@@ -125,6 +125,7 @@ public class ControllerUser {
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
                 printToast("Oops! Impossibile contattare il server.");
+
             }
         });
     }

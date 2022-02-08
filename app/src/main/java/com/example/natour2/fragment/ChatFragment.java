@@ -165,15 +165,12 @@ public class ChatFragment extends BaseFragment{
         }
         try{
             JSONArray tokens = new JSONArray();
-
             //FCM Token del/dei destinatario/destinatari ---> user.getToken()/users.getTokens();
             //tokens.put("");
 
             user = ctrlUser.getUserByUsername(user.getUsername());
 
             tokens.put(user.getFCMToken());
-
-
 
             JSONObject data = new JSONObject();
             data.put(Constants.KEY_USER_ID, preferanceManager.getString(Constants.KEY_USER_ID));
