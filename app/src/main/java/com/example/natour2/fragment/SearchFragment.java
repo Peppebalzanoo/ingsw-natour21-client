@@ -205,13 +205,12 @@ public class SearchFragment extends BaseFragment {
         return durata;
     }
 
-    public Integer getDifficultyFilter(Integer chipsCount) throws IllegalArgumentException{
-
-        if(chipsCount == null || chipsCount <= 0 ){
+    public Integer getDifficultyFilter(Integer numberOfPossibleChoices){
+        if(numberOfPossibleChoices == null || numberOfPossibleChoices <= 0 ){
             throw new IllegalArgumentException();
         }
         int i = 0;
-        while (i < chipsCount) {
+        while (i < numberOfPossibleChoices) {
             if (verifyChipValidity(i)) {
                 break;
             }

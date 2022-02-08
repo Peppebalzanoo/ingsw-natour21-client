@@ -120,7 +120,6 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
             segnala.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //System.out.println("***************************************************+ Potition " + mItinerario.get(getAdapterPosition()).getName());
                     ctrl.showInviaSegnalazioneFragment(mItinerary.get(getAdapterPosition()));
                 }
             });
@@ -128,7 +127,7 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
             infoDettaglio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("***************************************************+ Potition " + mItinerary.get(getAdapterPosition()).getName());
+                    //System.out.println("***************************************************+ Potition " + mItinerary.get(getAdapterPosition()).getName());
                 }
             });
 
@@ -164,20 +163,6 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
 
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
-                /*InputStream in = mContext.getResources().openRawResource(
-                        mContext.getResources().getIdentifier("mapstogpx20220113_210828",
-                                "raw", mContext.getPackageName()));
-
-
-                LatLng start = new LatLng(40.7753594015775, 14.46880965563265);
-                MarkerOptions options = new MarkerOptions();
-                options.position(start);
-                //options.icon(BitmapDescriptorFactory.fromResource(mContext.getResources().getIdentifier("ic_1","drawable", mContext.getPackageName())));
-                options.icon(bitmapDescriptorFromVector(mContext, R.drawable.ic_home));
-                googleMap.addMarker(options);
-
-                 */
-
                 InputStream in = convertStringToInputStream(itr.getGpx());
                 mapView.getMap(googleMap, in);
                 if(itr.getPointsOfInterest()!=null && itr.getPointsOfInterest().size() > 0){
@@ -300,19 +285,6 @@ public class ItinerarioAdapter extends RecyclerView.Adapter<ItinerarioAdapter.Vi
         InputStream inputStream = new ByteArrayInputStream(string.getBytes());
         return inputStream;
     }
-
-    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
-        Drawable background = ContextCompat.getDrawable(context, R.drawable.ic_home);
-        background.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
-        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
-        vectorDrawable.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
-        Bitmap bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        background.draw(canvas);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
-
 
     public void setItineraryList(List<Itinerary> itineraryList){
         this.mItinerary = itineraryList;

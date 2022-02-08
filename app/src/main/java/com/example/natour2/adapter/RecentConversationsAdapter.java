@@ -61,7 +61,6 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
         }
 
         void setData(ChatMessage chatMessage){
-            //binding.imageProfile.setImageBitmap(getConversionImage(chatMessage.conversionImage));
             binding.textName.setText(chatMessage.getConversionName());
             binding.textRecentMessage.setText(chatMessage.getMessage());
             showImage(chatMessage.getConversionName(), binding.imageProfileRecentConversation);
@@ -82,9 +81,7 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
             @Override
             public void run() {
                 try {
-
-                   String imagePath = ctrlUser.getUserByUsername(username).getProfileImagePath();
-
+                    String imagePath = ctrlUser.getUserByUsername(username).getProfileImagePath();
                     URL url = null;
                     url = new URL(imagePath);
                     Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
@@ -102,10 +99,5 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    private Bitmap getConversionImage(String encodedImage){
-        byte [] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 }

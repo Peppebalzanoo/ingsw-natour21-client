@@ -32,7 +32,6 @@ public class NotificationAdapter extends  RecyclerView.Adapter<NotificationAdapt
     private Context context;
     private List<Report> reportList;
     private Activity activity;
-    private final ControllerUser ctrlUser = ControllerUser.getInstance();
 
     public Bundle savedInstanceState;
     public RecyclerView recyclerView;
@@ -67,14 +66,8 @@ public class NotificationAdapter extends  RecyclerView.Adapter<NotificationAdapt
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Report currenReport = reportList.get(position);
-
-        /* Momentanea */
         holder.textItinerario.setText(currenReport.getReasonTitle());
-        /* ********** */
-
-        //holder.textItinerario.setText(currenReport.getItinerary().getName());
         holder.textUserSegnalatore.setText(currenReport.getReporter().getUsername());
-        //holder.imageProfileSegnalatore.setImageDrawable("Immagine del segnalatore");
         showImage(currenReport.getReporter().getProfileImagePath(), holder.imageProfileSegnalatore);
 
     }
@@ -141,9 +134,6 @@ public class NotificationAdapter extends  RecyclerView.Adapter<NotificationAdapt
             @Override
             public void run() {
                 try {
-
-                    //String imagePath = ctrlUser.getUserByUsername(username).getProfileImagePath();
-
                     URL url = null;
                     url = new URL(imagePath);
                     Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());

@@ -59,7 +59,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return users.size();
     }
 
-    /* ****************************************************************************************** */
     class UserViewHolder extends RecyclerView.ViewHolder{
         ItemContainerUserBinding binding;
 
@@ -85,9 +84,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             @Override
             public void run() {
                 try {
-
                     String imagePath = ctrlUser.getUserByUsername(username).getProfileImagePath();
-
                     URL url = null;
                     url = new URL(imagePath);
                     Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
@@ -112,19 +109,4 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         this.users = users;
         notifyDataSetChanged();
     }
-
-
-
-
-    /* ****************************************************************************************** */
-
-
-
-
-    /*private Bitmap getUserImage(String encodedImage){
-        byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-    }*/
-
-
 }

@@ -30,6 +30,15 @@ public class setDurationTest {
     }
 
     @Test
+    public void testSetDurationParameterEquals1(){
+        int duration = 1;
+        String expected = "0:01";
+        String res = itinerarioAdapter.setDuration(duration);
+
+        assertEquals(expected, res);
+    }
+
+    @Test
     public void testSetDurationParameterEqualsZero(){
         int duration = 0;
         assertThrows(IllegalArgumentException.class, () -> {
@@ -79,4 +88,32 @@ public class setDurationTest {
 
         assertEquals(expected, res);
     }
+
+    @Test
+    public void testSetDuration_Path_2_3(){
+        int duration = -10;
+        assertThrows(IllegalArgumentException.class, () -> {
+            itinerarioAdapter.setDuration(duration);
+        });
+    }
+
+    @Test
+    public void testSetDuration_2_5_6_7_8_11(){
+        int duration = 10;
+        String expected = "0:30";
+        String res = itinerarioAdapter.setDuration(duration);
+
+        assertEquals(expected, res);
+    }
+
+
+    @Test
+    public void testSetDuration_2_5_6_7_8_9_11(){
+        int duration = 65;
+        String expected = "1:05";
+        String res = itinerarioAdapter.setDuration(duration);
+
+        assertEquals(expected, res);
+    }
+
 }
