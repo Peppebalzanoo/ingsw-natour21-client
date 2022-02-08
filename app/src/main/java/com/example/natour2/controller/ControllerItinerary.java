@@ -145,6 +145,7 @@ public class ControllerItinerary {
             public void run() {
                 try {
                     call.execute().body();
+                    printToast("Itinerario rimosso correttamente.");
                 } catch (IOException e) {
                     printToast("Oops! Impossibile contattare il server.");
                 }

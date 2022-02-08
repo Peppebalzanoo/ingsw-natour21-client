@@ -81,6 +81,7 @@ public class ControllerReport {
             public void run() {
                 try {
                     call.execute().body();
+                    printToast("Segnalazione rimossa correttamente.");
                 } catch (IOException e) {
                     printToast("Oops! Impossibile contattare il server.");
                 }

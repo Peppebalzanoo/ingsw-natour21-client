@@ -30,20 +30,12 @@ public class SignupFragment extends Fragment {
     // ############################################################# End View Components
 
     private final ControllerLoginSignin ctrl = ControllerLoginSignin.getInstance();
-    private PreferanceManager preferanceManager;
 
     public SignupFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //******************************************************************************************
-
-        //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
-
-        //******************************************************************************************
-
         ctrl.setActivity(getActivity());
         ctrl.setContext(getActivity().getApplicationContext());
         ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
@@ -52,7 +44,6 @@ public class SignupFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view =  inflater.inflate(R.layout.fragment_signup, container, false);
         initViewComponents(view);
         return view;
@@ -81,13 +72,6 @@ public class SignupFragment extends Fragment {
                     Toast.makeText(getActivity(), "Errore! Le password non coencidono",
                             Toast.LENGTH_LONG).show();
                 }
-
-                /* ****************************************************************************** */
-                /*if(isValidSignUpDetails()) {
-                    signUp();
-                }*/
-                //**********************************************************************************
-
             }
         });
 
@@ -100,74 +84,4 @@ public class SignupFragment extends Fragment {
         });
 
     }
-
-    /* ****************************************************************************************** */
-    /*
-
-    private void showToast(String message){
-        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void signUp(){
-        loading(true);
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        HashMap<String, Object> user = new HashMap<>();
-        user.put(Constants.KEY_NAME, usernameSignUp.getText().toString());
-        user.put(Constants.KEY_EMAIL, emailSignUp.getText().toString());
-        user.put(Constants.KEY_PASSWORD, passwordSignUp.getText().toString());
-        database.collection(Constants.KEY_COLLECTION_USERS)
-                .add(user)
-                .addOnSuccessListener(documentReference -> {
-                    loading(false);
-                    preferanceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                    preferanceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-                    preferanceManager.putString(Constants.KEY_NAME, usernameSignUp.getText().toString());
-
-                   Log.i("TOKENSZZZZ","########################################################"+preferanceManager.getString(Constants.KEY_FCM_TOKEN));
-
-                    Intent intent = new Intent(getActivity().getApplicationContext(), HomeActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                })
-                .addOnFailureListener( exception -> {
-                    loading(false);
-                    showToast(exception.getMessage());
-                });
-    }
-
-    private Boolean isValidSignUpDetails(){
-        if(usernameSignUp.getText().toString().trim().isEmpty()){
-            showToast("Enter username");
-            return false;
-        }else if(emailSignUp.getText().toString().trim().isEmpty()){
-            showToast("Enter email");
-            return false;
-        }else if(!Patterns.EMAIL_ADDRESS.matcher(emailSignUp.getText().toString()).matches()){
-            showToast("Enter valid email");
-            return false;
-        }else if(passwordSignUp.getText().toString().trim().isEmpty()){
-            showToast("Enter password");
-            return false;
-        }else if(repeatPassSignUp.getText().toString().trim().isEmpty()){
-            showToast("Confirm your password");
-            return false;
-        }else if(!passwordSignUp.getText().toString().equals(repeatPassSignUp.getText().toString())){
-            showToast("Password & confirm password must be same");
-            return false;
-        }else{
-            return true;
-        }
-    }
-*/
-    /*private void loading(Boolean isLoading){
-        if(isLoading){
-            btnRegister.setVisibility(View.INVISIBLE);
-            progressBar.setVisibility(View.VISIBLE);
-        }
-        else{
-            progressBar.setVisibility(View.INVISIBLE);
-            btnRegister.setVisibility(View.INVISIBLE);
-        }
-    }*/
-
 }

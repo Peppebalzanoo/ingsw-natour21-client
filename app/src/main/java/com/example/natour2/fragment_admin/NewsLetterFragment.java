@@ -35,9 +35,7 @@ public class NewsLetterFragment extends Fragment implements EmailAdapter.OnEmail
     private EditText editTextOggetto;
     private EditText editTextContenuto;
     private CheckBox checkBoxAll;
-
     private List<Email> emailList;
-
     private EmailAdapter emailAdapter;
     private RecyclerView recyclerView;
 

@@ -28,9 +28,7 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
 
     private ImageView imageViewNewsLetters;
     private ImageView imageViewLogOut;
-
     private List<Report> reportList;
-
     private SegnalazioneAdapter customBaseAdapter;
     private RecyclerView recyclerView;
 
@@ -94,7 +92,6 @@ public class ControlPanelFragment extends Fragment implements SegnalazioneAdapte
     private void addListItems(){
         List<Report> list = ctrlReport.getAllReport();
         if(list == null){
-            //System.out.println("******************************************************** list.size(): " + list.size());
             return;
         }
         reportList.addAll(list);

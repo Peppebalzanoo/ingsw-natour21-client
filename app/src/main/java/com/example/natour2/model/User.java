@@ -3,7 +3,6 @@ package com.example.natour2.model;
 
 import java.util.List;
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
 public class User{
     private long id;
     private String username;

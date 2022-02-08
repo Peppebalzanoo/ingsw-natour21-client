@@ -25,8 +25,6 @@ public class AdminFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +32,6 @@ public class AdminFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      // Inflate the layout for this fragment
       View view = inflater.inflate(R.layout.fragment_admin, container, false);
 
       initViewComponents(view);
@@ -47,8 +44,6 @@ public class AdminFragment extends Fragment {
         btnAccediAdmin = view.findViewById(R.id.buttonInviaAdminFragment);
         passwordAdmin = view.findViewById(R.id.editTextPasswordAdminFragment);
         matricolaAdmin = view.findViewById(R.id.editTextAdminFragment);
-
-
 
         btnAccediAdmin.setOnClickListener(new View.OnClickListener() {
             @Override

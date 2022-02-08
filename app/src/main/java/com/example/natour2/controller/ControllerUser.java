@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.natour2.adapter.UserAdapter;
 import com.example.natour2.dao.UserDao;
 import com.example.natour2.fragment.ProfileFragment;
+import com.example.natour2.fragment.SelectUsersFragment;
 import com.example.natour2.model.User;
 import com.example.natour2.utilities.Constants;
 import com.example.natour2.utilities.PreferanceManager;
@@ -112,12 +113,13 @@ public class ControllerUser {
 
 
 
-    public void getAllUsers1(UserAdapter adapter){
+    public void getAllUsers1(UserAdapter adapter, SelectUsersFragment selectUsersFragment){
         Call<List<User>> call = userDAO.getAllUsers(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
         call.enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 adapter.setUsers(response.body());
+                selectUsersFragment.loading(false);
             }
 
             @Override

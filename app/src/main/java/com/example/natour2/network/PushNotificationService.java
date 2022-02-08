@@ -30,12 +30,6 @@ public class PushNotificationService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage){
         super.onMessageReceived(remoteMessage);
 
-        /*   Pe recuperare le informazioni del mittente
-               remoteMessage.getData().get(Constants.KEY_USER_ID);
-               remoteMessage.getData().get(Constants.KEY_FCM_TOKEN);
-               ecc.. ecc..
-        */
-
         int notificationId = new Random().nextInt();
         String channelId = "naTour21_channelId";
         Notification notification = new NotificationCompat.Builder(this, channelId)

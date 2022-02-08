@@ -11,7 +11,7 @@ public class Itinerary {
     private String description;
     private String gpx;
     private Boolean disabledAccess;
-    private User author; // Questo dovrebbe essere di tipo User
+    private User author;
     private List<Report> reports;
     private List<PointOfInterest> pointsOfInterest;
 

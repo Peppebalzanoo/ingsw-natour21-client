@@ -83,7 +83,6 @@ public class MapViewCustom extends com.google.android.gms.maps.MapView{
 
             parsedGpx = parser.parse(in); // consider using a background thread
         } catch (IOException | XmlPullParserException e) {
-            // do something with this exception
             e.printStackTrace();
         }
         if (parsedGpx == null) {

@@ -21,8 +21,6 @@ import com.example.natour2.utilities.SpacingItem;
 
 public class NotificationFragment extends Fragment implements NotificationAdapter.OnNotificationListener {
 
-    //private List<Report> reportList;
-
     private NotificationAdapter notificationAdapter;
     private RecyclerView recyclerView;
     private ImageView imageBack;
@@ -49,17 +47,6 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
         initViewComponent(view);
-
-       // reportList = new ArrayList<>();
-/*
-        reportList.add(new Report(0, "Il sentiero degli Dei non è degli Dei", "Dichiara il falso 1", null, null, new User(0, "Utente 1", null, null)));
-        reportList.add(new Report(1, "Il sentiero degli Zombie non è degli Zombie", "Dichiara il falso 2", null, null, new User(1, "Utente 2", null, null)));
-        reportList.add(new Report(2, "Il sentiero degli Animali non è degli Animali", "Dichiara il falso 3", null, null, new User(2, "Utente 3", null, null)));
-        reportList.add(new Report(3, "Il sentiero degli Schiavi non è degli Schiavi", "Dichiara il falso 4", null, null, new User(3, "Utente 4", null, null)));
-        reportList.add(new Report(4, "Il sentiero degli Italiani non è degli Italiani", "Dichiara il falso 5", null, null, new User(4, "Utente 5", null, null)));
-
-
- */
 
         notificationAdapter = new NotificationAdapter(this, getContext(), getActivity(), savedInstanceState, recyclerView);
         recyclerView.setAdapter(notificationAdapter);
@@ -99,22 +86,11 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
 
     @Override
     public void onNotificationClick(int position) {
-        //Report report = reportList.get(position);
-        //Toast.makeText(requireContext(), "Hai cliccato il report "+report.getReasonTitle(), Toast.LENGTH_SHORT).show();
-        notificationAdapter.showReplayReport(ctrl, position);
+       notificationAdapter.showReplayReport(ctrl, position);
     }
 
 
     private void setReports(){
         ctrlItinerary.getActiveUserItinerariesNotification(notificationAdapter);
-       // reportList.removeAll(reportList);
-       /*
-        if(list == null){
-            return;
-        }
-
-        notificationAdapter.notifyDataSetChanged();
-
-        */
     }
 }

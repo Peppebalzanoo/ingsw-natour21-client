@@ -34,11 +34,9 @@ public class SearchFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private ItinerarioAdapter itinerarioAdapter;
 
-    /* ****************************************************************************************** */
     private FloatingActionButton buttonFiltersFloating;
     private Button buttonApply;
     private BottomSheetDialog dialog;
-    /* ****************************************************************************************** */
     private ChipGroup chipGroup_Difficoltà_BottomDialog;
     private CheckBox checkBox_Accessibilità_BottomDialog;
     private EditText editTextSearch;
@@ -66,9 +64,7 @@ public class SearchFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         initViewComponents(view);
@@ -97,7 +93,6 @@ public class SearchFragment extends BaseFragment {
         searchItineraryIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("ù§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ Sto in icon");
                 searchItineraryByFilters();
             }
         });
@@ -107,7 +102,6 @@ public class SearchFragment extends BaseFragment {
         buttonFiltersFloating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("****","************************************************************ HO PREMUTO");
                 dialog.show();
             }
         });
@@ -150,15 +144,6 @@ public class SearchFragment extends BaseFragment {
 
 
     private void getAllItineraries(){
-/*
-        List<Itinerary> list = ctrlItinerary.getAllItinerariesByFilters(null, null, null, null, null, null, null, null, null);
-        if(list == null){
-            return;
-        }
-        itineraryList.addAll(list);
-        itinerarioAdapter.notifyDataSetChanged();
-
- */
         ctrlItinerary.getAllItinerariesByFilters(this, itinerarioAdapter,null, null, null, null, null, null, null, null, null);
     }
 

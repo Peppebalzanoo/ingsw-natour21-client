@@ -56,9 +56,7 @@ public class AddPointOfInterestFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_point_of_interest, container, false);
 
         initViewComponents(view);
@@ -76,7 +74,6 @@ public class AddPointOfInterestFragment extends Fragment {
         ArrayAdapter adapter= new ArrayAdapter<POITypeMapper>(getActivity(),android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-
 
         editTextNumberDecimalLatitude = view.findViewById(R.id.editTextNumberDecimalLatitude);
         editTextNumberDecimalLongitude = view.findViewById(R.id.editTextNumberDecimalLongitude);

@@ -145,7 +145,6 @@ public class AddItinerarioFragment extends Fragment {
         if(name == null || name.equals("") || duration == null || duration <= 0 || difficulty == null || difficulty <= 0 || difficulty >=4 || readedTexFromUri == null || readedTexFromUri.equals("") || disabledAcces == null){
             throw new IllegalAccessException();
         }
-
         //Itinerary itinerary  = new Itinerary(name, duration, difficulty, description, readedTexFromUri, disabledAcces, null);
         ctrlItinerary.uploadItinerary(this, name, duration, difficulty, readedTexFromUri, disabledAcces, description);
 
@@ -232,13 +231,11 @@ public class AddItinerarioFragment extends Fragment {
                     mapView.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(@NonNull GoogleMap googleMap) {
-
                             try {
                                 readedTexFromUri = readTextFromUri(uri);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            System.out.println("**************** Stampo gpx.length(): " + readedTexFromUri.length());
                             InputStream inputStream = convertStringToInputStream(readedTexFromUri);
                             mapView.getMap(googleMap, inputStream);
                             mapView.onResume();

@@ -36,11 +36,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /* ************************************************************************************** */
-        //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
-        //loadUserDetails();
-
         ctrl.setActivity(getActivity());
         ctrl.setContext(getActivity().getApplicationContext());
         ctrl.setFragmentManager(getActivity().getSupportFragmentManager());
@@ -53,9 +48,7 @@ public class HomeFragment extends BaseFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         initViewComponents(view);
@@ -77,20 +70,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void readItinerari(){
-/*
-        loading(true);
-        List<Itinerary> list = ctrlItinerary.getAllItineraries();
-        if(list == null){
-            return;
-        }
-        itineraryList.addAll(list);
-
-        itinerarioAdapter.notifyDataSetChanged();
-        loading(false);
-
- */
         ctrlItinerary.getAllItineraries(itinerarioAdapter);
-
     }
 
     private void initViewComponents(View view){
@@ -123,38 +103,5 @@ public class HomeFragment extends BaseFragment {
             progessBar_SHomeFragment.setVisibility(View.INVISIBLE);
         }
     }
-
-    /* ****************************************************************************************** */
-
-
-    /*
-    CODICE CHE AL MOMENTO NON SEMBRA SERVICI
-
-    private void loadUserDetails(){
-        textName.setText(preferanceManager.getString(Constants.KEY_NAME));
-        byte[] bytes = android.util.Base64.decode(preferanceManager.getString(Constants.KEY_IMAGE), Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        imageProfile.setImageBitmap(bitmap);
-    }
-    */
-
-/*
-    private void showToast(String message){
-        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void getToken(){
-        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
-    }
-
-    private void updateToken(String token){
-        preferanceManager.putString(Constants.KEY_FCM_TOKEN, token);
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS).document(preferanceManager.getString(Constants.KEY_USER_ID));
-        documentReference.update(Constants.KEY_FCM_TOKEN, token)
-                .addOnFailureListener(e -> showToast("Unable to update token"));
-    }
-
-*/
 
 }

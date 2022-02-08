@@ -107,8 +107,7 @@ public class UserFragment extends BaseFragment implements ConversionListener {
                 if(documentChange.getType() == DocumentChange.Type.ADDED){
                     String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                     String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
-                    System.out.println("çççççççççççççççççççççççççççççççççççççççççççççççç senderId: " + senderId);
-                    System.out.println("çççççççççççççççççççççççççççççççççççççççççççççççç receiverId: " + receiverId);
+
                     ChatMessage chatMessage = new ChatMessage();
                     chatMessage.setSenderId(senderId);
                     chatMessage.setReceiverId(receiverId);

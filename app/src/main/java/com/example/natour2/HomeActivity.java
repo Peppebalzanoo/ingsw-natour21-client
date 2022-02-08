@@ -9,7 +9,6 @@ import com.example.natour2.controller.ControllerHomeActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
-    //ciao peppe
     private MeowBottomNavigation bottomNavigation;
 
     private final ControllerHomeActivity ctrl = ControllerHomeActivity.getInstance();
@@ -40,10 +39,8 @@ public class HomeActivity extends AppCompatActivity {
                 showItem(item.getId());
             }
         });
-        //bottomNavigation.setCount(1, "10");
 
         bottomNavigation.show(1, true);
-
 
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override

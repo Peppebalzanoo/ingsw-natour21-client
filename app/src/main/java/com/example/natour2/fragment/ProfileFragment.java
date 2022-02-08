@@ -100,15 +100,10 @@ public class ProfileFragment extends BaseFragment {
         ctrlUser.setContext(getContext());
         ctrlItinerary.setActivity(getActivity());
         ctrlItinerary.setContext(getContext());
-
-        /* ************************************************************************************** */
-        //preferanceManager = new PreferanceManager(getActivity().getApplicationContext());
-        /* ************************************************************************************** */
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         progessBarProfileFragment = view.findViewById(R.id.progressBarProfileFragment);
@@ -172,7 +167,6 @@ public class ProfileFragment extends BaseFragment {
 
     private void readItinerari(){
         ctrlItinerary.getActiveUserItinerariesItinerary(itinerarioAdapter);
-       // itinerarioAdapter.notifyDataSetChanged();
     }
 
     public boolean checkPermission(){
@@ -229,23 +223,12 @@ public class ProfileFragment extends BaseFragment {
             try {
                 Uri selectedImageUri = data.getData();
 
-                System.out.println("************************************************************ prima");
-
                 File file = FileUtils.from(getContext(), selectedImageUri);
-                //File file = new File(selectedImageUri.getPath());
-                // creates RequestBody instance from file
                 RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
-                // MultipartBody.Part is used to send also the actual filename
                 MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
 
                 ctrlUser.updateProfileImage(body);
-
-                System.out.println("************************************************************ dopo");
-
                 profileImage.setImageURI(selectedImageUri);
-                //bitmapApp = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), selectedImageUri);
-                //arrayBytesOfImageProfile = convertBitmapToArrayOfByte(bitmapApp);
-                //createDirectoryAndSaveFile(convertByteToBitmap(arrayBytesOfImageProfile),  "NaTour21_IMG");
                 ctrlHomeActivity.showProfileFragment();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -358,36 +341,4 @@ public class ProfileFragment extends BaseFragment {
             progessBarProfileFragment.setVisibility(View.INVISIBLE);
         }
     }
-
-    /* ****************************************************************************************** */
-//    private PreferanceManager preferanceManager;
-//
-//    private void showToast(String message){
-//        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-//    }
-
-
-    // private void signOut(){
-     //   showToast("Logout ...");
-        /*FirebaseFirestore database = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
-                .document(preferanceManager.getString(Constants.KEY_USER_ID));
-        HashMap<String, Object> updates = new HashMap<>();
-        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
-        documentReference.update(updates)
-                .addOnSuccessListener(unused -> {
-                    preferanceManager.clear();
-                    //DOVREMMO TORNARE AL FRAGMENT DI LOGIN()
-                    //ctrl2.showLoginFragment();
-
-                    //CODICE PER LE ACTIVITY
-                    //startActivity(new Intent(getActivity().getApplicationContext(), LoginFragment));
-                    //getActivity().finish();
-                })
-                .addOnFailureListener(e -> showToast("Unable to signout"));
-
-         */
-   // }
-    /* ****************************************************************************************** */
-
 }
