@@ -2,6 +2,7 @@ package com.example.natour2.controller;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.example.natour2.dao.PointOfInterestDao;
 import com.example.natour2.dao.UserDao;
@@ -52,8 +53,7 @@ public class ControllerPointOfInterest {
                 try {
                     call.execute().body();
                 } catch (IOException e) {
-                    System.out.println("*************************************** errore!!!!");
-                    e.printStackTrace();
+                    printToast("Oops! Impossibile contattare il server.");
                 }
             }
         });
@@ -77,8 +77,7 @@ public class ControllerPointOfInterest {
                    poiTypeMappers = call.execute().body();
 
                 } catch (IOException e) {
-                    System.out.println("*************************************** error alltype");
-                    e.printStackTrace();
+                    printToast("Oops! Impossibile contattare il server.");
                 }
             }
         });
@@ -91,7 +90,13 @@ public class ControllerPointOfInterest {
          return poiTypeMappers;
     }
 
-
+    public void printToast(String str){
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(activity, str, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 
     public Activity getActivity() {

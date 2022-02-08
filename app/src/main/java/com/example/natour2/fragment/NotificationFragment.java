@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -18,15 +17,7 @@ import com.example.natour2.R;
 import com.example.natour2.adapter.NotificationAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.controller.ControllerItinerary;
-import com.example.natour2.controller.ControllerReport;
-import com.example.natour2.model.Itinerary;
-import com.example.natour2.model.Report;
-import com.example.natour2.model.User;
-import com.example.natour2.utilities.SharedPreferencesUtil;
 import com.example.natour2.utilities.SpacingItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NotificationFragment extends Fragment implements NotificationAdapter.OnNotificationListener {
 
@@ -115,7 +106,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
 
 
     private void setReports(){
-        ctrlItinerary.getActiveUserItineraries2(notificationAdapter);
+        ctrlItinerary.getActiveUserItinerariesNotification(notificationAdapter);
        // reportList.removeAll(reportList);
        /*
         if(list == null){

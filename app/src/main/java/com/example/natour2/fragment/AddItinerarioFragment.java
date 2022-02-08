@@ -22,7 +22,6 @@ import android.widget.TimePicker;
 import com.example.natour2.R;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.controller.ControllerItinerary;
-import com.example.natour2.model.Itinerary;
 import com.example.natour2.utilities.MapViewCustom;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -148,7 +147,7 @@ public class AddItinerarioFragment extends Fragment {
         }
 
         //Itinerary itinerary  = new Itinerary(name, duration, difficulty, description, readedTexFromUri, disabledAcces, null);
-        ctrlItinerary.uploadItinerary1(this, name, duration, difficulty, readedTexFromUri, disabledAcces, description);
+        ctrlItinerary.uploadItinerary(this, name, duration, difficulty, readedTexFromUri, disabledAcces, description);
 
     }
 

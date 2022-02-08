@@ -37,10 +37,6 @@ import org.json.JSONException;
 public class Cognito {
 
 
-    //private String userPoolUsersId = "eu-west-3_40SDNNCeI";
-    //private String clientId = "1fpi4iq7v0c9nauceoij11gnht";
-    //private String clientSecret= "rdg4q87k7b750tpsk18mgh32hivu854h0mg1eahoa9r1m4ar2rf";
-
     private String userPoolUsersId = " ";
     private String clientId = " ";
     private String clientSecret= " ";
@@ -52,12 +48,6 @@ public class Cognito {
     private String userPassword;
 
 
-
-
-
-    private String userPoolAdminsId = "eu-west-3_3VRktEGN7";
-    private String clientIdAdmin = "78f9mtuk5q1n6t4r3129087ffr";
-    private String clientSecretAdmin = "racb42nv6p31upep7pr3i42u669mr41avcj1g1gm1tqg3hv8ibj";
     private CognitoUserPool userPoolAdmins;
     private CognitoUserAttributes adminAttributes;
     private String adminPassword;
@@ -67,11 +57,6 @@ public class Cognito {
     static String tokenUser;
     static String tokenAdmin;
 
-    //pippo
-    //Pippo90!
-
-
-
     //**********************************************************************************************
     public Cognito(Context context, Activity activity){
         this.context = context;
@@ -80,18 +65,6 @@ public class Cognito {
         this.activity = activity;
         ctrlUser.setActivity(activity);
         ctrlUser.setContext(context);
-    }
-
-    public Cognito(Context context, String type){
-        this.context = context;
-        userPoolAdmins = new CognitoUserPool(context, this.userPoolAdminsId, this.clientIdAdmin, this.clientSecretAdmin, this.cognitoRegion);
-        adminAttributes = new CognitoUserAttributes();
-    }
-
-
-
-    public void addAttributesAdmin(String key, String value){
-        adminAttributes.addAttribute(key, value);
     }
 
     public void addAttributes(String key, String value){
@@ -110,14 +83,12 @@ public class Cognito {
         @Override
         public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
             ctrl.showVerifyCodeFragment();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE EFFETTUATA CORRETTAMENTE!");
+            //Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE EFFETTUATA CORRETTAMENTE!");
         }
 
         @Override
         public void onFailure(Exception exception) {
-            //Registrazione fallita, il metodo cattura l'eccezione che provoca il fallimento
             Toast.makeText(context,"Registrazione fallita!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE FALLITA EXCEPTION: "+exception);
         }
     };
 
@@ -134,28 +105,22 @@ public class Cognito {
                 @Override
                 public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
                     Toast.makeText(context,"Accesso effettuato!", Toast.LENGTH_LONG).show();
-                    Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO EFFETTUATO CORRETTAMENTE!");
+
                     String token = userSession.getAccessToken().getJWTToken();
                     String idToken = userSession.getIdToken().getJWTToken();
                     String refreshToken = userSession.getRefreshToken().getToken();
                     SharedPreferencesUtil.setStringPreference(activity, "IDTOKEN", idToken);
                     SharedPreferencesUtil.setStringPreference(activity, "TOKEN", token);
                     SharedPreferencesUtil.setStringPreference(activity, "REFRESHTOKEN", refreshToken);
-                    Log.i("COGNITO TOKEN ID USER","******************************************************** ID: "+idToken);
-                    Log.i("COGNITO TOKEN USER","******************************************************** ACCESS: "+token);
-                    Log.i("COGNITO TOKEN USER","******************************************************** REFRESH.get: "+refreshToken);
 
                     ctrlUser.setUser(idToken);
-                    //ctrlUser.setSubscribe();
                     String group = null;
                     try {
                         group = CognitoJWTParser.getPayload(idToken).getString("cognito:groups");
-                         //group = CognitoJWTParser.getPayload(idToken).getString("cognito:groups").replace("[", "").replace("\"", "").replace("]","");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     if(group == null){
-                        Log.i("COGNITO TOKEN ID USER","******************************************************** group");
                         ctrl.showHomeActivity(context);
                     }
                     else if(group.equals("[\"admin\"]")){
@@ -163,10 +128,7 @@ public class Cognito {
                     } else {
                         ctrl.showHomeActivity(context);
                     }
-
-
                     tokenUser = userSession.getIdToken().getJWTToken();
-
                 }
 
                 @Override
@@ -193,13 +155,8 @@ public class Cognito {
                 public void onFailure(Exception exception) {
                     // Sign-in failed, check exception for the cause
                     Toast.makeText(context,"Accesso fallito!", Toast.LENGTH_LONG).show();
-                    Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO FALLITO EXCEPTION: "+exception.getLocalizedMessage());
                 }
             };
-
-
-
-
             CognitoUser cognitoUser = userPoolUsers.getUser(userId);
             this.userPassword = password;
             cognitoUser.getSessionInBackground(authenticationHandler);
@@ -225,7 +182,6 @@ public class Cognito {
                 @Override
                 public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
                     Toast.makeText(context,"Accesso effettuato!", Toast.LENGTH_LONG).show();
-                    Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO EFFETTUATO CORRETTAMENTE!");
                     String token = userSession.getAccessToken().getJWTToken();
                     String idToken = userSession.getIdToken().getJWTToken();
                     String refreshToken = userSession.getRefreshToken().getToken();
@@ -238,12 +194,10 @@ public class Cognito {
                     String group = null;
                     try {
                         group = CognitoJWTParser.getPayload(idToken).getString("cognito:groups");
-                        //group = CognitoJWTParser.getPayload(idToken).getString("cognito:groups").replace("[", "").replace("\"", "").replace("]","");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     if(group == null){
-                        Log.i("COGNITO TOKEN ID USER","******************************************************** group");
                         ctrl.showHomeActivity(context);
                     }
                     else if(group.equals("[\"admin\"]")){
@@ -251,12 +205,7 @@ public class Cognito {
                     } else {
                         ctrl.showHomeActivity(context);
                     }
-
-                    Log.i("COGNITO TOKEN ID USER","******************************************************** ID: "+idToken);
-                    Log.i("COGNITO TOKEN USER","******************************************************** ACCESS: "+token);
-                    Log.i("COGNITO TOKEN USER","******************************************************** REFRESH.get: "+refreshToken);
                     tokenUser = userSession.getIdToken().getJWTToken();
-
                 }
 
                 @Override
@@ -283,13 +232,8 @@ public class Cognito {
                 public void onFailure(Exception exception) {
                     // Sign-in failed, check exception for the cause
                     Toast.makeText(context,"Accesso fallito!", Toast.LENGTH_LONG).show();
-                    Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO FALLITO EXCEPTION: "+exception.getLocalizedMessage());
                 }
             };
-
-
-
-
             CognitoUser cognitoUser = userPoolUsers.getUser(userId);
             this.userPassword = password;
             cognitoUser.getSessionInBackground(authenticationHandler);
@@ -298,12 +242,6 @@ public class Cognito {
             Toast.makeText(context,"Username o Password non validi!", Toast.LENGTH_LONG).show();
         }
     }
-
-
-
-
-
-
 
     //**********************************************************************************************
     //VERICATION USER - VERIFICA UTENTE
@@ -315,20 +253,13 @@ public class Cognito {
     GenericHandler verificationCodeCallBack = new GenericHandler() {
         @Override
         public void onSuccess() {
-            // User was successfully confirmed
-            //ctrl.showLoginFragment();
             ctrl.firstLogin();
             Toast.makeText(context,"Verificata Completata!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: VERIFICA CODICE EFFETTUATA CORRETTAMENTE");
-
         }
 
         @Override
         public void onFailure(Exception exception) {
-            // User confirmation failed. Check exception for the cause.
             Toast.makeText(context,"Verifica Fallita!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: VERIFICA CODICE FALLITA EXCEPTION: "+exception.getLocalizedMessage());
-
         }
     };
     //**********************************************************************************************
@@ -341,88 +272,12 @@ public class Cognito {
         @Override
         public void onSuccess() {
             Toast.makeText(context,"Password Modificata Correttamente!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: PASSWORD CAMBIATA CORRETTAMENTE!");
             ctrl.showLoginFragment();
         }
 
         @Override
         public void onFailure(Exception exception) {
             Toast.makeText(context,"Errore Modifca Password", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ERRORE CAMBIO PASSWORD!"+exception.getLocalizedMessage());
-        }
-    };
-
-    //**********************************************************************************************
-    //SIGN-UP ADMIN - REGISTRAZIONE
-    public void adminSignUpInBackground(String userId, String password){
-        userPoolAdmins.signUpInBackground(userId, password, this.adminAttributes, null, signUpCallBackAdmin);
-    }
-
-    SignUpHandler signUpCallBackAdmin = new SignUpHandler() {
-
-        @Override
-        public void onSuccess(CognitoUser user, boolean signUpConfirmationState, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE EFFETTUATA CORRETTAMENTE!");
-
-        }
-
-        @Override
-        public void onFailure(Exception exception) {
-            //Registrazione fallita, il metodo cattura l'eccezione che provoca il fallimento
-            Toast.makeText(context,"Registrazione fallita!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: REGISTRAZIONE FALLITA EXCEPTION: "+exception);
-        }
-    };
-    //**********************************************************************************************
-
-    public void adminLogIn(String matricolaAdmin, String passwordAdmin) {
-        if(!matricolaAdmin.isEmpty()  && !passwordAdmin.isEmpty()){
-            CognitoUser cognitoUserAdmin = userPoolAdmins.getUser(matricolaAdmin);
-            cognitoUserAdmin.getSessionInBackground(authenticationHandlerAdmin);
-            this.adminPassword = passwordAdmin;
-        }else{
-            Toast.makeText(context,"Username o Password non validi!", Toast.LENGTH_LONG).show();
-        }
-    }
-    AuthenticationHandler authenticationHandlerAdmin = new AuthenticationHandler() {
-        @Override
-        public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-            Toast.makeText(context,"Accesso effettuato!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO EFFETTUATO CORRETTAMENTE!");
-            String idToken = userSession.getIdToken().getJWTToken();
-            ctrlUser.setUser(idToken);
-            SharedPreferencesUtil.setStringPreference(activity, "IDTOKEN", idToken);
-            ctrl.showHomeAdminActivity(context);
-            Log.i("COGNITO TOKEN ADMIN","******************************************************** COGNITO_TOKEN: "+userSession.getIdToken().getJWTToken());
-            tokenAdmin = userSession.getIdToken().getJWTToken();
-        }
-
-        @Override
-        public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
-            // The API needs user sign-in credentials to continue
-            AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, adminPassword, null);
-
-            // Pass the user sign-in credentials to the continuation
-            authenticationContinuation.setAuthenticationDetails(authenticationDetails);
-
-            // Allow the sign-in to continue
-            authenticationContinuation.continueTask();
-        }
-
-        @Override
-        public void getMFACode(MultiFactorAuthenticationContinuation continuation) {
-
-        }
-
-        @Override
-        public void authenticationChallenge(ChallengeContinuation continuation) {
-
-        }
-
-        @Override
-        public void onFailure(Exception exception) {
-            Toast.makeText(context,"Accesso fallito!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "----------------------------------------------------------------------- [COGNITO]: ACCESSO FALLITO EXCEPTION: "+exception.getLocalizedMessage());
         }
     };
 

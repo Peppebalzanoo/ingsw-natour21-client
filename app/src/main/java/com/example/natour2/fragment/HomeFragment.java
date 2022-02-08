@@ -14,11 +14,7 @@ import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.controller.ControllerItinerary;
-import com.example.natour2.model.Itinerary;
 import com.example.natour2.utilities.PreferanceManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends BaseFragment {
 
@@ -93,7 +89,7 @@ public class HomeFragment extends BaseFragment {
         loading(false);
 
  */
-        ctrlItinerary.getAllItineraries1(itinerarioAdapter);
+        ctrlItinerary.getAllItineraries(itinerarioAdapter);
 
     }
 

@@ -2,6 +2,7 @@ package com.example.natour2.controller;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.example.natour2.adapter.UserAdapter;
 import com.example.natour2.dao.UserDao;
@@ -38,36 +39,7 @@ public class ControllerUser {
         return ctrlInstance;
     }
 
-
-
-    public User getActiveUser(){
-        final User[] result = new User[1];
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                Call<User> call = userDAO.getActiveUser(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
-                try {
-                    result[0] = call.execute().body();
-                } catch (IOException e) {
-                    System.out.println("*************************************** errore");
-                    e.printStackTrace();
-                }
-            }
-        });
-        t1.start();
-        try {
-            t1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("*************************************** username: "+ result[0].toString());
-        return result[0];
-    }
-
-
-
-    public void getActiveUser1(ProfileFragment fragment){
+    public void getActiveUser(ProfileFragment fragment){
         Call<User> call = userDAO.getActiveUser(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
         call.enqueue(new Callback<User>() {
             @Override
@@ -78,7 +50,7 @@ public class ControllerUser {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
+                printToast("Oops! Impossibile contattare il server.");
             }
         });
     }
@@ -91,17 +63,14 @@ public class ControllerUser {
             @Override
             public void run() {
                 User result;
-                //System.out.println("éééééééééééééééééééééééééééééééééééééééééééééééééééééééé fmcToken: " + new PreferanceManager(context).getString(Constants.KEY_FCM_TOKEN));
                 try {
                     result = call.execute().body();
                     SharedPreferencesUtil.setStringPreference(activity, "USERNAME", result.getUsername());
-
                     PreferanceManager preferanceManager = new PreferanceManager(context);
                     preferanceManager.putString(Constants.KEY_USER_ID, result.getUsername());
                     preferanceManager.putString(Constants.KEY_NAME, result.getUsername());
                 } catch (IOException e) {
-                    System.out.println("*************************************** errore!!");
-                    e.printStackTrace();
+                    printToast("Oops! Impossibile contattare il server.");
                 }
             }
         });
@@ -120,7 +89,6 @@ public class ControllerUser {
             @Override
             public void run() {
                 User result;
-                System.out.println("éééééééééééééééééééééééééééééééééééééééééééééééééééééééé fmcToken: " + new PreferanceManager(context).getString(Constants.KEY_FCM_TOKEN));
                 try {
                     result = call.execute().body();
                     SharedPreferencesUtil.setStringPreference(activity, "USERNAME", result.getUsername());
@@ -129,8 +97,7 @@ public class ControllerUser {
                     preferanceManager.putString(Constants.KEY_USER_ID, result.getUsername());
                     preferanceManager.putString(Constants.KEY_NAME, result.getUsername());
                 } catch (IOException e) {
-                    System.out.println("*************************************** errore!!");
-                    e.printStackTrace();
+                    printToast("Oops! Impossibile contattare il server.");
                 }
             }
         });
@@ -155,7 +122,7 @@ public class ControllerUser {
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-
+                printToast("Oops! Impossibile contattare il server.");
             }
         });
     }
@@ -166,13 +133,11 @@ public class ControllerUser {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 Call<List<User>> call = userDAO.getAllUsers(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
                 try {
                     listUsers = call.execute().body();
                 } catch (IOException e) {
-                    System.out.println("*************************************** errore");
-                    e.printStackTrace();
+                    printToast("Oops! Impossibile contattare il server.");
                 }
             }
         });
@@ -194,11 +159,8 @@ public class ControllerUser {
             public void run() {
                 try {
                     call.execute().body();
-                    System.out.println("************************************************************ mezzo : " );
-
                 } catch (IOException e) {
-                    System.out.println("*************************************** errore update profile Image");
-                    e.printStackTrace();
+                    printToast("Oops! Impossibile contattare il server.");
                 }
             }
         });
@@ -216,12 +178,12 @@ public class ControllerUser {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-               System.out.println("************************************************** code : " + response.code());
+               //System.out.println("************************************************** code : " + response.code());
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-
+                printToast("Oops! Impossibile contattare il server.");
             }
         });
     }
@@ -232,12 +194,12 @@ public class ControllerUser {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                System.out.println("************************************************** code : " + response.code());
+                printToast("Mails inviate con successo.");
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-
+                printToast("Oops! Impossibile contattare il server.");
             }
         });
     }
@@ -251,11 +213,8 @@ public class ControllerUser {
             public void run() {
                 try {
                     user[0] = call.execute().body();
-                    System.out.println("************************************************************ mezzo : " );
-
                 } catch (IOException e) {
-                    System.out.println("*************************************** errore update profile Image");
-                    e.printStackTrace();
+                    printToast("Oops! Impossibile contattare il server.");
                 }
             }
         });
@@ -268,7 +227,37 @@ public class ControllerUser {
         return user[0];
     }
 
+    public User getActiveUser2(){
+        final User[] result = new User[1];
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
+                Call<User> call = userDAO.getActiveUser(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+                try {
+                    result[0] = call.execute().body();
+                } catch (IOException e) {
+                    printToast("Oops! Impossibile contattare il server.");
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return result[0];
+    }
+
+
+    public void printToast(String str){
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(activity, str, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 
     public Activity getActivity() {

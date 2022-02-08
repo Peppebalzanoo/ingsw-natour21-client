@@ -46,7 +46,6 @@ public class ControllerHomeActivity {
 
 
     public void showHomeFragment(){
-        //activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new SignupFragment()).commit();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, new HomeFragment()); // give your fragment container id in first parameter
         transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
@@ -138,13 +137,6 @@ public class ControllerHomeActivity {
         transaction.commit();
     }
 
-//    public void showShowSegnalazioneFragment(){
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.replace(R.id.frame_layout_home, new MostraSegnalazioneFragment()); // give your fragment container id in first parameter
-//        transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
-//        transaction.commit();
-//    }
-
     public void showShowSegnalazioneFragment(Report report){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame_layout_home, new MostraSegnalazioneFragment(report)); // give your fragment container id in first parameter
@@ -159,8 +151,6 @@ public class ControllerHomeActivity {
         }
     }
 
-    //Mi serve per passare uno user da SelectUserFragment a ChatFragment
-    //Ovviamente è una soluzione momentanea
     public ChatFragment setUser(User u){
         ChatFragment c = new ChatFragment();
         c.pippo(u);

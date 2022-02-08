@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -36,11 +35,7 @@ import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.controller.ControllerItinerary;
 import com.example.natour2.controller.ControllerLoginSignin;
 import com.example.natour2.controller.ControllerUser;
-import com.example.natour2.model.Itinerary;
-import com.example.natour2.model.User;
 import com.example.natour2.utilities.FileUtils;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -53,8 +48,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -145,7 +138,7 @@ public class ProfileFragment extends BaseFragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
-        ctrlUser.getActiveUser1(this);
+        ctrlUser.getActiveUser(this);
     }
 
 
@@ -178,7 +171,7 @@ public class ProfileFragment extends BaseFragment {
     }
 
     private void readItinerari(){
-        ctrlItinerary.getActiveUserItineraries1(itinerarioAdapter);
+        ctrlItinerary.getActiveUserItinerariesItinerary(itinerarioAdapter);
        // itinerarioAdapter.notifyDataSetChanged();
     }
 

@@ -25,7 +25,7 @@ public class ControllerItinerary {
     private static ControllerItinerary ctrlInstance;
     private Activity activity;
     private Context context;
-    List<Itinerary> listItineraries = null;
+    private List<Itinerary> listItineraries = null;
 
     private final ItineraryDao itineraryDao = RetrofitInstance.getRetrofitInstance().create(ItineraryDao.class);
 
@@ -40,9 +40,129 @@ public class ControllerItinerary {
         return ctrlInstance;
     }
 
-    public List<Itinerary> getActiveUserItineraries(){
+    public void getActiveUserItinerariesItinerary(ItinerarioAdapter adapter){
 
         Call<List<Itinerary>> call = itineraryDao.getActiveUserItineraries(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        call.enqueue(new Callback<List<Itinerary>>() {
+            @Override
+            public void onResponse(Call<List<Itinerary>> call, Response<List<Itinerary>> response) {
+                List<Itinerary> itineraryList = response.body();
+                if(itineraryList == null){
+                    return;
+                }
+                adapter.setItineraryList(itineraryList);
+            }
+
+            @Override
+            public void onFailure(Call<List<Itinerary>> call, Throwable t) {
+                printToast("Oops! Impossibile contattare il server.");
+            }
+        });
+    }
+
+
+    public void getActiveUserItinerariesNotification(NotificationAdapter notificationAdapter) {
+        Call<List<Itinerary>> call = itineraryDao.getActiveUserItineraries(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        call.enqueue(new Callback<List<Itinerary>>() {
+            @Override
+            public void onResponse(Call<List<Itinerary>> call, Response<List<Itinerary>> response) {
+                List<Itinerary> itineraryList = response.body();
+                if(itineraryList == null){
+                    return;
+                }
+                notificationAdapter.setReportListFromItineraryList(itineraryList);
+            }
+
+            @Override
+            public void onFailure(Call<List<Itinerary>> call, Throwable t) {
+                printToast("Oops! Impossibile contattare il server.");
+            }
+        });
+
+    }
+
+
+    public void uploadItinerary(AddItinerarioFragment fragment, String name, Integer duration, Integer difficulty, String readedTexFromUri, Boolean disabledAcces, String description) {
+        Itinerary itinerary = new Itinerary(name, duration, difficulty, description, readedTexFromUri, disabledAcces, null);
+        Call<Itinerary> call = itineraryDao.uploadItinerary(itinerary, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        call.enqueue(new Callback<Itinerary>() {
+            @Override
+            public void onResponse(Call<Itinerary> call, Response<Itinerary> response) {
+                fragment.callback();
+            }
+
+            @Override
+            public void onFailure(Call<Itinerary> call, Throwable t) {
+                printToast("Oops! Impossibile contattare il server.");
+            }
+        });
+    }
+
+
+    public void getAllItineraries(ItinerarioAdapter adapter){
+        Call<List<Itinerary>> call = itineraryDao.getAllItineraries(null, null, null, null, null, null, null, null, null, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        call.enqueue(new Callback<List<Itinerary>>() {
+            @Override
+            public void onResponse(Call<List<Itinerary>> call, Response<List<Itinerary>> response) {
+                List<Itinerary> itineraryList = response.body();
+                if(itineraryList == null){
+                    return;
+                }
+                adapter.setItineraryList(itineraryList);
+            }
+
+            @Override
+            public void onFailure(Call<List<Itinerary>> call, Throwable t) {
+                printToast("Oops! Impossibile contattare il server.");
+            }
+        });
+    }
+
+    public void getAllItinerariesByFilters(SearchFragment fragment, ItinerarioAdapter adapter, String name, Integer duration, Integer durationLessThan, Integer durationGreaterThan, Integer difficulty, Integer difficultyLessThan, Integer difficultyGreaterThan, Boolean disabledAccess, Integer sort){
+
+        Call<List<Itinerary>> call = itineraryDao.getAllItineraries(name, duration, durationLessThan, durationGreaterThan, difficulty, difficultyLessThan, difficultyGreaterThan, disabledAccess, sort, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        call.enqueue(new Callback<List<Itinerary>>() {
+            @Override
+            public void onResponse(Call<List<Itinerary>> call, Response<List<Itinerary>> response) {
+                if(response.body() == null){
+                    fragment.noResult();
+                } else {
+                    adapter.setItineraryList(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Itinerary>> call, Throwable t) {
+                printToast("Oops! Impossibile contattare il server.");
+            }
+        });
+    }
+
+    public void deleteItinerary(Long id){
+        Call<Void> call = itineraryDao.deleteItinerary(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"), id);
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    call.execute().body();
+                } catch (IOException e) {
+                    printToast("Oops! Impossibile contattare il server.");
+                }
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public List<Itinerary> getAllItinerariesByFilters2(String name, Integer duration, Integer durationLessThan, Integer durationGreaterThan, Integer difficulty, Integer difficultyLessThan, Integer difficultyGreaterThan, Boolean disabledAccess, Integer sort){
+
+        Call<List<Itinerary>> call = itineraryDao.getAllItineraries(name, duration, durationLessThan, durationGreaterThan, difficulty, difficultyLessThan, difficultyGreaterThan, disabledAccess, sort, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -60,51 +180,6 @@ public class ControllerItinerary {
             e.printStackTrace();
         }
         return listItineraries;
-    }
-
-    public void getActiveUserItineraries1(ItinerarioAdapter adapter){
-
-        Call<List<Itinerary>> call = itineraryDao.getActiveUserItineraries(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
-        call.enqueue(new Callback<List<Itinerary>>() {
-            @Override
-            public void onResponse(Call<List<Itinerary>> call, Response<List<Itinerary>> response) {
-                List<Itinerary> itineraryList = response.body();
-
-                if(itineraryList == null){
-                    return;
-                }
-
-                adapter.setItineraryList(itineraryList);
-            }
-
-            @Override
-            public void onFailure(Call<List<Itinerary>> call, Throwable t) {
-
-            }
-        });
-    }
-
-
-    public void getActiveUserItineraries2(NotificationAdapter notificationAdapter) {
-        Call<List<Itinerary>> call = itineraryDao.getActiveUserItineraries(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
-        call.enqueue(new Callback<List<Itinerary>>() {
-            @Override
-            public void onResponse(Call<List<Itinerary>> call, Response<List<Itinerary>> response) {
-                List<Itinerary> itineraryList = response.body();
-
-                if(itineraryList == null){
-                    return;
-                }
-
-                notificationAdapter.setReportListFromItineraryList(itineraryList);
-            }
-
-            @Override
-            public void onFailure(Call<List<Itinerary>> call, Throwable t) {
-
-            }
-        });
-
     }
 
     public Boolean uploadItinerary(Itinerary itinerary){
@@ -134,49 +209,7 @@ public class ControllerItinerary {
         return ret[0];
     }
 
-    public void uploadItinerary1(AddItinerarioFragment fragment, String name, Integer duration, Integer difficulty, String readedTexFromUri, Boolean disabledAcces, String description) {
-        Itinerary itinerary = new Itinerary(name, duration, difficulty, description, readedTexFromUri, disabledAcces, null);
-        Call<Itinerary> call = itineraryDao.uploadItinerary(itinerary, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
-        call.enqueue(new Callback<Itinerary>() {
-            @Override
-            public void onResponse(Call<Itinerary> call, Response<Itinerary> response) {
-                fragment.callback();
-            }
-
-            @Override
-            public void onFailure(Call<Itinerary> call, Throwable t) {
-
-            }
-        });
-    }
-
-
-    public void getAllItineraries1(ItinerarioAdapter adapter){
-        Call<List<Itinerary>> call = itineraryDao.getAllItineraries(null, null, null, null, null, null, null, null, null, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
-        call.enqueue(new Callback<List<Itinerary>>() {
-            @Override
-            public void onResponse(Call<List<Itinerary>> call, Response<List<Itinerary>> response) {
-
-                Log.d("ciao", "onResponse: " + response.body());
-
-                List<Itinerary> itineraryList = response.body();
-
-                if(itineraryList == null){
-                    return;
-                }
-
-                adapter.setItineraryList(itineraryList);
-            }
-
-            @Override
-            public void onFailure(Call<List<Itinerary>> call, Throwable t) {
-
-            }
-        });
-    }
-
-
-    public List<Itinerary> getAllItineraries(){
+    public List<Itinerary> getAllItineraries2(){
         Call<List<Itinerary>> call = itineraryDao.getAllItineraries(null, null, null, null, null, null, null, null, null, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
 
         Thread t1 = new Thread(new Runnable() {
@@ -199,31 +232,9 @@ public class ControllerItinerary {
 
     }
 
-    public void getAllItinerariesByFilters1(SearchFragment fragment, ItinerarioAdapter adapter, String name, Integer duration, Integer durationLessThan, Integer durationGreaterThan, Integer difficulty, Integer difficultyLessThan, Integer difficultyGreaterThan, Boolean disabledAccess, Integer sort){
+    public List<Itinerary> getActiveUserItineraries(){
 
-        Call<List<Itinerary>> call = itineraryDao.getAllItineraries(name, duration, durationLessThan, durationGreaterThan, difficulty, difficultyLessThan, difficultyGreaterThan, disabledAccess, sort, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
-        call.enqueue(new Callback<List<Itinerary>>() {
-            @Override
-            public void onResponse(Call<List<Itinerary>> call, Response<List<Itinerary>> response) {
-
-                if(response.body() == null){
-                    fragment.noResult();
-                } else {
-                    adapter.setItineraryList(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Itinerary>> call, Throwable t) {
-
-            }
-        });
-    }
-
-
-    public List<Itinerary> getAllItinerariesByFilters(String name, Integer duration, Integer durationLessThan, Integer durationGreaterThan, Integer difficulty, Integer difficultyLessThan, Integer difficultyGreaterThan, Boolean disabledAccess, Integer sort){
-
-        Call<List<Itinerary>> call = itineraryDao.getAllItineraries(name, duration, durationLessThan, durationGreaterThan, difficulty, difficultyLessThan, difficultyGreaterThan, disabledAccess, sort, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
+        Call<List<Itinerary>> call = itineraryDao.getActiveUserItineraries(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -243,26 +254,6 @@ public class ControllerItinerary {
         return listItineraries;
     }
 
-    public void deleteItinerary(Long id){
-        //System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° ok: " + id);
-        Call<Void> call = itineraryDao.deleteItinerary(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"), id);
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    call.execute().body();
-                } catch (IOException e) {
-                    printToast("Oops! Impossibile contattare il server.");
-                }
-            }
-        });
-        t1.start();
-        try {
-            t1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void printToast(String str){
         activity.runOnUiThread(new Runnable() {

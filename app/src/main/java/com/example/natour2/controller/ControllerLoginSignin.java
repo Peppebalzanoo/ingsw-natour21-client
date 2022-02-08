@@ -63,8 +63,6 @@ public class ControllerLoginSignin {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.METHOD, "login");
         analytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle);
-
-        //authAmplify.signIn(username, passowrd);
     }
 
 
@@ -82,16 +80,12 @@ public class ControllerLoginSignin {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.METHOD, "signup");
         analytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
-
-        //authAmplify.signUp(username, email, password);
     }
 
 
     public void verifyCode(String code){
         Cognito authentication = new Cognito(context, activity);
         authentication.confirmVerificationCodeUser(username, code);
-
-        //authAmplify.confirmSignUp(this.email, code);
         Bundle bundle = new Bundle();
         analytics.logEvent("verify_code", bundle);
 
@@ -106,30 +100,7 @@ public class ControllerLoginSignin {
 
     }
 
-    /*
-    public void printToast(String str){
-        activity.runOnUiThread(new Runnable() {
-            public void run() {
-                Toast.makeText(activity, str, Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    public void showMainActivity(Context c){
-        Intent i = new Intent(c, MainActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        c.startActivity(i);
-    }
-
-    /*public void showHomeActivity(){
-        Intent i = new Intent(context, HomeActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);
-    }*/
-
     public void showHomeActivity(Context c){
-        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sono in showHomeActivity di ctrl");
-        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Context è: " + c.toString());
         Intent i = new Intent(c, HomeActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         c.startActivity(i);
@@ -182,17 +153,11 @@ public class ControllerLoginSignin {
 
     public void loginAdmin(String matricolaAdmin, String passwordAdmin) {
         signupAdmin(matricolaAdmin, passwordAdmin);
-        Cognito authentication = new Cognito(context, "admin");
-        //authentication.adminLogIn(matricolaAdmin, passwordAdmin);
-        //authentication.userLogIn(matricolaAdmin,passwordAdmin);
         login(matricolaAdmin, passwordAdmin);
     }
 
     public void signupAdmin(String username, String password){
         this.matricolaAdim = username;
-        //Cognito authentication = new Cognito(context, "admin");
-        //authentication.addAttributesAdmin("name", username);
-       // authentication.adminSignUpInBackground(username, password);
     }
 
     public void setActivity(Activity activity){

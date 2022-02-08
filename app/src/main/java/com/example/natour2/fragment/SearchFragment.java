@@ -16,20 +16,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.example.natour2.R;
 import com.example.natour2.adapter.ItinerarioAdapter;
 import com.example.natour2.controller.ControllerHomeActivity;
 import com.example.natour2.controller.ControllerItinerary;
-import com.example.natour2.model.Itinerary;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class SearchFragment extends BaseFragment {
@@ -163,7 +159,7 @@ public class SearchFragment extends BaseFragment {
         itinerarioAdapter.notifyDataSetChanged();
 
  */
-        ctrlItinerary.getAllItinerariesByFilters1(this, itinerarioAdapter,null, null, null, null, null, null, null, null, null);
+        ctrlItinerary.getAllItinerariesByFilters(this, itinerarioAdapter,null, null, null, null, null, null, null, null, null);
     }
 
 
@@ -181,7 +177,7 @@ public class SearchFragment extends BaseFragment {
 
     public void getItinerariesByFilters(ControllerItinerary ctrlItinerary, String name, Integer duration, Integer difficulty, Boolean disabledAcces) throws IllegalArgumentException{
 
-        ctrlItinerary.getAllItinerariesByFilters1(this, itinerarioAdapter, name, null, duration, null, difficulty, null, null, disabledAcces, null);
+        ctrlItinerary.getAllItinerariesByFilters(this, itinerarioAdapter, name, null, duration, null, difficulty, null, null, disabledAcces, null);
 
     }
 

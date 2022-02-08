@@ -2,6 +2,7 @@ package com.example.natour2.controller;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.example.natour2.dao.ReportDao;
 import com.example.natour2.model.Itinerary;
@@ -39,17 +40,12 @@ public class ControllerReport {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 Call<List<Report>> call = reportDAO.getAllReport(SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
-                System.out.println("*************************************************************** idToken: " + SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
                 try {
                     listReports = call.execute().body();
 
-                        //System.out.println("*************************************** size: " + listReports.size());
-
                 } catch (IOException e) {
-                    System.out.println("*************************************** errore");
-                    e.printStackTrace();
+                    printToast("Oops! Impossibile contattare il server.");
                 }
             }
         });
@@ -63,20 +59,16 @@ public class ControllerReport {
     }
 
     public void setReport(Itinerary itinerary, String title, String motivationReport ){
-        System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° itinerary: " +  itinerary.toString());
-        System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° title: " +  title);
-        System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° motivation: " +  motivationReport);
         Itinerary itr = new Itinerary(itinerary.getId(), itinerary.getName(), itinerary.getDuration(), itinerary.getDifficulty(), itinerary.getDescription(), itinerary.getGpx(), itinerary.getDisabledAccess(), itinerary.getReports(), itinerary.getPointsOfInterest());
         Call<Report> call = reportDAO.setReport(itr, title, motivationReport, SharedPreferencesUtil.getStringPreference(ctrlInstance.activity, "IDTOKEN"));
         call.enqueue(new Callback<Report>() {
             @Override
             public void onResponse(Call<Report> call, Response<Report> response) {
-                System.out.println("°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° ok: " +  response.code());
-
+                printToast("Segnalazione inviata con successo.");
             }
             @Override
             public void onFailure(Call<Report> call, Throwable t) {
-                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++ error : " + t.toString());
+                printToast("Oops! Impossibile contattare il server.");
             }
         });
 
@@ -90,8 +82,7 @@ public class ControllerReport {
                 try {
                     call.execute().body();
                 } catch (IOException e) {
-                    System.out.println("*************************************** errore delete Report");
-                    e.printStackTrace();
+                    printToast("Oops! Impossibile contattare il server.");
                 }
             }
         });
@@ -108,38 +99,24 @@ public class ControllerReport {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                System.out.println("************************************************************ mezzo : " + response.code());
-
+                printToast("Risposta inviata con successo");
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-
+                printToast("Oops! Impossibile contattare il server.");
             }
         });
-       /*
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    call.execute().body();
-                } catch (IOException e) {
-                    System.out.println("*************************************** errore provideExplanation");
-                    e.printStackTrace();
-                }
-            }
-        });
-        t1.start();
-        try {
-            t1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        */
     }
 
-
+    public void printToast(String str){
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(activity, str, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 
 
