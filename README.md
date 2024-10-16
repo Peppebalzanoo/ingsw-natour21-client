@@ -1,7 +1,6 @@
 # NaTour21 🇮🇹🌍🏞️
 
-**NaTour21** is a complex and distributed system developed during the Software Engineering course. It aims to offer a modern, cross-platform social network for hiking enthusiasts. The system features a secure, scalable back-end and an intuitive mobile client, providing users with a fast and enjoyable experience. 
-NaTour21 is a comprehensive distributed system designed and developed during the Software Engineering course as part of a university project. The main objective of NaTour21 is to create a modern social network for hiking enthusiasts, offering a platform where users can share, discover, and discuss various hiking trails (itineraries), natural points of interest, and much more.
+**NaTour21** is a comprehensive distributed system designed and developed during the Software Engineering course as part of a university project. The main objective of NaTour21 is to create a modern social network for hiking enthusiasts, offering a platform where users can share, discover, and discuss various hiking trails (itineraries), natural points of interest, and much more. It aims to offer a modern, cross-platform social network for hiking enthusiasts. The system features a secure, scalable back-end and an intuitive mobile client, providing users with a fast and enjoyable experience.
 
 This cross-platform system is composed of a secure, scalable back-end powered by modern cloud technologies and a mobile client that allows users to interact with the system seamlessly. Whether you're a casual hiker or an experienced trekker, NaTour21 enhances the outdoor adventure experience by providing a social space where information on trails, points of interest, and user recommendations are easily accessible.
 ## 🚀 Main Features
