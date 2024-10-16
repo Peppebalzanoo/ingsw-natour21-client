@@ -37,10 +37,10 @@ import org.json.JSONException;
 public class Cognito {
 
 
-    private String userPoolUsersId = " ";
-    private String clientId = " ";
-    private String clientSecret= " ";
-    private Regions cognitoRegion =  ;
+    private String userPoolUsersId = "";
+    private String clientId = "";
+    private String clientSecret= "";
+    private Regions cognitoRegion = ;
     private CognitoUserPool userPoolUsers;
     private CognitoUserAttributes userAttributes;
     private Context context;
